@@ -13,7 +13,7 @@
 
 <?php echo text_output($msg);?>
 
-<?php if ($this->options['system_email'] == 'on' && $this->options['contact_form_enabled'] == 'y'): ?>
+<?php if ($this->options['system_email'] == 'on' && $this->options['contact_form_enabled'] == 'y' && $has_game_masters): ?>
 	<?php echo form_open('main/contact');?>
 		<p>
 			<kbd><?php echo $label['name'];?></kbd>
@@ -47,9 +47,9 @@
 <?php else: ?>
 	<?php if ($this->options['system_email'] == 'off'): ?>
 		<?php echo text_output($label['nosubmit'], 'h4', 'orange');?>
-	<?php endif;?>
-
-	<?php if ($this->options['system_email'] == 'on' && $this->options['contact_form_enabled'] == 'n'): ?>
-		<?php echo text_output($label['nosubmit_contact_form_disabled'], 'h4', 'orange');?>
+	<?php else: ?>
+		<?php if ($this->options['contact_form_enabled'] == 'n' || ! $has_game_masters): ?>
+			<?php echo text_output($label['nosubmit_contact_form_disabled'], 'h4', 'orange');?>
+		<?php endif;?>
 	<?php endif;?>
 <?php endif;?>
