@@ -850,8 +850,8 @@ abstract class Nova_report extends Nova_controller_admin
 
         $data['nova3'] = [
             'php' => [
-                'label' => 'PHP 8.2+',
-                'result' => version_compare(PHP_VERSION, '8.2', '>='),
+                'label' => 'PHP 8.3+',
+                'result' => version_compare(PHP_VERSION, '8.3', '>='),
             ],
             'database' => [
                 'label' => 'MySQL PDO driver',
