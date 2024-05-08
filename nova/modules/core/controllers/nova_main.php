@@ -1010,27 +1010,6 @@ abstract class Nova_main extends Nova_controller_main
             ->set_status_header(200)
             ->set_content_type('application/json')
             ->set_output(json_encode(Util::simpleHeartbeat()));
-
-        // $this->load->model('characters_model', 'char');
-        // $this->load->model('users_model', 'user');
-        // $this->load->model('posts_model', 'posts');
-        // $this->load->model('missions_model', 'mis');
-        // $this->load->helper('date');
-
-        // $lastPublishedPost = $this->posts->get_last_published_post();
-
-        // ->set_output(json_encode([
-        //     'name' => $this->settings->get_setting('sim_name'),
-        //     'nova_version' => APP_VERSION,
-        //     'active_users' => $this->user->count_all_users(),
-        //     'active_primary_characters' => $this->char->count_primary_characters(),
-        //     'active_secondary_characters' => $this->char->count_secondary_characters(),
-        //     'active_support_characters' => $this->char->count_support_characters(),
-        //     'total_stories' => $this->mis->count_missions(),
-        //     'total_posts' => $this->posts->count_all_posts(),
-        //     'total_post_words' => $this->posts->count_all_post_words(),
-        //     'last_published_post' => $lastPublishedPost ? date('Y-m-d H:i:s', $lastPublishedPost->post_date) : null,
-        // ]));
     }
 
     /**

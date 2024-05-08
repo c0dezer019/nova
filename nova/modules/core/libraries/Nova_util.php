@@ -265,6 +265,50 @@ abstract class Nova_util
         }
     }
 
+    public static function fullHeartbeat()
+    {
+        $ci =& get_instance();
+
+        $ci->load->model('system_model', 'sys');
+        $ci->load->database();
+
+        $info = $ci->sys->get_system_info();
+
+        return array_merge(static::simpleHeartbeat(), [
+            'url' => base_url(),
+            'genre' => GENRE,
+            'php_version' => phpversion(),
+            'db_driver' => $ci->db->platform(),
+            'db_version' => $ci->db->version(),
+            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
+            'install_date' => $info ? $info->sys_install_date : null,
+        ]);
+    }
+
+    public static function simpleHeartbeat()
+    {
+        $ci =& get_instance();
+
+        $ci->load->model('settings_model', 'settings');
+        $ci->load->model('characters_model', 'char');
+        $ci->load->model('users_model', 'user');
+        $ci->load->model('posts_model', 'posts');
+        $ci->load->model('missions_model', 'mis');
+
+        return [
+            'name' => $ci->settings->get_setting('sim_name'),
+            'nova_version' => APP_VERSION,
+            'active_users' => $ci->user->count_all_users(),
+            'active_primary_characters' => $ci->char->count_primary_characters(),
+            'active_secondary_characters' => $ci->char->count_secondary_characters(),
+            'active_support_characters' => $ci->char->count_support_characters(),
+            'total_stories' => $ci->mis->count_missions(),
+            'total_posts' => $ci->posts->count_all_posts(),
+            'total_post_words' => $ci->posts->count_all_post_words(),
+            'last_published_post' => $ci->posts->get_last_published_post()->post_date ?? null,
+        ];
+    }
+
     private static function unserialize_php($sessionData)
     {
         $return_data = [];

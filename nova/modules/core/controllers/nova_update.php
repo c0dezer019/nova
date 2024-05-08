@@ -685,38 +685,8 @@ abstract class Nova_update extends CI_Controller
 
     private function _register()
     {
-        $info = $this->sys->get_system_info();
-
-        $this->load->model('characters_model', 'char');
-        $this->load->model('users_model', 'user');
-        $this->load->model('posts_model', 'posts');
-        $this->load->model('missions_model', 'mis');
-
-        $userCount = $this->user->count_all_users();
-        $characterCount = $this->char->count_characters();
-        $postsCount = $this->posts->count_all_posts();
-        $postWordsCount = $this->posts->count_all_post_words();
-        $missionsCount = $this->mis->count_missions();
-        $missionGroupsCount = $this->mis->count_mission_groups();
-
         $http = new \Illuminate\Http\Client\Factory();
 
-        $http->post(REGISTER_URL, [
-            'name' => $this->settings->get_setting('sim_name'),
-            'url' => base_url(),
-            'genre' => GENRE,
-            'version' => APP_VERSION,
-            'php_version' => phpversion(),
-            'db_driver' => $this->db->platform(),
-            'db_version' => $this->db->version(),
-            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
-            'install_date' => $info ? $info->sys_install_date : null,
-            'active_users' => $userCount,
-            'active_characters' => $characterCount,
-            'total_posts' => $postsCount,
-            'total_post_words' => $postWordsCount,
-            'total_stories' => $missionsCount,
-            'total_story_groups' => $missionGroupsCount,
-        ]);
+        $http->post(REGISTER_URL, Util::fullHeartbeat());
     }
 }

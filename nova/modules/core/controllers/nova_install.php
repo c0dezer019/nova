@@ -1761,25 +1761,8 @@ abstract class Nova_install extends CI_Controller
 
     private function _register()
     {
-        $this->load->model('settings_model', 'settings');
-
         $http = new \Illuminate\Http\Client\Factory();
 
-        $http->post(REGISTER_URL, [
-            'name' => $this->settings->get_setting('sim_name'),
-            'url' => base_url(),
-            'genre' => GENRE,
-            'version' => APP_VERSION,
-            'php_version' => phpversion(),
-            'db_driver' => $this->db->platform(),
-            'db_version' => $this->db->version(),
-            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
-            'active_users' => 1,
-            'active_characters' => 1,
-            'total_posts' => 0,
-            'total_post_words' => 0,
-            'total_stories' => 0,
-            'total_story_groups' => 0,
-        ]);
+        $http->post(REGISTER_URL, Util::fullHeartbeat());
     }
 }

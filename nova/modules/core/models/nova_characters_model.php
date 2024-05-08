@@ -475,6 +475,44 @@ abstract class Nova_characters_model extends CI_Model
         return $query->num_rows();
     }
 
+    public function count_primary_characters()
+    {
+        $subQuery = str_replace(
+            '#prefix#',
+            $this->db->dbprefix,
+            'exists (select * from `#prefix#users` where `#prefix#characters`.`user` = `#prefix#users`.`userid` and `#prefix#characters`.`charid` = `#prefix#users`.`main_char`)'
+        );
+
+        $this->db->from('characters');
+        $this->db->where('crew_type', 'active');
+        $this->db->where($subQuery, null, false);
+
+        return $this->db->count_all_results();
+    }
+
+    public function count_secondary_characters()
+    {
+        $subQuery = str_replace(
+            '#prefix#',
+            $this->db->dbprefix,
+            'not exists (select * from `#prefix#users` where `#prefix#characters`.`user` = `#prefix#users`.`userid` and `#prefix#characters`.`charid` = `#prefix#users`.`main_char`)'
+        );
+
+        $this->db->from('characters');
+        $this->db->where('crew_type', 'active');
+        $this->db->where($subQuery, null, false);
+
+        return $this->db->count_all_results();
+    }
+
+    public function count_support_characters()
+    {
+        $this->db->from('characters');
+        $this->db->where('crew_type', 'npc');
+
+        return $this->db->count_all_results();
+    }
+
     public function add_bio_field($data = '')
     {
         $query = $this->db->insert('characters_fields', $data);

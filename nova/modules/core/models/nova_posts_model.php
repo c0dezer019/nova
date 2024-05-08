@@ -317,6 +317,15 @@ abstract class Nova_posts_model extends CI_Model
         return $query;
     }
 
+    public function get_last_published_post($status = 'activated')
+    {
+        $this->db->from('posts');
+        $this->db->where('post_status', 'activated');
+        $this->db->order_by('post_date', 'desc');
+
+        return $this->db->get()->row();
+    }
+
     public function count_all_post_comments($status = 'activated', $id = '')
     {
         $this->db->from('posts_comments');
