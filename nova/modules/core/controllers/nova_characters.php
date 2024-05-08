@@ -1530,6 +1530,8 @@ abstract class Nova_characters extends Nova_controller_admin
                                 $values = $this->char->get_bio_values($field->field_id);
 
                                 if ($values->num_rows() > 0) {
+                                    $input = [];
+
                                     foreach ($values->result() as $value) {
                                         $input[$value->value_field_value] = $value->value_content;
                                     }
