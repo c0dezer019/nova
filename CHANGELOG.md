@@ -6,9 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Heartbeat endpoint
+- Nova 3 compatability report to System Information and Version History report
+
 ### Fixed
 
 - If a posting requirement is not set, the dashboard would error. It will now default to 1 day.
+- If there are no game masters set, attempting to send the contact form errors. The contact form will now be disabled if there are no game masters.
+- Several deprecation warnings
 
 ## [2.7.9] - 2024-03-15
 
