@@ -34,7 +34,7 @@
 						<?php endif;?>
 					</strong><br />
 					<span class="fontSmall gray">
-						<?php echo $label['by'] .' '. $r['author'] .' '. $r['timespan'] .' '. $label['ago'];?>
+						<?php echo $label['by'] .' '. $r['author'] .' '. $r['timespan'];?>
 					</span>
 				</td>
 				<td class="cell-spacer"></td>
@@ -74,7 +74,7 @@
 							<?php echo anchor('wiki/view/page/'. $r['id'], $r['title']);?>
 						<?php endif;?>
 					</strong>
-					
+
 					<?php if ($r['type'] == 'standard'): ?>
 						<br />
 						<span class="fontSmall gray">
