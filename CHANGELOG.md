@@ -19,6 +19,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - If there are no game masters set, attempting to send the contact form errors. The contact form will now be disabled if there are no game masters.
 - Several deprecation warnings
 - Some timestamps would show the word "ago" multiple times
+- In some situations, editing a wiki page would throw errors (thanks to @c0dezer019 for the report)
+- RSS feeds have inaccurate timestamps (thanks to @TurqW for the report and fix)
+- RSS feed title can misbehave with special characters (thanks to @TurqW for the report and fix)
 
 ## [2.7.9] - 2024-03-15
 
