@@ -945,7 +945,7 @@ abstract class Nova_wiki extends Nova_controller_wiki
             $data['type'] = $p->page_type;
 
             // build the category list
-            $cats = explode(',', $p->draft_categories);
+            $cats = filled($p->draft_categories) ? explode(',', $p->draft_categories) : [];
 
             $categories = $this->wiki->get_categories();
 
