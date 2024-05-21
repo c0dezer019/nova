@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
@@ -646,7 +648,7 @@ $users = [
         'password' => Auth::hash('password'),
         'main_char' => 1,
         'access_role' => 1,
-        'join_date' => Carbon\Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
+        'join_date' => Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
         'timezone' => 'UTC',
     ],
     [
@@ -655,7 +657,7 @@ $users = [
         'password' => Auth::hash('password'),
         'main_char' => 2,
         'access_role' => 2,
-        'join_date' => Carbon\Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
+        'join_date' => Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
         'timezone' => 'UTC',
     ],
     [
@@ -664,7 +666,7 @@ $users = [
         'password' => Auth::hash('password'),
         'main_char' => 3,
         'access_role' => 3,
-        'join_date' => Carbon\Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
+        'join_date' => Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
         'timezone' => 'UTC',
     ],
     [
@@ -673,7 +675,7 @@ $users = [
         'password' => Auth::hash('password'),
         'main_char' => 4,
         'access_role' => 4,
-        'join_date' => Carbon\Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
+        'join_date' => Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
         'timezone' => 'UTC',
     ],
     [
@@ -682,7 +684,7 @@ $users = [
         'password' => Auth::hash('password'),
         'main_char' => 5,
         'access_role' => 5,
-        'join_date' => Carbon\Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
+        'join_date' => Carbon::now()->subMonths($faker->numberBetween(6, 24))->unix(),
         'timezone' => 'UTC',
         'status' => 'inactive',
     ],
@@ -690,11 +692,68 @@ $users = [
 
 $posts = [];
 
-for ($m=1; $m <= 25; $m++) {
+$now = Carbon::now();
+
+// 2 posts this month
+$posts[] = [
+    'post_title' => ucwords($faker->words(mt_rand(2, 10), true)),
+    'post_authors' => $faker->randomElement(['1', '2', '3', '1,2', '1,3', '2,3', '1,2,3']),
+    'post_content' => $content = $faker->paragraphs(mt_rand(3, 10), true),
+    'post_words' => str_word_count($content),
+    'post_date' => $faker->dateTimeBetween($now->copy()->startOfMonth(), $now->copy()->endOfMonth())->format('U'),
+    'post_mission' => 1,
+];
+$posts[] = [
+    'post_title' => ucwords($faker->words(mt_rand(2, 10), true)),
+    'post_authors' => $faker->randomElement(['1', '2', '3', '1,2', '1,3', '2,3', '1,2,3']),
+    'post_content' => $content = $faker->paragraphs(mt_rand(3, 10), true),
+    'post_words' => str_word_count($content),
+    'post_date' => $faker->dateTimeBetween($now->copy()->startOfMonth(), $now->copy()->endOfMonth())->format('U'),
+    'post_mission' => 1,
+];
+
+// 2 posts last month
+$posts[] = [
+    'post_title' => ucwords($faker->words(mt_rand(2, 10), true)),
+    'post_authors' => $faker->randomElement(['1', '2', '3', '1,2', '1,3', '2,3', '1,2,3']),
+    'post_content' => $content = $faker->paragraphs(mt_rand(3, 10), true),
+    'post_words' => str_word_count($content),
+    'post_date' => $faker->dateTimeBetween($now->copy()->subMonth()->startOfMonth(), $now->copy()->subMonth()->endOfMonth())->format('U'),
+    'post_mission' => 1,
+];
+$posts[] = [
+    'post_title' => ucwords($faker->words(mt_rand(2, 10), true)),
+    'post_authors' => $faker->randomElement(['1', '2', '3', '1,2', '1,3', '2,3', '1,2,3']),
+    'post_content' => $content = $faker->paragraphs(mt_rand(3, 10), true),
+    'post_words' => str_word_count($content),
+    'post_date' => $faker->dateTimeBetween($now->copy()->subMonth()->startOfMonth(), $now->copy()->subMonth()->endOfMonth())->format('U'),
+    'post_mission' => 1,
+];
+
+// 2 posts last year
+$posts[] = [
+    'post_title' => ucwords($faker->words(mt_rand(2, 10), true)),
+    'post_authors' => $faker->randomElement(['1', '2', '3', '1,2', '1,3', '2,3', '1,2,3']),
+    'post_content' => $content = $faker->paragraphs(mt_rand(3, 10), true),
+    'post_words' => str_word_count($content),
+    'post_date' => $faker->dateTimeBetween($now->copy()->subYear()->startOfYear(), $now->copy()->subYear()->endOfYear())->format('U'),
+    'post_mission' => 1,
+];
+$posts[] = [
+    'post_title' => ucwords($faker->words(mt_rand(2, 10), true)),
+    'post_authors' => $faker->randomElement(['1', '2', '3', '1,2', '1,3', '2,3', '1,2,3']),
+    'post_content' => $content = $faker->paragraphs(mt_rand(3, 10), true),
+    'post_words' => str_word_count($content),
+    'post_date' => $faker->dateTimeBetween($now->copy()->subYear()->startOfYear(), $now->copy()->subYear()->endOfYear())->format('U'),
+    'post_mission' => 1,
+];
+
+for ($m=2; $m <= 25; $m++) {
     $posts[] = [
         'post_title' => ucwords($faker->words(mt_rand(2, 10), true)),
         'post_authors' => $faker->randomElement(['1', '2', '3', '1,2', '1,3', '2,3', '1,2,3']),
-        'post_content' => $faker->paragraphs(mt_rand(3, 10), true),
+        'post_content' => $content = $faker->paragraphs(mt_rand(3, 10), true),
+        'post_words' => str_word_count($content),
         'post_date' => $faker->dateTimeThisYear()->format('U'),
         'post_mission' => $m,
     ];
