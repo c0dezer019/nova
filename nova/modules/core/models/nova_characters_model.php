@@ -475,7 +475,7 @@ abstract class Nova_characters_model extends CI_Model
         return $query->num_rows();
     }
 
-    public function count_primary_characters()
+    public function count_primary_characters($crewType = 'active', $start = null, $end = null)
     {
         $subQuery = str_replace(
             '#prefix#',
@@ -484,13 +484,22 @@ abstract class Nova_characters_model extends CI_Model
         );
 
         $this->db->from('characters');
-        $this->db->where('crew_type', 'active');
+
+        if (filled($crewType)) {
+            $this->db->where('crew_type', $crewType);
+        }
+
         $this->db->where($subQuery, null, false);
+
+        if (filled($start) && filled($end)) {
+            $this->db->where('date_activate <=', $end);
+            $this->db->where("date_deactivate IS NULL OR date_deactivate >= {$start}");
+        }
 
         return $this->db->count_all_results();
     }
 
-    public function count_secondary_characters()
+    public function count_secondary_characters($crewType = 'active', $start = null, $end = null)
     {
         $subQuery = str_replace(
             '#prefix#',
@@ -499,16 +508,30 @@ abstract class Nova_characters_model extends CI_Model
         );
 
         $this->db->from('characters');
-        $this->db->where('crew_type', 'active');
+
+        if (filled($crewType)) {
+            $this->db->where('crew_type', $crewType);
+        }
+
         $this->db->where($subQuery, null, false);
+
+        if (filled($start) && filled($end)) {
+            $this->db->where('date_activate <=', $end);
+            $this->db->where("date_deactivate IS NULL OR date_deactivate >= {$start}");
+        }
 
         return $this->db->count_all_results();
     }
 
-    public function count_support_characters()
+    public function count_support_characters($start = null, $end = null)
     {
         $this->db->from('characters');
         $this->db->where('crew_type', 'npc');
+
+        if (filled($start) && filled($end)) {
+            $this->db->where('date_activate <=', $end);
+            $this->db->where("date_deactivate IS NULL OR date_deactivate >= {$start}");
+        }
 
         return $this->db->count_all_results();
     }

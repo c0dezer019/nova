@@ -1004,12 +1004,12 @@ abstract class Nova_main extends Nova_controller_main
         Template::render();
     }
 
-    public function heartbeat()
+    public function snapshot($dataset = null)
     {
         return $this->output
             ->set_status_header(200)
             ->set_content_type('application/json')
-            ->set_output(json_encode(Util::simpleHeartbeat()));
+            ->set_output(json_encode(Util::simpleHeartbeat($dataset)));
     }
 
     /**

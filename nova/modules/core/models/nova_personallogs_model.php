@@ -268,12 +268,16 @@ abstract class Nova_personallogs_model extends CI_Model
         return $this->db->count_all_results();
     }
 
-    public function count_all_logs($status = 'activated')
+    public function count_all_logs($status = 'activated', $start = null, $end = null)
     {
         $this->db->from('personallogs');
 
-        if (! empty($status)) {
+        if (filled($status)) {
             $this->db->where('log_status', $status);
+        }
+
+        if (filled($start) && filled($end)) {
+            $this->db->where("log_date BETWEEN {$start} AND {$end}");
         }
 
         return $this->db->count_all_results();
@@ -316,12 +320,16 @@ abstract class Nova_personallogs_model extends CI_Model
         return $query->num_rows();
     }
 
-    public function count_all_log_words($status = 'activated')
+    public function count_all_log_words($status = 'activated', $start = null, $end = null)
     {
         $this->db->select_sum('log_words', 'word_count');
 
-        if (! empty($status)) {
+        if (filled($status)) {
             $this->db->where('log_status', $status);
+        }
+
+        if (filled($start) && filled($end)) {
+            $this->db->where("log_date BETWEEN {$start} AND {$end}");
         }
 
         $result = $this->db->get('personallogs')->row();

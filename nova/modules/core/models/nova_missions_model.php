@@ -150,9 +150,14 @@ abstract class Nova_missions_model extends CI_Model
         return $this->db->count_all_results();
     }
 
-    public function count_missions()
+    public function count_missions($start = null, $end = null)
     {
         $this->db->from('missions');
+
+        if (filled($start) && filled($end)) {
+            $this->db->where('mission_start <=', $end);
+            $this->db->where("mission_end IS NULL OR mission_end = 0 OR mission_end >= {$start}");
+        }
 
         return $this->db->count_all_results();
     }

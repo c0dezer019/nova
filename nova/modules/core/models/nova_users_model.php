@@ -449,12 +449,17 @@ abstract class Nova_users_model extends CI_Model
         return false;
     }
 
-    public function count_all_users($status = 'active')
+    public function count_all_users($status = 'active', $start = null, $end = null)
     {
         $this->db->from('users');
 
         if (! empty($status)) {
             $this->db->where('status', $status);
+        }
+
+        if (filled($start) && filled($end)) {
+            $this->db->where('join_date <=', $end);
+            $this->db->where("leave_date IS NULL OR leave_date >= {$start}");
         }
 
         return $this->db->count_all_results();

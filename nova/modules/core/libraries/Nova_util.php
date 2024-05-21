@@ -1,4 +1,7 @@
 <?php
+
+use Carbon\Carbon;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
@@ -285,27 +288,69 @@ abstract class Nova_util
         ]);
     }
 
-    public static function simpleHeartbeat()
+    public static function simpleHeartbeat($dataset = null)
     {
+        $data = match ($dataset) {
+            'last-month' => [
+                'start' => Carbon::now()->subMonth()->startOfMonth()->getTimestamp(),
+                'end' => Carbon::now()->subMonth()->endOfMonth()->getTimestamp(),
+            ],
+            'last-year' => [
+                'start' => Carbon::now()->subYear()->startOfYear()->getTimestamp(),
+                'end' => Carbon::now()->subYear()->endOfYear()->getTimestamp(),
+            ],
+            'this-month' => [
+                'start' => Carbon::now()->startOfMonth()->getTimestamp(),
+                'end' => Carbon::now()->endOfMonth()->getTimestamp(),
+            ],
+            'this-year' => [
+                'start' => Carbon::now()->startOfYear()->getTimestamp(),
+                'end' => Carbon::now()->endOfYear()->getTimestamp(),
+            ],
+            default => [
+                'start' => null,
+                'end' => null,
+            ],
+        };
+
         $ci =& get_instance();
 
         $ci->load->model('settings_model', 'settings');
         $ci->load->model('characters_model', 'char');
         $ci->load->model('users_model', 'user');
+        $ci->load->model('personallogs_model', 'logs');
         $ci->load->model('posts_model', 'posts');
         $ci->load->model('missions_model', 'mis');
 
         return [
             'name' => $ci->settings->get_setting('sim_name'),
             'nova_version' => APP_VERSION,
-            'active_users' => $ci->user->count_all_users(),
-            'active_primary_characters' => $ci->char->count_primary_characters(),
-            'active_secondary_characters' => $ci->char->count_secondary_characters(),
-            'active_support_characters' => $ci->char->count_support_characters(),
-            'total_stories' => $ci->mis->count_missions(),
-            'total_posts' => $ci->posts->count_all_posts(),
-            'total_post_words' => $ci->posts->count_all_post_words(),
-            'last_published_post' => $ci->posts->get_last_published_post()->post_date ?? null,
+            'active_users' => $ci->user->count_all_users(
+                is_null($dataset) ? 'active' : null,
+                $data['start'],
+                $data['end']
+            ),
+            'active_primary_characters' => $ci->char->count_primary_characters(
+                is_null($dataset) ? 'active' : null,
+                $data['start'],
+                $data['end']
+            ),
+            'active_secondary_characters' => $ci->char->count_secondary_characters(
+                is_null($dataset) ? 'active' : null,
+                $data['start'],
+                $data['end']
+            ),
+            'active_support_characters' => $ci->char->count_support_characters(
+                $data['start'],
+                $data['end']
+            ),
+            'total_stories' => $ci->mis->count_missions(
+                $data['start'],
+                $data['end']
+            ),
+            'total_posts' => $ci->posts->count_all_posts(null, 'activated', $data['start'], $data['end']) + $ci->logs->count_all_logs('activated', $data['start'], $data['end']),
+            'total_post_words' => $ci->posts->count_all_post_words('activated', $data['start'], $data['end']) + $ci->logs->count_all_log_words('activated', $data['start'], $data['end']),
+            'last_published_post' => Carbon::createFromFormat('U', $ci->posts->get_last_published_post()->post_date ?? null)->toDateTimeString(),
         ];
     }
 

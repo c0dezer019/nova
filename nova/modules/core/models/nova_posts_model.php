@@ -320,7 +320,7 @@ abstract class Nova_posts_model extends CI_Model
     public function get_last_published_post($status = 'activated')
     {
         $this->db->from('posts');
-        $this->db->where('post_status', 'activated');
+        $this->db->where('post_status', $status);
         $this->db->order_by('post_date', 'desc');
 
         return $this->db->get()->row();
@@ -338,16 +338,20 @@ abstract class Nova_posts_model extends CI_Model
         return $this->db->count_all_results();
     }
 
-    public function count_all_posts($mission = '', $status = 'activated')
+    public function count_all_posts($mission = '', $status = 'activated', $start = null, $end = null)
     {
         $this->db->from('posts');
 
-        if ($mission > '') {
+        if (filled($mission)) {
             $this->db->where('post_mission', $mission);
         }
 
-        if (! empty($status)) {
+        if (filled($status)) {
             $this->db->where('post_status', $status);
+        }
+
+        if (filled($start) && filled($end)) {
+            $this->db->where("post_date BETWEEN {$start} AND {$end}");
         }
 
         return $this->db->count_all_results();
@@ -473,12 +477,16 @@ abstract class Nova_posts_model extends CI_Model
         return $count;
     }
 
-    public function count_all_post_words($status = 'activated')
+    public function count_all_post_words($status = 'activated', $start = null, $end = null)
     {
         $this->db->select_sum('post_words', 'word_count');
 
-        if (! empty($status)) {
+        if (filled($status)) {
             $this->db->where('post_status', $status);
+        }
+
+        if (filled($start) && filled($end)) {
+            $this->db->where("post_date BETWEEN {$start} AND {$end}");
         }
 
         $result = $this->db->get('posts')->row();
