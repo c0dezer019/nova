@@ -324,7 +324,7 @@ abstract class Nova_util
 
         return [
             'name' => $ci->settings->get_setting('sim_name'),
-            'nova_version' => APP_VERSION,
+            'version' => APP_VERSION,
             'active_users' => $ci->user->count_all_users(
                 is_null($dataset) ? 'active' : null,
                 $data['start'],
