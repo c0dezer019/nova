@@ -290,28 +290,38 @@ abstract class Nova_util
 
     public static function simpleHeartbeat($dataset = null)
     {
-        $data = match ($dataset) {
-            'last-month' => [
-                'start' => Carbon::now()->subMonth()->startOfMonth()->getTimestamp(),
-                'end' => Carbon::now()->subMonth()->endOfMonth()->getTimestamp(),
-            ],
-            'last-year' => [
-                'start' => Carbon::now()->subYear()->startOfYear()->getTimestamp(),
-                'end' => Carbon::now()->subYear()->endOfYear()->getTimestamp(),
-            ],
-            'this-month' => [
-                'start' => Carbon::now()->startOfMonth()->getTimestamp(),
-                'end' => Carbon::now()->endOfMonth()->getTimestamp(),
-            ],
-            'this-year' => [
-                'start' => Carbon::now()->startOfYear()->getTimestamp(),
-                'end' => Carbon::now()->endOfYear()->getTimestamp(),
-            ],
-            default => [
-                'start' => null,
-                'end' => null,
-            ],
-        };
+        switch ($dataset) {
+            case 'last-month':
+                $data = [
+                    'start' => Carbon::now()->subMonth()->startOfMonth()->getTimestamp(),
+                    'end' => Carbon::now()->subMonth()->endOfMonth()->getTimestamp(),
+                ];
+                break;
+            case 'last-year':
+                $data = [
+                    'start' => Carbon::now()->subYear()->startOfYear()->getTimestamp(),
+                    'end' => Carbon::now()->subYear()->endOfYear()->getTimestamp(),
+                ];
+                break;
+            case 'this-month':
+                $data = [
+                    'start' => Carbon::now()->startOfMonth()->getTimestamp(),
+                    'end' => Carbon::now()->endOfMonth()->getTimestamp(),
+                ];
+                break;
+            case 'this-year':
+                $data = [
+                    'start' => Carbon::now()->startOfYear()->getTimestamp(),
+                    'end' => Carbon::now()->endOfYear()->getTimestamp(),
+                ];
+                break;
+            default:
+                $data = [
+                    'start' => null,
+                    'end' => null,
+                ];
+                break;
+        }
 
         $ci =& get_instance();
 
