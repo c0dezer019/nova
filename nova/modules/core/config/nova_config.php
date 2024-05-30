@@ -278,7 +278,7 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 | application/views/errors/ directory.  Use a full server path with trailing slash.
 |
 */
-$config['error_views_path'] = './nova/modules/core/views/errors/';
+$config['error_views_path'] = INSTALL_ROOT.'modules/core/views/errors/';
 
 /*
 |--------------------------------------------------------------------------
@@ -381,7 +381,7 @@ $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_samesite'] = 'Lax';
 $config['sess_expiration'] = 86400;
-$config['sess_save_path'] = 'sessions';
+$config['sess_save_path'] = INSTALL_ROOT.'sessions';
 $config['sess_match_ip'] = false;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = false;
