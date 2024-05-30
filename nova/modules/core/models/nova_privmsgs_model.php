@@ -33,12 +33,13 @@ abstract class Nova_privmsgs_model extends CI_Model
         return $query;
     }
 
-    public function get_outbox($id = '')
+    public function get_outbox($id = '', $limit = 25, $offset = 0)
     {
         $this->db->from('privmsgs');
         $this->db->where('privmsgs_author_user', $id);
         $this->db->where('privmsgs_author_display', 'y');
         $this->db->order_by('privmsgs_date', 'desc');
+        $this->db->limit($limit, $offset);
 
         $query = $this->db->get();
 
