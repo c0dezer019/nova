@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Switched to using PHP's `time()` function to calculate Who's Online rather than CodeIgniter's `now()` function
+
+### Fixed
+
+- Sent messages aren't paginated (thanks to Jai and jasoncollege24 for the report)
+- Incorrect path for error views triggered PHP warnings
+- Incorrect path for file-based sessions triggered PHP warnings
+
 ## [2.7.10] - 2024-05-21
 
 ### Added
