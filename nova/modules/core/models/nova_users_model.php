@@ -298,7 +298,7 @@ abstract class Nova_users_model extends CI_Model
 
     public function get_online_users($time = 5)
     {
-        $final_time = now() - ($time * 60);
+        $final_time = time() - ($time * 60);
 
         $this->db->from('sessions');
         $this->db->where('timestamp >=', $final_time);
