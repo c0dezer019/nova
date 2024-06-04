@@ -332,6 +332,8 @@ abstract class Nova_util
         $ci->load->model('posts_model', 'posts');
         $ci->load->model('missions_model', 'mis');
 
+        $lastPublishedPost = $ci->posts->get_last_published_post();
+
         return [
             'name' => $ci->settings->get_setting('sim_name'),
             'version' => APP_VERSION,
@@ -360,7 +362,7 @@ abstract class Nova_util
             ),
             'total_posts' => $ci->posts->count_all_posts(null, 'activated', $data['start'], $data['end']) + $ci->logs->count_all_logs('activated', $data['start'], $data['end']),
             'total_post_words' => $ci->posts->count_all_post_words('activated', $data['start'], $data['end']) + $ci->logs->count_all_log_words('activated', $data['start'], $data['end']),
-            'last_published_post' => Carbon::createFromFormat('U', $ci->posts->get_last_published_post()->post_date ?? null)->toDateTimeString(),
+            'last_published_post' => $lastPublishedPost ? Carbon::createFromFormat('U', $lastPublishedPost->post_date)->toDateTimeString() : null,
         ];
     }
 

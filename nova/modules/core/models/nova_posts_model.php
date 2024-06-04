@@ -324,7 +324,13 @@ abstract class Nova_posts_model extends CI_Model
         $this->db->order_by('post_date', 'desc');
         $this->db->limit(1);
 
-        return $this->db->get()->row();
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 0) {
+            return null;
+        }
+
+        return $query->row();
     }
 
     public function count_all_post_comments($status = 'activated', $id = '')
