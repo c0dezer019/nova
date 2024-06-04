@@ -322,6 +322,7 @@ abstract class Nova_posts_model extends CI_Model
         $this->db->from('posts');
         $this->db->where('post_status', $status);
         $this->db->order_by('post_date', 'desc');
+        $this->db->limit(1);
 
         return $this->db->get()->row();
     }
