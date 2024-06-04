@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Switched to using PHP's `time()` function to calculate Who's Online rather than CodeIgniter's `now()` function
+- Improved the efficiency of the query to pull the last published post
 
 ### Fixed
 
