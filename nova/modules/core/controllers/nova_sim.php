@@ -1273,6 +1273,8 @@ abstract class Nova_sim extends Nova_controller_main
                 // set the data being sent to the view
                 $data['name'] = $item->specs_name;
                 $data['summary'] = $item->specs_summary;
+                $data['images']['main_img'] = null;
+                $data['images']['image_array'] = [];
 
                 if ($item->specs_images > '') {
                     // get the images
