@@ -1695,6 +1695,8 @@ abstract class Nova_sim extends Nova_controller_main
                 // set the data being sent to the view
                 $data['name'] = $item->tour_name;
                 $data['summary'] = $item->tour_summary;
+                $data['images']['main_img'] = null;
+                $data['images']['image_array'] = [];
 
                 if ($item->tour_images > '') {
                     // get the images
@@ -1708,9 +1710,6 @@ abstract class Nova_sim extends Nova_controller_main
                         'class' => 'image reflect',
                         'width' => 400
                     );
-
-                    // create the empty array
-                    $data['images']['image_array'] = array();
 
                     for ($i=1; $i < $images_count; $i++) {
                         // build the array
