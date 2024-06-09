@@ -14,7 +14,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- Sent messages aren't paginated (thanks to Jai and jasoncollege24 for the report)
+- Sent messages aren't properly paginated (thanks to Jai and jasoncollege24 for the report)
+- User applications aren't properly paginated (thanks to Jai for the report)
+- Award nominations aren't properly paginated
 - Incorrect path for error views triggered PHP warnings
 - Incorrect path for file-based sessions triggered PHP warnings
 - Activity tab on the admin control panel would show all users regardless of whether they had posted within the set posting threshold

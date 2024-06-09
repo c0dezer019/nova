@@ -70,7 +70,7 @@ abstract class Nova_awards_model extends CI_Model
         return $row;
     }
 
-    public function get_award_noms($status = 'pending', $order = 'desc')
+    public function get_award_noms($status = 'pending', $order = 'desc', $limit = 25, $offset = 0)
     {
         $this->db->from('awards_queue');
 
@@ -79,6 +79,7 @@ abstract class Nova_awards_model extends CI_Model
         }
 
         $this->db->order_by('queue_date', $order);
+        $this->db->limit($limit, $offset);
 
         $query = $this->db->get();
 

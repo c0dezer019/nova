@@ -125,7 +125,7 @@ abstract class Nova_report extends Nova_controller_admin
         // create the page links
         $data['pagination'] = $this->pagination->create_links();
 
-        $applications = $this->apps->get_applications();
+        $applications = $this->apps->get_applications($config['per_page'], $offset);
 
         if ($applications->num_rows() > 0) {
             foreach ($applications->result() as $a) {
@@ -222,7 +222,7 @@ abstract class Nova_report extends Nova_controller_admin
         // create the page links
         $data['pagination'] = $this->pagination->create_links();
 
-        $nominations = $this->awards->get_award_noms('');
+        $nominations = $this->awards->get_award_noms('', 'desc', $config['per_page'], $offset);
 
         if ($nominations->num_rows() > 0) {
             foreach ($nominations->result() as $n) {

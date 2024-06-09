@@ -26,10 +26,11 @@ abstract class Nova_applications_model extends CI_Model
         return $query;
     }
 
-    public function get_applications()
+    public function get_applications($limit = 25, $offset = 0)
     {
         $this->db->from('applications');
         $this->db->order_by('app_date', 'desc');
+        $this->db->limit($limit, $offset);
 
         $query = $this->db->get();
 
