@@ -226,6 +226,7 @@ abstract class Nova_main extends Nova_controller_main
         $this->load->model('depts_model', 'dept');
         $this->load->model('ranks_model', 'ranks');
         $this->load->helper('utility');
+        $this->load->driver('cache', ['adapter' => 'file']);
 
         $agree = $this->input->post('agree', true);
         $submit = $this->input->post('submit', true);
@@ -249,6 +250,11 @@ abstract class Nova_main extends Nova_controller_main
             $last_name = $this->input->post('last_name', true);
             $suffix = $this->input->post('suffix', true);
             $position = $this->input->post('position_1', true);
+
+            if ($this->cache->get('spam_detection_timer')) {
+                header("HTTP/1.0 429 Too Many Requests");
+                exit;
+            }
 
             if ($position == 0 or $first_name == '' or empty($password) or empty($email)) {
                 $message = sprintf(
@@ -427,6 +433,8 @@ abstract class Nova_main extends Nova_controller_main
 
             $view_loc = 'main_join_1';
         } else {
+            $this->cache->save('spam_detection_timer', time(), $this->config->item('spam_detection_threshold'));
+
             // grab the join fields
             $sections = $this->char->get_bio_sections();
 

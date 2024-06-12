@@ -3,6 +3,7 @@
 if (! defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -524,3 +525,8 @@ $config['rewrite_short_tags'] = false;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/**
+ * The threshold in seconds of when to consider a join application spam.
+ */
+$config['spam_detection_threshold'] = 30;
