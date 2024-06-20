@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.7.11] - 2024-06-20
+
 ### Added
 
 - The join form will attempt to determine if a given request is a spam bot. This will be determined by how long it's been since the page was loaded. If the page is loaded and submitted inside of 30 seconds, Nova will return a 429 too many requests error.
