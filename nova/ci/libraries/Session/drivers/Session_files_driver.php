@@ -105,13 +105,13 @@ class CI_Session_files_driver extends CI_Session_driver implements CI_Session_dr
 
 		if (isset($this->_config['save_path']))
 		{
-			$this->_config['save_path'] = rtrim($this->_config['save_path'], '/\\');
+			$this->_config['save_path'] = INSTALL_ROOT.rtrim($this->_config['save_path'], '/\\');
 			ini_set('session.save_path', $this->_config['save_path']);
 		}
 		else
 		{
 			log_message('debug', 'Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.');
-			$this->_config['save_path'] = rtrim(ini_get('session.save_path'), '/\\');
+			$this->_config['save_path'] = INSTALL_ROOT.rtrim(ini_get('session.save_path'), '/\\');
 		}
 
 		$this->_sid_regexp = $this->_config['_sid_regexp'];
