@@ -1788,6 +1788,9 @@ abstract class Nova_sim extends Nova_controller_main
         // sanity check
         $id = (is_numeric($id)) ? $id : false;
 
+        $view_loc = false;
+        $data = [];
+
         if ($this->session->userdata('userid') !== false and isset($_POST['submit'])) {
             $comment_text = $this->input->post('comment_text');
 
