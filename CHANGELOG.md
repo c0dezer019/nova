@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- PHP warning about undefined array key in some situations when updating a post
+- PHP error about undefined variables in some situations when viewing logs
+
 ## [2.7.11] - 2024-06-20
 
 ### Added
