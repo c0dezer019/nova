@@ -628,8 +628,12 @@ abstract class Nova_posts_model extends CI_Model
         return $this->db->affected_rows();
     }
 
-    public function update_post($id = '', $data = '')
+    public function update_post($id = '', $data = [])
     {
+        if (count($data) === 0) {
+            return 0;
+        }
+
         $this->db->where('post_id', $id);
 
         $query = $this->db->update('posts', array_merge($data, [
