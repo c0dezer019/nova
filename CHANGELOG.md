@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Explanation of how to get to the skin customization screen in the Pulsar and Titan readme files
+
 ### Fixed
 
 - PHP warning about undefined array key in some situations when updating a post
