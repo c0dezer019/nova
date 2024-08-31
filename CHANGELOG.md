@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.7.12] - 2024-08-31
+
 ### Changed
 
 - Explanation of how to get to the skin customization screen in the Pulsar and Titan readme files
