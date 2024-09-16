@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Unclosed HTML tags would cause bad formatting in search results (thanks to jasoncollege24 for the report and fix)
+
 ## [2.7.12] - 2024-08-31
 
 ### Changed
