@@ -17,7 +17,7 @@
 		<?php foreach ($results as $result): ?>
 			<li>
 				<strong><?php echo $result['link'];?></strong>
-				<div class="line_height_13"><?php echo word_limiter($result['content'], 100);?></div><br />
+				<div class="line_height_13"><?php echo strip_tags(word_limiter($result['content'], 100));?></div><br />
 			</li>
 		<?php endforeach; ?>
 	</ul>
