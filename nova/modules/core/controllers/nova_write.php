@@ -479,7 +479,7 @@ abstract class Nova_write extends Nova_controller_admin
 
             $action = strtolower($this->input->post('submit', true));
             $status = false;
-            $flash = false;
+            $flash = [];
             $illegalpost = false;
 
             if ($this->uri->segment(3) != 'missionCreate') {
