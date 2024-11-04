@@ -51,10 +51,15 @@ abstract class Nova_location
 
         if ($data !== null) {
             if ($obj->skin == '_base') {
+                if (! file_exists(MODPATH.'core/views/'.$location.'.php')) {
+                    $location = '_base/errors/view_not_found';
+                    $data = ['location' => $obj->sec.'/ajax/'.$obj->view];
+                }
+
                 return $ci->nova->view($location, $data, true);
-            } else {
-                return $ci->load->view($location, $data, true);
             }
+
+            return $ci->load->view($location, $data, true);
         }
 
         return $location;
