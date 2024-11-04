@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - Unclosed HTML tags would cause bad formatting in search results (thanks to jasoncollege24 for the report and fix)
+- Deprecation warning that was raised when trying to load empty My Links
+- Suppress warning messages raised when unserializing session data
 
 ### Security
 
