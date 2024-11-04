@@ -82,6 +82,13 @@ if (! function_exists('text_output')) {
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('Attr.EnableID', true);
+
+        $definition = $config->getHTMLDefinition(true);
+        $definition->addElement('details', 'Block', 'Flow', 'Common', [
+            'open' => new HTMLPurifier_AttrDef_HTML_Bool(true),
+        ]);
+        $definition->addElement('summary', 'Inline', 'Inline', 'Common');
+
         $purifier = new HTMLPurifier($config);
 
         $content = $purifier->purify(($nl2br == true) ? nl2br($text) : $text);
