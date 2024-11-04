@@ -380,7 +380,7 @@ abstract class Nova_util
             $num = $pos - $offset;
             $varname = substr($sessionData, $offset, $num);
             $offset += $num + 1;
-            $data = unserialize(substr($sessionData, $offset));
+            $data = @unserialize(substr($sessionData, $offset));
             $return_data[$varname] = $data;
             $offset += strlen(serialize($data));
         }
