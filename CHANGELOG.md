@@ -6,9 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Unique game ID to the system information table
+
+### Changed
+
+- Registration will now store a unique game ID from the Anodyne servers
+- HTML Purifier recognizes the `details` and `summary` tags
+- Modals that fail because of missing view files will show an error message
+
 ### Fixed
 
 - Unclosed HTML tags would cause bad formatting in search results (thanks to jasoncollege24 for the report and fix)
+
+### Security
+
+- Dependency updates
 
 ## [2.7.12] - 2024-08-31
 
