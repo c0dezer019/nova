@@ -510,7 +510,7 @@ abstract class Nova_auth
         $array['access'] = self::_set_access($person->access_role);
 
         // put my links into an array
-        $my_links = explode(',', $person->my_links);
+        $my_links = explode(',', $person->my_links ?? '');
 
         if (count($my_links) > 0) {
             foreach ($my_links as $value) {
