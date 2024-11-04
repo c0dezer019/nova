@@ -107,6 +107,16 @@ if ($add_tables !== null) {
 |---------------------------------------------------------------
 */
 
+$add_column = [
+    'system_info' => [
+        'sys_anodyne_game_id' => [
+            'type' => 'VARCHAR',
+            'constraint' => 255,
+            'default' => ''
+        ],
+    ]
+];
+
 if ($add_column !== null) {
     foreach ($add_column as $tableName => $columns) {
         foreach ($columns as $columnName => $columnData) {

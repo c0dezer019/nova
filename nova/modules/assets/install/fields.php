@@ -2183,6 +2183,11 @@ $fields_system_info = [
         'constraint' => 20,
         'default' => ''
     ],
+    'sys_anodyne_game_id' => [
+        'type' => 'VARCHAR',
+        'constraint' => 255,
+        'default' => ''
+    ],
 ];
 
 $fields_tour = [

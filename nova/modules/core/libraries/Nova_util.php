@@ -332,9 +332,11 @@ abstract class Nova_util
         $ci->load->model('posts_model', 'posts');
         $ci->load->model('missions_model', 'mis');
 
+        $info = $ci->sys->get_system_info();
+
         $lastPublishedPost = $ci->posts->get_last_published_post();
 
-        return [
+        $heartbeatData = [
             'name' => $ci->settings->get_setting('sim_name'),
             'version' => APP_VERSION,
             'active_users' => $ci->user->count_all_users(
@@ -364,6 +366,12 @@ abstract class Nova_util
             'total_post_words' => $ci->posts->count_all_post_words('activated', $data['start'], $data['end']) + $ci->logs->count_all_log_words('activated', $data['start'], $data['end']),
             'last_published_post' => $lastPublishedPost ? Carbon::createFromFormat('U', $lastPublishedPost->post_date)->toDateTimeString() : null,
         ];
+
+        if (filled($info->sys_anodyne_game_id)) {
+            $heartbeatData['game_id'] = $info->sys_anodyne_game_id;
+        }
+
+        return $heartbeatData;
     }
 
     private static function unserialize_php($sessionData)

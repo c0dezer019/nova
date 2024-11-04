@@ -1763,6 +1763,8 @@ abstract class Nova_install extends CI_Controller
     {
         $http = new \Illuminate\Http\Client\Factory();
 
-        $http->post(REGISTER_URL, Util::fullHeartbeat());
+        $response = $http->post(REGISTER_URL, Util::fullHeartbeat());
+
+        $this->sys->update_anodyne_game_id($response->json('game_id'));
     }
 }

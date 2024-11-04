@@ -617,6 +617,19 @@ abstract class Nova_system_model extends CI_Model
         );
     }
 
+    public function update_anodyne_game_id($id)
+    {
+        $this->db->where('sys_id', 1);
+
+        $query = $this->db->update('system_info', [
+            'sys_anodyne_game_id' => $id,
+        ]);
+
+        $this->dbutil->optimize_table('system_info');
+
+        return $query;
+    }
+
     public function delete_ban($id = '')
     {
         $query = $this->db->delete('bans', array('ban_id' => $id));
