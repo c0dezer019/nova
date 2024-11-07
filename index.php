@@ -49,9 +49,9 @@ define('INSTALL_ROOT', str_replace('\\', '/', realpath(dirname(__FILE__))).'/nov
  *
  * This can be set to anything, but default usage is:
  *
- *     development - displays and logs all errors, reporting everything
- *     staging - displays and logs all errors, reporting everything except deprecations and strict
- *     production - logs all errors, reporting everything except deprecations and strict
+ *     development
+ *     testing
+ *     production
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
@@ -71,7 +71,7 @@ switch (ENVIRONMENT) {
         ini_set('display_startup_errors', 1);
         ini_set('html_errors', 1);
         ini_set('log_errors', 1);
-        error_reporting(E_ALL);
+        error_reporting(-1);
         break;
 
     case 'staging':
@@ -79,7 +79,7 @@ switch (ENVIRONMENT) {
         ini_set('display_startup_errors', 1);
         ini_set('html_errors', 1);
         ini_set('log_errors', 1);
-        error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+        error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
         break;
 
     case 'production':
@@ -87,7 +87,7 @@ switch (ENVIRONMENT) {
         ini_set('display_startup_errors', 0);
         ini_set('html_errors', 1);
         ini_set('log_errors', 1);
-        error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+        error_reporting(E_ALL & ~E_DEPRECATED);
         break;
 
     default:
@@ -95,6 +95,8 @@ switch (ENVIRONMENT) {
         echo 'The application environment is not set correctly.';
         exit(1); // EXIT_ERROR
 }
+
+date_default_timezone_set('UTC');
 
 /*
  *---------------------------------------------------------------
@@ -271,7 +273,7 @@ if (is_dir($application_folder)) {
     );
 } else {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.self;
+    echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.basename(__FILE__);
     exit(3); // EXIT_CONFIG
 }
 
@@ -298,7 +300,7 @@ if (! isset($view_folder[0]) && is_dir(APPPATH.'views'.DIRECTORY_SEPARATOR)) {
     );
 } else {
     header('HTTP/1.1 503 Service Unavailable.', true, 503);
-    echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.self;
+    echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.basename(__FILE__);
     exit(3); // EXIT_CONFIG
 }
 
