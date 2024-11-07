@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Better PHP 8.4 compatibility (deprecation notices will be logged from a Composer package that we are not able to fix)
+
 ## [2.7.13] - 2024-11-06
 
 ### Added
