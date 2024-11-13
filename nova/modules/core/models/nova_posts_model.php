@@ -636,9 +636,13 @@ abstract class Nova_posts_model extends CI_Model
 
         $this->db->where('post_id', $id);
 
-        $query = $this->db->update('posts', array_merge($data, [
-            'post_words' => str_word_count($data['post_content']),
-        ]));
+        if (array_key_exists('post_content', $data)) {
+            $data = array_merge($data, [
+                'post_words' => str_word_count($data['post_content'])
+            ]);
+        }
+
+        $query = $this->db->update('posts', $data);
 
         $this->dbutil->optimize_table('posts');
 
