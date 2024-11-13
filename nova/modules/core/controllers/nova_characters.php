@@ -1100,7 +1100,7 @@ abstract class Nova_characters extends Nova_controller_admin
                             case 'select':
                                 $value = false;
                                 $values = false;
-                                $input = false;
+                                $input = [];
 
                                 $values = $this->char->get_bio_values($field->field_id);
                                 $data_val = ($row !== false) ? $row->data_value : '';
