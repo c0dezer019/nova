@@ -6,9 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.7.14] - 2024-11-21
+
+### Added
+
+- Send version of Nova being updated from to telemetry
+
 ### Fixed
 
-- Better PHP 8.4 compatibility (deprecation notices will be logged from a Composer package that we are not able to fix)
+- Better PHP 8.4 compatibility (deprecation notices will continue to be logged from a Composer package that we are not able to fix)
+- PHP warning logged about `post_content` key not being available in some situations
 
 ## [2.7.13] - 2024-11-06
 
