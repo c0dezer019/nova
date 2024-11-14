@@ -268,7 +268,7 @@ abstract class Nova_util
         }
     }
 
-    public static function fullHeartbeat()
+    public static function fullHeartbeat($previousVersion = null)
     {
         $ci =& get_instance();
 
@@ -285,6 +285,7 @@ abstract class Nova_util
             'db_version' => $ci->db->version(),
             'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
             'install_date' => $info ? $info->sys_install_date : null,
+            'previous_version' => $previousVersion,
         ]);
     }
 
