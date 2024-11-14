@@ -9,7 +9,7 @@
         "build:ui-theme-main": "cross-env ENV_BUILD=dev postcss resources/css/jquery.ui.theme.css --dir main/css --verbose",
         "build:ui-theme-admin": "cross-env ENV_BUILD=dev postcss resources/css/jquery.ui.theme.css --dir admin/css --verbose",
         "build:chosen": "cross-env ENV_BUILD=dev postcss resources/css/jquery.chosen.css --dir admin/css --verbose",
-        "css": "concurrently \"npm run build:colors\" \"npm run build:app\" \"npm run build:wiki\" \"npm run build:login\" \"npm run build:ui-theme-main\" \"npm run build:ui-theme-admin\"  \"npm run build:chosen\""
+        "build": "concurrently \"npm run build:colors\" \"npm run build:app\" \"npm run build:wiki\" \"npm run build:login\" \"npm run build:ui-theme-main\" \"npm run build:ui-theme-admin\"  \"npm run build:chosen\""
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.3",
@@ -20,6 +20,6 @@
         "postcss": "^8.4.4",
         "postcss-cli": "^9.0.1",
         "postcss-import": "^13.0.0",
-        "tailwindcss": "^3.2.1"
+        "tailwindcss": "^3.4.15"
     }
 }

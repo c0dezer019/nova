@@ -37,7 +37,7 @@ div.chzn-container-single div.chzn-drop {
 
 	--tw-bg-opacity: 1;
 
-	background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+	background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 
 	padding: 0.5rem;
 
@@ -72,11 +72,11 @@ div.chzn-container a.chzn-single {
 
 	--tw-border-opacity: 1;
 
-	border-color: rgb(209 213 219 / var(--tw-border-opacity));
+	border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 
 	--tw-bg-opacity: 1;
 
-	background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+	background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 
 	padding-left: 0.75rem;
 
@@ -90,7 +90,7 @@ div.chzn-container a.chzn-single {
 
 	--tw-text-opacity: 1;
 
-	color: rgb(107 114 128 / var(--tw-text-opacity));
+	color: rgb(107 114 128 / var(--tw-text-opacity, 1));
 
 	--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
@@ -137,17 +137,17 @@ div.chzn-container div.chzn-search input {
 
 	--tw-border-opacity: 1;
 
-	border-color: rgb(209 213 219 / var(--tw-border-opacity));
+	border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 
 	--tw-bg-opacity: 1;
 
-	background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+	background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 div.chzn-container div.chzn-search input:focus {
 
 	--tw-border-opacity: 1;
 
-	border-color: rgba(var(--primary-400), var(--tw-border-opacity));
+	border-color: rgba(var(--primary-400), var(--tw-border-opacity, 1));
 
 	--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
 
@@ -157,7 +157,7 @@ div.chzn-container div.chzn-search input:focus {
 
 	--tw-ring-opacity: 1;
 
-	--tw-ring-color: rgba(var(--primary-400), var(--tw-ring-opacity));
+	--tw-ring-color: rgba(var(--primary-400), var(--tw-ring-opacity, 1));
 }
 /**
  * Styles for the multi selects
@@ -170,11 +170,11 @@ div.chzn-container ul.chzn-choices {
 
 	--tw-border-opacity: 1;
 
-	border-color: rgb(209 213 219 / var(--tw-border-opacity));
+	border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 
 	--tw-bg-opacity: 1;
 
-	background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+	background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 
 	padding-left: 0.75rem;
 
@@ -186,7 +186,7 @@ div.chzn-container ul.chzn-choices {
 
 	--tw-text-opacity: 1;
 
-	color: rgb(107 114 128 / var(--tw-text-opacity));
+	color: rgb(107 114 128 / var(--tw-text-opacity, 1));
 
 	--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 
@@ -224,7 +224,7 @@ div.chzn-container ul.chzn-choices li.search-field input {
 
 	--tw-text-opacity: 1;
 
-	color: rgb(107 114 128 / var(--tw-text-opacity));
+	color: rgb(107 114 128 / var(--tw-text-opacity, 1));
 
 	--tw-shadow: 0 0 #0000;
 
@@ -265,11 +265,11 @@ div.chzn-container ul.chzn-choices li.search-choice {
 
 	--tw-border-opacity: 1;
 
-	border-color: rgb(229 231 235 / var(--tw-border-opacity));
+	border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
 
 	--tw-bg-opacity: 1;
 
-	background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+	background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
 
 	padding-top: 0.25rem;
 
@@ -283,7 +283,7 @@ div.chzn-container ul.chzn-choices li.search-choice {
 
 	--tw-text-opacity: 1;
 
-	color: rgb(107 114 128 / var(--tw-text-opacity));
+	color: rgb(107 114 128 / var(--tw-text-opacity, 1));
 }
 div.chzn-container ul.chzn-choices li.search-choice.search-choice-focus {
 
@@ -291,15 +291,15 @@ div.chzn-container ul.chzn-choices li.search-choice.search-choice-focus {
 
 	--tw-border-opacity: 1;
 
-	border-color: rgb(209 213 219 / var(--tw-border-opacity));
+	border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 
 	--tw-bg-opacity: 1;
 
-	background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+	background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
 
 	--tw-text-opacity: 1;
 
-	color: rgb(75 85 99 / var(--tw-text-opacity));
+	color: rgb(75 85 99 / var(--tw-text-opacity, 1));
 }
 div.chzn-container ul.chzn-choices li.search-choice a.search-choice-close {
 
@@ -331,7 +331,7 @@ div.chzn-container-multi ul.chzn-results {
 
 	--tw-bg-opacity: 1;
 
-	background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+	background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 
 	padding: 0.5rem;
 
@@ -371,7 +371,7 @@ div.chzn-container ul.chzn-results li {
 
 	--tw-text-opacity: 1;
 
-	color: rgb(55 65 81 / var(--tw-text-opacity));
+	color: rgb(55 65 81 / var(--tw-text-opacity, 1));
 }
 div.chzn-container ul.chzn-results li em {
 	font-style: normal;
@@ -383,7 +383,7 @@ div.chzn-container ul.chzn-results li.highlighted {
 
 	--tw-text-opacity: 1;
 
-	color: rgb(17 24 39 / var(--tw-text-opacity));
+	color: rgb(17 24 39 / var(--tw-text-opacity, 1));
 }
 div.chzn-container ul.chzn-results li.highlighted em {
 
@@ -403,7 +403,7 @@ div.chzn-container ul.chzn-results li.group-result {
 
 	--tw-text-opacity: 1;
 
-	color: rgb(17 24 39 / var(--tw-text-opacity));
+	color: rgb(17 24 39 / var(--tw-text-opacity, 1));
 }
 /* Active */
 div.chzn-container-active a.chzn-single {
@@ -412,7 +412,7 @@ div.chzn-container-active a.chzn-single {
 
 	--tw-border-opacity: 1;
 
-	border-color: rgba(var(--primary-400), var(--tw-border-opacity));
+	border-color: rgba(var(--primary-400), var(--tw-border-opacity, 1));
 
 	--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
 
@@ -422,13 +422,13 @@ div.chzn-container-active a.chzn-single {
 
 	--tw-ring-opacity: 1;
 
-	--tw-ring-color: rgba(var(--primary-400), var(--tw-ring-opacity));
+	--tw-ring-color: rgba(var(--primary-400), var(--tw-ring-opacity, 1));
 }
 div.chzn-container-active a.chzn-single-with-drop {
 
 	--tw-bg-opacity: 1;
 
-	background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+	background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 div.chzn-container-active a.chzn-single-with-drop div {
 
@@ -440,11 +440,11 @@ div.chzn-container-active ul.chzn-choices {
 
 	--tw-border-opacity: 1;
 
-	border-color: rgba(var(--primary-400), var(--tw-border-opacity));
+	border-color: rgba(var(--primary-400), var(--tw-border-opacity, 1));
 
 	--tw-bg-opacity: 1;
 
-	background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+	background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 
 	--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
 
@@ -454,7 +454,7 @@ div.chzn-container-active ul.chzn-choices {
 
 	--tw-ring-opacity: 1;
 
-	--tw-ring-color: rgba(var(--primary-400), var(--tw-ring-opacity));
+	--tw-ring-color: rgba(var(--primary-400), var(--tw-ring-opacity, 1));
 }
 div.chzn-container-active ul.chzn-choices input {
 	color: #eee !important;
