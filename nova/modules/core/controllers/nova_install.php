@@ -1570,7 +1570,7 @@ abstract class Nova_install extends CI_Controller
     {
         $this->load->helper('utility');
 
-        $data['table'] = verify_server();
+        $data['table'] = show_server_verification_table();
 
         $data['label'] = array(
             'back' => lang('button_back_install'),

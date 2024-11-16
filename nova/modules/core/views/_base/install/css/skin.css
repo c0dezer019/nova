@@ -246,6 +246,20 @@ th, td {
 }
 th { border-right: 1px solid #bbb; }
 
+td svg {
+	height: 1.5rem;
+	width: 1.5rem;
+}
+td svg.fill-success-500 {
+	fill: #10b981;
+}
+td svg.fill-danger-500 {
+	fill: #f43f5e;
+}
+td svg.fill-warning-500 {
+	fill: #f59e0b;
+}
+
 .alt { background-color: #e5e5e5; }
 
 /*
@@ -545,7 +559,7 @@ button.btn-main:active {
 	-webkit-box-shadow: 0px -1px 0px #a4c897;
 }
 .flash-error {
-	border: 1px solid #cd0a0a; 
+	border: 1px solid #cd0a0a;
 	border-top: 1px solid rgba(255, 255, 255, .6);
 	background: #ef2d2d url(../images/install-btn-bg.png) repeat-x top left;
 	color: #fff;
