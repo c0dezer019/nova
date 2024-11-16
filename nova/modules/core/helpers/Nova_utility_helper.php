@@ -325,37 +325,109 @@ if (! function_exists('verify_server')) {
         $ci->load->module('core', 'nova', MODPATH);
         $ci->nova->lang('install');
 
-        // build the specs array
-        $specs = array(
-            'php' => array(
-                'req'	=> '7.4',
-                'act'	=> phpversion()),
-            'db' => array(
-                'req'	=> ['mysqli'],
-                'act'	=> $ci->db->platform()),
-            'dbver' => array(
-                'req'	=> ['mysqli' => '5.0'],
-                'act'	=> $ci->db->version()),
-            'regglobals' => array(
-                'req'	=> lang('global_off'),
-                'act'	=> (ini_get('register_globals') == 1) ? lang('global_on') : lang('global_off')),
-            'mem' => array(
-                'req'	=> 8,
-                'act'	=> substr(ini_get('memory_limit'), 0, -1)),
-            'file' => array(
-                'req'	=> lang('global_on'),
-                'act'	=> (ini_get('allow_url_fopen') == 1) ? lang('global_on') : lang('global_off')),
-        );
+        $verify = [
+            'failures' => 0,
+            'warnings' => 0,
+        ];
 
-        // set the final result array
-        $final = array(
-            'php' => ($specs['php']['act'] < $specs['php']['req']) ? lang('verify_failure') : lang('verify_success'),
-            'db' => (!in_array($specs['db']['act'], $specs['db']['req'])) ? lang('verify_failure') : lang('verify_success'),
-            'dbver' => ($specs['dbver']['act'] < $specs['dbver']['req'][$specs['db']['act']]) ? lang('verify_failure') : lang('verify_success'),
-            'regglobals' => ($specs['regglobals']['act'] != $specs['regglobals']['req']) ? lang('verify_warning') : lang('verify_success'),
-            'mem' => ($specs['mem']['act'] < $specs['mem']['req']) ? lang('verify_warning') : lang('verify_success'),
-            'file' => ($specs['file']['act'] != $specs['file']['req']) ? lang('verify_warning') : lang('verify_success')
-        );
+        /**
+         * PHP
+         */
+        $php['required'] = '7.4';
+        $php['actual'] = phpversion();
+        $php['passes'] = version_compare($php['actual'], $php['required'], '>=');
+        $php['message'] = $php['passes'] ? lang('verify_success_icon') : lang('verify_failure_icon');
+        $verify['failures'] += $php['passes'] ? 0 : 1;
+
+        /**
+         * Database driver
+         */
+        $dbDriver['required'] = 'mysqli';
+        $dbDriver['actual'] = $ci->db->platform();
+        $dbDriver['passes'] = $dbDriver['actual'] == $dbDriver['required'];
+        $dbDriver['message'] = $dbDriver['passes'] ? lang('verify_success_icon') : lang('verify_failure_icon');
+        $verify['failures'] += $dbDriver['passes'] ? 0 : 1;
+
+        /**
+         * Database platform
+         */
+        $dbPlatform['required'] = ['MySQL', 'MariaDB'];
+        $dbPlatform['actual'] = strpos(strtolower($ci->db->version()), 'mariadb') ? 'MariaDB' : 'MySQL';
+        $dbPlatform['passes'] = in_array($dbPlatform['actual'], $dbPlatform['required']);
+        $dbPlatform['message'] = $dbPlatform['passes'] ? lang('verify_success_icon') : lang('verify_failure_icon');
+        $verify['failures'] += $dbPlatform['passes'] ? 0 : 1;
+
+        /**
+         * Database version
+         */
+        if ($dbPlatform['actual'] === 'MySQL') {
+            $dbVersion['required'] = '5.0';
+            $dbVersion['actual'] = $ci->db->version();
+        } else {
+            $dbVersion['required'] = '5.0';
+            $dbVersion['actual'] = strstr($ci->db->version(), '-', true);
+        }
+
+        $dbVersion['passes'] = version_compare($dbVersion['actual'], $dbVersion['required'], '>=');
+        $dbVersion['message'] = $dbVersion['passes'] ? lang('verify_success_icon') : lang('verify_failure_icon');
+        $verify['failures'] += $dbVersion['passes'] ? 0 : 1;
+
+        /**
+         * Register globals
+         */
+        $registerGlobals['required'] = lang('global_off');
+        $registerGlobals['actual'] = (ini_get('register_globals') == 1) ? lang('global_on') : lang('global_off');
+        $registerGlobals['passes'] = $registerGlobals['required'] == $registerGlobals['actual'];
+        $registerGlobals['message'] = $registerGlobals['passes'] ? lang('verify_success_icon') : lang('verify_warning_icon');
+        $verify['warnings'] += $registerGlobals['passes'] ? 0 : 1;
+
+        /**
+         * Memory limit
+         */
+        $memoryLimit['required'] = 8;
+        $memoryLimit['actual'] = substr(ini_get('memory_limit'), 0, -1);
+        $memoryLimit['passes'] = $memoryLimit['actual'] >= $memoryLimit['required'];
+        $memoryLimit['message'] = $memoryLimit['passes'] ? lang('verify_success_icon') : lang('verify_warning_icon');
+        $verify['warnings'] += $memoryLimit['passes'] ? 0 : 1;
+
+        /**
+         * File handling
+         */
+        $fileHandling['required'] = lang('global_on');
+        $fileHandling['actual'] = (ini_get('allow_url_fopen') == 1) ? lang('global_on') : lang('global_off');
+        $fileHandling['passes'] = $fileHandling['required'] == $fileHandling['actual'];
+        $fileHandling['message'] = $fileHandling['passes'] ? lang('verify_success_icon') : lang('verify_warning_icon');
+        $verify['warnings'] += $fileHandling['passes'] ? 0 : 1;
+
+        return [
+            'php' => $php,
+            'dbDriver' => $dbDriver,
+            'dbPlatform' => $dbPlatform,
+            'dbVersion' => $dbVersion,
+            'registerGlobals' => $registerGlobals,
+            'memoryLimit' => $memoryLimit,
+            'fileHandling' => $fileHandling,
+            'verify' => $verify,
+        ];
+    }
+}
+
+if (! function_exists('show_server_verification_table')) {
+    function show_server_verification_table($verify = null)
+    {
+        $ci =& get_instance();
+        $ci->load->module('core', 'nova', MODPATH);
+        $ci->nova->lang('install');
+
+        [
+            'php' => $php,
+            'dbDriver' => $dbDriver,
+            'dbPlatform' => $dbPlatform,
+            'dbVersion' => $dbVersion,
+            'registerGlobals' => $registerGlobals,
+            'memoryLimit' => $memoryLimit,
+            'fileHandling' => $fileHandling,
+        ] = $verify ?? verify_server();
 
         $output = '<table class="table100 fontMedium zebra">';
         $output.= '<thead>';
@@ -368,44 +440,57 @@ if (! function_exists('verify_server')) {
         $output.= '</thead>';
 
         $output.= '<tbody>';
-        $output.= '<tr>';
-        $output.= '<td>'.lang('verify_php').'</td>';
-        $output.= '<td>'.$specs['php']['req'].'</td>';
-        $output.= '<td>'.$specs['php']['act'].'</td>';
-        $output.= '<td>'.$final['php'].'</td>';
+
+        $output.= '<tr class="even:bg-gray-50">';
+        $output.= '<td class="title">'.lang('verify_php').'</td>';
+        $output.= '<td>'.$php['required'].'</td>';
+        $output.= '<td>'.$php['actual'].'</td>';
+        $output.= '<td align="center">'.$php['message'].'</td>';
         $output.= '</tr>';
-        $output.= '<tr>';
-        $output.= '<td>'.lang('verify_db').'</td>';
-        $output.= '<td>'.implode(', ', $specs['db']['req']).'</td>';
-        $output.= '<td>'.$specs['db']['act'].'</td>';
-        $output.= '<td>'.$final['db'].'</td>';
+
+        $output.= '<tr class="even:bg-gray-50">';
+        $output.= '<td class="title">'.lang('verify_db_driver').'</td>';
+        $output.= '<td>'.$dbDriver['required'].'</td>';
+        $output.= '<td>'.$dbDriver['actual'].'</td>';
+        $output.= '<td align="center">'.$dbDriver['message'].'</td>';
         $output.= '</tr>';
-        $output.= '<tr>';
-        $output.= '<td>'.lang('verify_db_ver').'</td>';
-        $output.= '<td>'.implode(', ', $specs['dbver']['req']).'</td>';
-        $output.= '<td>'.$specs['dbver']['act'].'</td>';
-        $output.= '<td>'.$final['dbver'].'</td>';
+
+        $output.= '<tr class="even:bg-gray-50">';
+        $output.= '<td class="title">'.lang('verify_db').'</td>';
+        $output.= '<td>'.implode(' / ', $dbPlatform['required']).'</td>';
+        $output.= '<td>'.$dbPlatform['actual'].'</td>';
+        $output.= '<td align="center">'.$dbPlatform['message'].'</td>';
         $output.= '</tr>';
-        $output.= '<tr>';
-        $output.= '<td>'.lang('verify_regglobals').'</td>';
-        $output.= '<td>'.$specs['regglobals']['req'].'</td>';
-        $output.= '<td>'.$specs['regglobals']['act'].'</td>';
-        $output.= '<td>'.$final['regglobals'].'</td>';
+
+        $output.= '<tr class="even:bg-gray-50">';
+        $output.= '<td class="title">'.lang('verify_db_ver').'</td>';
+        $output.= '<td>'.$dbVersion['required'].'</td>';
+        $output.= '<td>'.$dbVersion['actual'].'</td>';
+        $output.= '<td align="center">'.$dbVersion['message'].'</td>';
         $output.= '</tr>';
-        $output.= '<tr>';
-        $output.= '<td>'.lang('verify_mem').'</td>';
-        $output.= '<td>'.$specs['mem']['req'].'</td>';
-        $output.= '<td>'.$specs['mem']['act'].'</td>';
-        $output.= '<td>'.$final['mem'].'</td>';
+
+        $output.= '<tr class="even:bg-gray-50">';
+        $output.= '<td class="title">'.lang('verify_regglobals').'</td>';
+        $output.= '<td>'.$registerGlobals['required'].'</td>';
+        $output.= '<td>'.$registerGlobals['actual'].'</td>';
+        $output.= '<td align="center">'.$registerGlobals['message'].'</td>';
         $output.= '</tr>';
-        $output.= '<tr>';
-        $output.= '<td>'.lang('verify_file').'</td>';
-        $output.= '<td>'.$specs['file']['req'].'</td>';
-        $output.= '<td>'.$specs['file']['act'].'</td>';
-        $output.= '<td>'.$final['file'].'</td>';
+
+        $output.= '<tr class="even:bg-gray-50">';
+        $output.= '<td class="title">'.lang('verify_mem').'</td>';
+        $output.= '<td>'.$memoryLimit['required'].'</td>';
+        $output.= '<td>'.$memoryLimit['actual'].'</td>';
+        $output.= '<td align="center">'.$memoryLimit['message'].'</td>';
+        $output.= '</tr>';
+
+        $output.= '<tr class="even:bg-gray-50">';
+        $output.= '<td class="title">'.lang('verify_file').'</td>';
+        $output.= '<td>'.$fileHandling['required'].'</td>';
+        $output.= '<td>'.$fileHandling['actual'].'</td>';
+        $output.= '<td align="center">'.$fileHandling['message'].'</td>';
         $output.= '</tr>';
         $output.= '</tbody>';
-        $output.= '</table><br />';
+        $output.= '</table>';
 
         return $output;
     }
