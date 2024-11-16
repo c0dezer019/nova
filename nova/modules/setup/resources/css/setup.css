@@ -1,0 +1,69 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.btn-main {
+    @apply inline-flex items-center justify-center rounded-full bg-gray-950 hover:bg-gray-800 text-white font-semibold font-sans py-1.5 px-4 tracking-tight text-sm/6 transition;
+}
+.btn-sec {
+    @apply inline-flex items-center justify-center rounded-full bg-gray-950/5 hover:bg-gray-950/10 text-gray-700 font-semibold font-sans py-1.5 px-4 tracking-tight text-sm/6 transition;
+}
+.btn-danger {
+    @apply inline-flex items-center justify-center rounded-full bg-danger-500 hover:bg-danger-400 text-white font-semibold font-sans py-1.5 px-4 tracking-tight text-sm/6 transition;
+}
+.btn-danger-soft {
+    @apply inline-flex items-center justify-center rounded-full bg-danger-100 hover:bg-danger-200 text-danger-700 font-semibold font-sans py-1.5 px-4 tracking-tight text-sm/6 transition;
+}
+
+[data-slot=warning] .btn-sec {
+    @apply bg-warning-950/5 hover:bg-warning-950/10 text-warning-700;
+}
+
+table {
+    @apply w-full relative mt-8;
+}
+thead {
+    @apply border-b border-gray-300;
+}
+th, td {
+    @apply py-4 px-3 text-left text-sm/6;
+}
+th {
+    @apply font-semibold text-gray-950;
+}
+td.title {
+    @apply text-gray-900 font-medium;
+}
+tr.alt {
+    @apply bg-gray-50;
+}
+
+.success {
+    @apply text-success-500 font-medium;
+}
+.danger {
+    @apply text-danger-500 font-medium;
+}
+.warning {
+    @apply text-warning-500 font-medium;
+}
+
+form {
+    @apply max-w-md;
+}
+
+form > div + div {
+    @apply mt-6;
+}
+
+form label {
+    @apply block text-sm/6 font-medium text-gray-900 mb-2;
+}
+form [data-slot=help] {
+    @apply block text-sm/6 text-gray-500 mt-1;
+}
+
+form input[type=text],
+form input[type=password] {
+    @apply block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm/6;
+}

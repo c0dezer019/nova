@@ -1,37 +1,21 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
+<div class="space-y-8">
+	<div class="flex items-start justify-between">
+		<div class="prose">
+			<h3>Backup your site</h3>
+			<p>Before beginning, you should ensure you have a recent backup of your site. While we don't anticipate there being any problems with the update, sometimes issues happen. Having a recent backup allows you to restore your site to its previous state in the event anything happens.</p>
+		</div>
+		<div class="ml-6 flex shrink-0 items-center">
+			<a href="https://anodyne-productions.com/docs/2.7/resources/backing-up-nova" target="_blank" class="btn-sec">Learn more</a>
+		</div>
+	</div>
 
-<?php echo text_output($label['intro'], 'p', 'fontMedium');?>
-
-<?php if ($this->uri->segment(3) == 'full'): ?>
-	<?php echo text_output($label['firststeps'], 'h2', 'page-subhead');?>
-
-	<ul id="options" class="fontLarge none">
-		<li>
-			<a href="<?php echo site_url('update/readme');?>">
-				<?php echo $label['options_readme'];?>
-			</a>
-		</li>
-		<li>
-			<a href="<?php echo site_url('update/verify');?>">
-				<?php echo $label['options_verify'];?>
-			</a>
-		</li>
-		<li>
-			<a href="https://help.anodyne-productions.com/article/nova-2/update" target="_blank">
-				<?php echo $label['options_guide'];?>
-			</a>
-		</li>
-	</ul>
-
-	<?php if ($installed === TRUE): ?>
-		<?php echo text_output($label['whatsnext'], 'h2', 'page-subhead');?>
-
-		<ul class="fontLarge none">
-			<li>
-				<a href="<?php echo site_url('update/check');?>" id="install">
-					<?php echo $label['options_check'];?>
-				</a>
-			</li>
-		</ul>
-	<?php endif;?>
-<?php endif;?>
+	<div class="flex items-start justify-between">
+		<div class="prose">
+			<h3>Verify server requirements</h3>
+			<p>To start, we'll verify that your server meets Nova's requirements and can run this latest version.</p>
+		</div>
+		<div class="ml-6 flex shrink-0 items-center">
+			<a href="<?php echo site_url('update/verify');?>" class="btn-main">Verify server &rarr;</a>
+		</div>
+	</div>
+</div>

@@ -1,15 +1,19 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 
-<?php echo text_output($label['text'], 'p', 'fontMedium');?>
+<?php echo text_output($label['text'], 'p');?>
 
-<hr />
-
-<?php echo form_open('update/check');?>
-	<p>
-		<kbd><?php echo $label['email'];?></kbd>
+<?php echo form_open('update/check', ['class' => 'mt-8']);?>
+	<div>
+		<label><?php echo $label['email'];?></label>
 		<?php echo form_input($inputs['email']);?>
-	</p>
-	<p>
-		<kbd><?php echo $label['password'];?></kbd>
+	</div>
+
+	<div>
+		<label><?php echo $label['password'];?></label>
 		<?php echo form_password($inputs['password']);?>
-	</p>
+	</div>
+
+	<div>
+		<?php echo form_button($inputs['submit']);?>
+	</div>
+<?php echo form_close();?>

@@ -2,19 +2,33 @@
     exit('No direct script access allowed');
 }?>
 
-<?php if ($label['notes'] > ''): ?>
-	<?php echo text_output($label['whatsnew'], 'h2');?>
-	<?php echo text_output($label['notes'], 'p', 'fontMedium');?>
-<?php endif;?>
+<div class="space-y-8">
+	<?php if (filled($update['notes'])): ?>
+		<div class="bg-info-50 rounded-lg" data-slot="info">
+			<div class="p-6 prose prose-a:no-underline prose-h3:text-info-800 prose-p:text-info-700 max-w-none">
+				<h3>What's new in this release?</h3>
+				<p><?php echo $update['notes'];?></p>
+			</div>
+		</div>
+	<?php endif;?>
 
-<hr />
+	<div class="flex items-start justify-between">
+		<div class="prose">
+			<h3>Get the new files</h3>
+			<p>The first thing you'll need to do is download the new Nova files from the Anodyne site (make sure that you download the same genre as you have installed). Once you've downloaded the files, follow the directions in the <a href="https://anodyne-productions.com/docs/2.7/update-guide" target="_blank" class="underline text-gray-600 hover:text-gray-950">update guide</a>.</p>
+		</div>
+		<div class="ml-6 flex shrink-0 items-center">
+			<a href="<?php echo $update['link'];?>" class="btn-sec">Get the files</a>
+		</div>
+	</div>
 
-<a href="<?php echo $label['files_go'];?>" class="install-options">
-	<span><?php echo $label['files'];?></span>
-	<em><?php echo $label['files_text'];?></em>
-</a>
-
-<a href="<?php echo site_url('update/run');?>" id="next" class="install-options">
-	<span><?php echo $label['start'];?></span>
-	<em><?php echo $label['start_text'];?></em>
-</a>
+	<div class="flex items-start justify-between">
+		<div class="prose">
+			<h3>Already have the new files?</h3>
+			<p>If you've already downloaded the files and uploaded them to your server, but just need to update your database, you can start the update process now.</p>
+		</div>
+		<div class="ml-6 flex shrink-0 items-center">
+			<a href="<?php echo site_url('update/run');?>" id="next" class="btn-main">Update Nova now &rarr;</a>
+		</div>
+	</div>
+</div>

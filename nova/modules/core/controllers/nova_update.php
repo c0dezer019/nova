@@ -31,7 +31,7 @@ abstract class Nova_update extends CI_Controller
     /**
      * @var	array 	Variable to store all the information about template regions
      */
-    protected $_regions = array();
+    protected $_regions = [];
 
     public function __construct()
     {
@@ -57,15 +57,15 @@ abstract class Nova_update extends CI_Controller
         $this->version = APP_VERSION_MAJOR.'.'.APP_VERSION_MINOR.'.'.APP_VERSION_UPDATE;
 
         // an array of items to pull from the settings table
-        $settings_array = array(
+        $settingsArr = [
             'sim_name',
             'date_format',
             'updates',
             'maintenance'
-        );
+        ];
 
         // grab the settings
-        $this->options = $this->settings->get_settings($settings_array);
+        $this->options = $this->settings->get_settings($settingsArr);
 
         // check if nova is installed
         $this->installed = $this->sys->check_install_status();
@@ -77,60 +77,37 @@ abstract class Nova_update extends CI_Controller
         Template::$data['module'] = 'core';
 
         // assign all of the items to the template with false values to prevent errors
-        $this->_regions = array(
-            'label'			=> false,
-            'content'		=> false,
-            'controls'		=> false,
-            'javascript'	=> false,
-            'flash_message'	=> false,
-            '_redirect'		=> false,
-            'title'			=> APP_NAME.' :: ',
-        );
+        $this->_regions = [
+            'label' => false,
+            'content' => false,
+            'controls' => false,
+            'javascript' => false,
+            'flash_message' => false,
+            '_redirect' => false,
+            'title' => APP_NAME.' Setup Center :: ',
+            'lowerWarning' => false,
+            'lowerDanger' => false,
+        ];
+
+        Auth::is_logged_in(true);
+
+        $systemAdmin = Auth::is_sysadmin($this->session->userdata('userid'));
+
+        if (! $systemAdmin) {
+            show_error('You are not a system administrator and cannot update Nova.', 500, 'Access denied');
+        }
     }
 
     public function index()
     {
-        $code = 0;
+        $this->_regions['content'] = Location::view('update_index', '_base', 'update', []);
 
-        // check for errors
-        $code = (! $this->installed) ? 1 : $code;
-        $code = ($this->options['maintenance'] == 'off') ? 2 : $code;
-
-        if ($code > 0) {
-            $flash['status'] = ($code == 1) ? 'error' : 'info';
-            $flash['message'] = lang('upd_error_'.$code);
-
-            $this->_regions['flash_message'] = Location::view('flash', '_base', 'update', $flash);
+        if ($this->options['maintenance'] == 'off') {
+            $this->_regions['lowerWarning'] = 'Maintenance mode is currently turned off. Before beginning to update Nova to a newer version, we recommend turning maintenance mode on from <a href="'.site_url('site/settings').'" class="underline text-warning-800 hover:text-warning-950 font-medium">site settings</a>.';
         }
 
-        $data['installed'] = $this->installed;
-
-        $data['label'] = array(
-            'options_check' => lang('upd_index_options_update'),
-            'options_readme' => lang('upd_index_options_readme'),
-            'options_tour' => lang('upd_index_options_tour'),
-            'options_update' => lang('upd_index_options_update'),
-            'options_verify' => lang('upd_index_options_verify'),
-            'options_guide' => lang('upd_index_options_upd_guide'),
-            'firststeps' => lang('upd_index_options_firststeps'),
-            'whatsnext' => lang('upd_index_options_whatsnext'),
-            'intro' => lang('global_content_index'),
-            'header' => lang('upd_index_header'),
-        );
-
-        $next = array(
-            'name' => 'next',
-            'type' => 'submit',
-            'class' => 'btn-main',
-            'id' => 'next',
-            'content' => lang('button_verify'),
-        );
-
-        $this->_regions['content'] = Location::view('update_index', '_base', 'update', $data);
-        $this->_regions['javascript'] = Location::js('update_index_js', '_base', 'update');
         $this->_regions['title'].= lang('upd_index_title');
         $this->_regions['label'] = lang('upd_index_title');
-        $this->_regions['controls'] = form_open('update/verify').form_button($next).form_close();
 
         Template::assign($this->_regions);
 
@@ -139,176 +116,21 @@ abstract class Nova_update extends CI_Controller
 
     public function check()
     {
-        if (isset($_POST['submit'])) {
-            $email = $this->input->post('email', true);
-            $password = $this->input->post('password', true);
+        $update = $this->_check_version();
 
-            $verify = Auth::verify($email, $password);
-
-            $user = $this->sys->get_item('users', 'email', $email, 'userid');
-
-            $sysadmin = Auth::is_sysadmin($user);
-
-            if ($verify == 0 and $sysadmin) {
-                $update = $this->_check_version();
-
-                if ($update['flash']['message'] != '') {
-                    $flash = $update['flash'];
-                    $data['link'] = false;
-                } else {
-                    $flash['status'] = 'info';
-                    $flash['message'] = sprintf(
-                        lang('update_text_no_updates'),
-                        APP_NAME
-                    );
-                    $data['link'] = text_output(anchor('update/index', lang('button_back_update')), 'p', 'fontMedium bold');
-                }
-
-                $data['label'] = array(
-                    'whatsnew' => lang('upd_header_whatsnew'),
-                    'notes' => (is_array($update['update'])) ? $update['update']['notes'] : '',
-                    'files' => lang('upd_check_header_files'),
-                    'files_text' => lang('upd_check_text_files'),
-                    'files_go' => $update['update']['link'],
-                    'start' => lang('upd_check_header_start'),
-                    'start_text' => lang('upd_check_text_start'),
-                    'start_go' => anchor('update/run', lang('upd_check_go_start'), array('id' => 'next')),
-                );
-
-                // the view files
-                $view_loc = 'update_check_main';
-                $js_loc = 'update_check_js';
-            } else {
-                $flash['status'] = 'error';
-
-                if (! $sysadmin) {
-                    $flash['message'] = lang('error_update_2');
-                }
-
-                if ($verify > 0) {
-                    $flash['message'] = lang('error_login_'. $verify);
-                }
-
-                $data['inputs'] = array(
-                    'email' => array(
-                        'name' => 'email',
-                        'id' => 'email'),
-                    'password' => array(
-                        'name' => 'password',
-                        'id' => 'password'),
-                    'submit' => array(
-                        'type' => 'submit',
-                        'class' => 'btn-main',
-                        'name' => 'submit',
-                        'value' => 'submit',
-                        'content' => ucwords(lang('button_submit'))
-                    )
-                );
-
-                $data['label'] = array(
-                    'email' => ucwords(lang('global_email')),
-                    'password' => ucwords(lang('global_password')),
-                    'text' => sprintf(
-                        lang('global_content_sysadmin'),
-                        lang('global_update'),
-                        lang('global_update')
-                    ),
-                );
-
-                // the views
-                $view_loc = 'update_check';
-                $js_loc = 'update_check_js';
-
-                $this->_regions['controls'] = form_button($data['inputs']['submit']).form_close();
-            }
-
-            $this->_regions['flash_message'] = Location::view('flash', '_base', 'update', $flash);
-        } else {
-            $data['inputs'] = array(
-                'email' => array(
-                    'name' => 'email',
-                    'id' => 'email'),
-                'password' => array(
-                    'name' => 'password',
-                    'id' => 'password'),
-                'submit' => array(
-                    'type' => 'submit',
-                    'class' => 'btn-main',
-                    'name' => 'submit',
-                    'value' => 'submit',
-                    'content' => ucwords(lang('button_submit'))
-                )
+        if (is_null($update['update']['version'])) {
+            $this->_regions['lowerWarning'] = sprintf(
+                lang('update_text_no_updates'),
+                APP_NAME
             );
-
-            $data['label'] = array(
-                'email' => ucwords(lang('global_email')),
-                'password' => ucwords(lang('global_password')),
-                'text' => sprintf(
-                    lang('global_content_sysadmin'),
-                    lang('global_update'),
-                    lang('global_update')
-                ),
-            );
-
-            // the views
-            $view_loc = 'update_check';
-            $js_loc = 'update_check_js';
-
-            $this->_regions['controls'] = form_button($data['inputs']['submit']).form_close();
         }
 
-        $this->_regions['content'] = Location::view($view_loc, '_base', 'update', $data);
-        $this->_regions['javascript'] = Location::js($js_loc, '_base', 'update');
+        $this->_regions['content'] = Location::view('update_check_main', '_base', 'update', [
+            'update' => $update['update'],
+        ]);
+        $this->_regions['javascript'] = Location::js('update_check_js', '_base', 'update');
         $this->_regions['title'].= lang('upd_index_title');
         $this->_regions['label'] = lang('upd_index_title');
-
-        Template::assign($this->_regions);
-
-        Template::render();
-    }
-
-    public function error($id = 0)
-    {
-        /**
-         * 0 - no error
-         * 1 - nova is not installed
-         * 2 - maintenance mode is not active
-         * 3 - you are not a system admin, make sure you're logged in
-         */
-
-        $label = array(
-            'error_1' => lang('upd_error_1'),
-            'error_2' => lang('upd_error_2'),
-            'error_3' => lang('upd_error_3'),
-        );
-
-        $flash['status'] = 'error';
-        $flash['message'] = $label['error_'.$id];
-
-        $next = array(
-            'name' => 'next',
-            'type' => 'submit',
-            'class' => 'btn-main',
-            'id' => 'next',
-            'content' => lang('button_update'),
-        );
-
-        $this->_regions['content'] = Location::view('update_error', '_base', 'update', false);
-        $this->_regions['flash_message'] = Location::view('flash', '_base', 'update', $flash);
-        $this->_regions['controls'] = form_open('update/index').form_button($next).form_close();
-        $this->_regions['title'].= lang('upd_error_title');
-        $this->_regions['label'] = lang('upd_error_title');
-
-        Template::assign($this->_regions);
-
-        Template::render();
-    }
-
-    public function readme()
-    {
-        $this->_regions['content'] = Location::view('readme', '_base', 'install', 'foo');
-        $this->_regions['title'].= APP_NAME.' '.lang('global_readme_title');
-        $this->_regions['label'] = APP_NAME.' '.lang('global_readme_title');
 
         Template::assign($this->_regions);
 
@@ -327,13 +149,15 @@ abstract class Nova_update extends CI_Controller
 
         $version = $item->sys_version_major.$item->sys_version_minor.$item->sys_version_update;
 
+        $formattedVersion = sprintf('%d.%d.%d', $item->sys_version_major, $item->sys_version_minor, $item->sys_version_update);
+
         $dir = directory_map(MODFOLDER.'/assets/update');
 
         if (is_array($dir)) {
             sort($dir);
 
             foreach ($dir as $key => $value) {
-                if ($value == 'index.html' or $value == 'versions.php') {
+                if ($value == 'index.html' || $value == 'versions.php') {
                     unset($dir[$key]);
                 } else {
                     $file = substr($value, 7, -4);
@@ -368,7 +192,7 @@ abstract class Nova_update extends CI_Controller
         // update the system info table
         $this->sys->update_system_info();
 
-        $this->_register();
+        $this->_register($formattedVersion);
 
         $data['label'] = [
             'text' => sprintf(lang('upd_step2_success'), APP_VERSION),
@@ -383,7 +207,7 @@ abstract class Nova_update extends CI_Controller
             'content' => lang('upd_step2_site'),
         ];
 
-        $this->_regions['content'] = Location::view('update_step_2', '_base', 'update', $data);
+        $this->_regions['content'] = Location::view('update_step', '_base', 'update', $data);
         $this->_regions['javascript'] = Location::js('update_step_2_js', '_base', 'update');
         $this->_regions['controls'] = form_open('main/index').form_button($next).form_close();
         $this->_regions['title'].= lang('upd_step2_title');
@@ -394,167 +218,28 @@ abstract class Nova_update extends CI_Controller
         Template::render();
     }
 
-    public function step($step = 1)
-    {
-        // sanity check
-        $step = (is_numeric($step)) ? $step : 1;
-
-        $this->load->dbforge();
-
-        switch ($step) {
-            case 1:
-                ini_set('memory_limit', -1);
-
-                $this->load->helper('utility');
-
-                // check the database size and the server memory limit
-                $db_size = file_size($this->sys->get_database_size());
-                $memory = check_memory($db_size);
-
-                if ($memory) {
-                    $today = getdate();
-
-                    $filename = $this->db->dbprefix.$today['year'].$today['mon'].$today['mday'];
-
-                    $backup = backup_database($this->db->dbprefix, 'save', $filename);
-
-                    if ($backup) {
-                        if (is_file(APPPATH.'assets/backups/'.$filename.'.zip')) {
-                            $message = lang('upd_step1_success');
-                        } else {
-                            $message = lang('upd_step1_failure');
-                        }
-                    } else {
-                        $message = lang('upd_step1_nofields');
-                        $data['next']['disabled'] = true;
-                    }
-                } else {
-                    $message = lang('upd_step1_memory');
-                }
-
-                $data['label']['text'] = $message;
-
-                $next = array(
-                    'name' => 'next',
-                    'type' => 'submit',
-                    'class' => 'btn-main',
-                    'id' => 'next',
-                    'content' => lang('button_next'),
-                );
-
-                $this->_regions['content'] = Location::view('update_step_1', '_base', 'update', $data);
-                $this->_regions['javascript'] = Location::js('update_step_1_js', '_base', 'update');
-                $this->_regions['controls'] = form_open('update/step/2').form_button($next).form_close();
-                $this->_regions['title'].= lang('upd_step1_title');
-                $this->_regions['label'] = lang('upd_step1_title');
-                break;
-
-            case 2:
-                $this->load->helper('directory');
-
-                $item = $this->sys->get_item('system_info', 'sys_id', 1);
-
-                $version = $item->sys_version_major.$item->sys_version_minor.$item->sys_version_update;
-
-                $dir = directory_map(MODFOLDER.'/assets/update');
-
-                if (is_array($dir)) {
-                    sort($dir);
-
-                    foreach ($dir as $key => $value) {
-                        if ($value == 'index.html' or $value == 'versions.php') {
-                            unset($dir[$key]);
-                        } else {
-                            $file = substr($value, 7, -4);
-
-                            if ($file < $version) {
-                                unset($dir[$key]);
-                            }
-                        }
-                    }
-
-                    foreach ($dir as $d) {
-                        include_once(MODPATH.'assets/update/'.$d);
-
-                        sleep(1);
-                    }
-                } else {
-                    include_once(MODPATH.'assets/update/versions.php');
-
-                    foreach ($version_array as $k => $v) {
-                        if ($v < $version) {
-                            unset($version_array[$k]);
-                        }
-                    }
-
-                    foreach ($version_array as $value) {
-                        include_once(MODPATH.'assets/update/update_' .$value.'.php');
-
-                        sleep(1);
-                    }
-                }
-
-                // update the system info table
-                $this->sys->update_system_info();
-
-                $this->_register();
-
-                // update the users to be first launch
-                $this->load->model('users_model', 'user');
-                $users = array('is_firstlaunch' => 'y');
-                $this->user->update_all_users($users, '');
-
-                $data['label'] = array(
-                    'text' => sprintf(
-                        lang('upd_step2_success'),
-                        APP_VERSION
-                    ),
-                    'back' => lang('upd_step2_site')
-                );
-
-                $next = array(
-                    'name' => 'next',
-                    'type' => 'submit',
-                    'class' => 'btn-main',
-                    'id' => 'next',
-                    'content' => lang('upd_step2_site'),
-                );
-
-                $this->_regions['content'] = Location::view('update_step_2', '_base', 'update', $data);
-                $this->_regions['javascript'] = Location::js('update_step_2_js', '_base', 'update');
-                $this->_regions['controls'] = form_open('main/index').form_button($next).form_close();
-                $this->_regions['title'].= lang('upd_step2_title');
-                $this->_regions['label'] = lang('upd_step2_title');
-                break;
-        }
-
-        Template::assign($this->_regions);
-
-        Template::render();
-    }
-
     public function verify()
     {
         $this->load->helper('utility');
 
-        $data['table'] = verify_server();
+        $verify = verify_server();
+        $hasFailures = $verify['verify']['failures'] > 0;
+        $hasWarnings = $verify['verify']['warnings'] > 0;
 
-        $data['label'] = array(
-            'back' => lang('upd_verify_back'),
-            'text' => lang('verify_text')
-        );
+        $this->_regions['content'] = Location::view('update_verify', '_base', 'update', [
+            'hasFailures' => $hasFailures,
+            'hasWarnings' => $hasWarnings,
+            'table' => show_server_verification_table($verify),
+        ]);
 
-        $button = array(
-            'name' => 'install',
-            'type' => 'submit',
-            'id' => 'install',
-            'class' => 'btn-main',
-            'content' => lang('button_begin_update'),
-        );
+        if ($hasFailures) {
+            $this->_regions['lowerDanger'] = "While checking your server against Nova's requirements, we found that your server cannot run this version of Nova. Please address any failed items with your web host and try again.";
+        }
 
-        $this->_regions['content'] = Location::view('update_verify', '_base', 'update', $data);
-        $this->_regions['javascript'] = Location::js('verify_js', '_base', 'update');
-        $this->_regions['controls'] = form_open('update/check').form_button($button).form_close();
+        if (! $hasFailures && $hasWarnings) {
+            $this->_regions['lowerWarning'] = "While checking your server against Nova's requirements, we found some potential issues. These won't necessarily be a problem, but you should review before continuing with the update.";
+        }
+
         $this->_regions['title'].= lang('verify_title');
         $this->_regions['label'] = lang('verify_title');
 
@@ -572,7 +257,7 @@ abstract class Nova_update extends CI_Controller
 
             $upstream = $http->get(LATEST_VERSION_URL)->json();
 
-            $this->cache->save('nova-version-check', $upstream, 86400);
+            $this->cache->save('nova-version-check', $upstream, 86_400);
         }
 
         [
@@ -683,11 +368,11 @@ abstract class Nova_update extends CI_Controller
         ];
     }
 
-    private function _register()
+    private function _register($previousVersion = null)
     {
         $http = new \Illuminate\Http\Client\Factory();
 
-        $response = $http->post(REGISTER_URL, Util::fullHeartbeat());
+        $response = $http->post(REGISTER_URL, Util::fullHeartbeat($previousVersion));
 
         $this->sys->update_anodyne_game_id($response->json('game_id'));
     }

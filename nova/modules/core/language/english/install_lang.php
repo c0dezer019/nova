@@ -13,9 +13,9 @@ $lang['global_progress'] = 'Progress';
 $lang['global_processing'] = 'Processing, please wait...';
 $lang['global_upgrading'] = "Upgrading%s, please wait...";
 
-$lang['global_content_index'] = "In 2005, Anodyne Productions opened its doors with a simple belief: web software can be both elegant and powerful while still being easy to use.  That principle has guided Anodyne since then and Nova is no exception. Over two years in the making, Nova represents the next evolution in RPG management software with a clean interface, powerful system engine, more robust developer tools and tons of new features that'll make life running or enjoying an RPG better than ever.\r\n\r\nTo get started, first verify your server can run Nova by using the button before or you can select another option from the More Options menu at the top.  From everyone at Anodyne Productions, thank you for choosing Nova as your RPG management tool!";
+$lang['global_content_index'] = "In 2005, Anodyne Productions opened its doors with a simple belief: web software can be both elegant and powerful while still being easy to use. That principle has guided Anodyne since then and Nova is no exception. Nova represents an evolution in RPG management software with a clean interface, powerful system engine, robust developer tools, and tons of new features that'll make life running or enjoying an RPG better than ever.\r\n\r\nTo get started, first verify your server can run Nova.\r\n\r\nFrom everyone at Anodyne Productions, thank you for choosing Nova as your RPG management tool!";
 
-$lang['global_content_sysadmin'] = "Only system administrators can %s the system. In order to continue with the %s, you must verify you are a system administrator. Please provide your email address and password and click Submit.";
+$lang['global_content_sysadmin'] = "Only system administrators can %s the system. In order to continue with the %s, you must verify you are a system administrator with your email and password.";
 
 $lang['button_submit']			= 'Submit';
 $lang['button_begin']			= 'Begin Upgrade';
@@ -32,8 +32,8 @@ $lang['button_update']			= 'Update Center';
 $lang['button_upgrade']			= 'Upgrade Center';
 $lang['button_retest']			= 'Re-Test';
 $lang['button_begin_install']	= 'Begin Installation';
-$lang['button_begin_update']	= 'Begin Update';
-$lang['button_verify']			= 'Verify Server';
+$lang['button_begin_update']	= 'Begin update &rarr;';
+$lang['button_verify']			= 'Verify server &rarr;';
 
 $lang['global_email']			= 'Email Address';
 $lang['global_genre']			= 'Genre';
@@ -54,15 +54,15 @@ $lang['global_back_site']		= 'Back to Site';
 /**
  * Setup config
  */
-$lang['setup.title.config'] = "Config File Setup";
+$lang['setup.title.config'] = "Connect to your database";
 
-$lang['setup.text.no_config'] = "Sorry, I need the <code>%s</code> file to work from. Please re-upload the file from the Nova zip archive and try again.";
-$lang['setup.text.config_exists'] = "The database connection file already exists in the <code>%s</code> directory. If you need to change any of the items in this file, you can either manually edit the file or delete it and start over again.";
-$lang['setup.text.php'] = "Your server is running PHP version %s but Nova requires at least PHP 5.1.";
-$lang['setup.text.nodb'] = "Sorry, I need to have the MySQL extension loaded in order to continue with Nova's installation.";
+$lang['setup.text.no_config'] = 'Sorry, I need the <code class="font-semibold text-sm/6">%s</code> file to work from. Please re-upload the file from the Nova zip archive and try again.';
+$lang['setup.text.config_exists'] = 'The database connection file already exists in the <code class="font-semibold text-sm/6">%s</code> directory. If you need to change any of the items in this file, you can either manually edit the file or delete it and start over again.';
+$lang['setup.text.php'] = "Your server is running PHP version %s, but Nova requires at least PHP 7.4.";
+$lang['setup.text.nodb'] = "It looks like the necessary PHP extension(s) for interacting with your database are not enabled on your server. Please contact your web host and ensure the MySQL extension is available then try again.";
 $lang['setup.text.connection'] = "Enter your database connection details below. If you're not sure about these, contact your web host.";
 
-$lang['setup.text.step0'] = "<p class='fontMedium'>Welcome to Nova! Before getting started, I need some information about the database. You'll need to have the following items handy before proceeding:</p><ol><li>The database name</li><li>The database username</li><li>The database password</li><li>The database host</li><li>The table prefix you want to use</li></ol><p>In all likelihood, these items were supplied to you by your web host. If you do not have this information, then you will need to contact them before you can continue.</p><p class='fontMedium'><strong>If for any reason this automatic file creation doesn't work, don't worry. All this does is fill in the database information to a configuration file. You can also open <code>%s</code>, copy its contents and paste them into a new file called <code>database.php</code> in the <code>%s</code> directory if you'd rather not use this wizard.</strong></p>";
+$lang['setup.text.step0'] = "<p>Before getting started, we need some information about the database that Nova will use. You'll need to have the following items available before proceeding:</p><ul><li>The database name</li><li>The database username</li><li>The database password</li><li>The database host</li><li>The table prefix you want to use</li></ul><p>These items would have been supplied to you by your web host when you signed up. If you don't this information, you'll need to contact your web host before you can continue.</p><p><strong>If for any reason this automatic file creation doesn't work, don't worry. All this does is fill in the database information to a configuration file. You can also open <code>%s</code>, copy its contents and paste them into a new file called <code>database.php</code> in the <code>%s</code> directory if you'd rather not use this wizard.</strong></p>";
 
 $lang['setup.text.step2success'] = "Alright sparky! I was able to connect to the database successfully, so now it's time to write the database connection file. If you're ready, click the button below...";
 $lang['setup.text.step2nohost'] = "I couldn't find the database host you provided for your database connection file. Most of the time, web hosts use <strong>localhost</strong>, but in some instances, they set up their servers differently. Check with your web host about the proper database host to use and try again.";
@@ -244,6 +244,7 @@ $lang['verify_result'] = 'Result';
 
 $lang['verify_php'] = 'PHP';
 $lang['verify_db'] = 'Database Platform';
+$lang['verify_db_driver'] = 'Database Driver';
 $lang['verify_db_ver'] = 'Database Version';
 $lang['verify_mem'] = 'Memory Limit';
 $lang['verify_regglobals'] = 'Register Globals';
@@ -253,7 +254,11 @@ $lang['verify_success'] = '<span class="bold green">Success</span>';
 $lang['verify_failure'] = '<span class="bold red">Failed</span>';
 $lang['verify_warning'] = '<span class="bold orange">Warning</span>';
 
-$lang['verify_title'] = 'Verify Server Requirements';
+$lang['verify_success_icon'] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-success-500"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>';
+$lang['verify_failure_icon'] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-danger-500"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>';
+$lang['verify_warning_icon'] = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-warning-500"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" /></svg>';
+
+$lang['verify_title'] = 'Verify server requirements';
 $lang['verify_text'] = 'Below are the results of the server verification test. If any of the items have <span class="bold red">failed</span>, Nova won\'t install properly (or at all). If there are any <span class="bold orange">warnings</span> listed, you should talk to your host about getting those items updated, but you\'ll still be able to install and use Nova despite the warnings.';
 
 /*
@@ -272,7 +277,7 @@ $lang['update_read_guide'] = 'Read the update guide';
 /*
  * Index
  */
-$lang['upd_index_title'] = 'Update Center';
+$lang['upd_index_title'] = 'Update Nova';
 $lang['upd_index_header'] = 'Welcome to Nova!';
 $lang['upd_index_options_update'] = 'Check for updates to Nova';
 $lang['upd_index_options_verify'] = 'Verify my server can run Nova';
@@ -287,7 +292,7 @@ $lang['upd_index_options_whatsnext'] = "What's Next?";
  */
 $lang['upd_header_releasenotes'] = 'Release Notes';
 $lang['upd_header_whatsnew'] = "What's New in This Release?";
-$lang['update_text_no_updates'] = 'No updates are available for %s right now.';
+$lang['update_text_no_updates'] = "There are no updates are available for %s at this time. If you believe you've received this message in error, you can still attempt to run the update.";
 
 $lang['upd_check_header_files'] = "Get the New Files";
 $lang['upd_check_text_files'] = "The first thing you'll need to do is download the new Nova files. You can download the files from the Anodyne site. Once you've downloaded the files, follow the directions in the README for updating to the latest version of Nova.";
@@ -318,9 +323,9 @@ $lang['upd_step1_memory'] = "Your server doesn't have enough available memory to
 /*
  * Step 2
  */
-$lang['upd_step2_title'] = 'Update Nova';
+$lang['upd_step2_title'] = 'Nova Updated';
 $lang['upd_step2_success'] = 'You have successfully updated Nova to version %s. You can continue using Nova as normal now. Remember to turn maintenance mode off from the Site Settings page so the rest of your users can use the site.';
-$lang['upd_step2_site'] = 'Back to Site';
+$lang['upd_step2_site'] = 'Back to site &rarr;';
 
 /*
  * Verify
