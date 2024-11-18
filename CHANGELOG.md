@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Refreshed user interface for updates
+- Nova 3 compatibility report now includes the `intl` extension
 
 ### Fixed
 

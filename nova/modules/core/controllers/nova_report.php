@@ -881,6 +881,10 @@ abstract class Nova_report extends Nova_controller_admin
                 'label' => 'Hash PHP extension enabled',
                 'result' => extension_loaded('hash'),
             ],
+            'intl' => [
+                'label' => 'Internationalization PHP extension enabled',
+                'result' => extension_loaded('intl'),
+            ],
             'mbstring' => [
                 'label' => 'Mbstring PHP extension enabled',
                 'result' => extension_loaded('mbstring'),

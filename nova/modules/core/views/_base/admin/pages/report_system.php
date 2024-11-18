@@ -19,7 +19,7 @@
 
 <?php echo text_output('Nova 3 compatibility report', 'h2', 'page-subhead');?>
 
-<p>Below is a report of Nova 3's current requirements and how your current server configuration stands against those requirements. If there's something that doesn't pass, <strong>don't panic</strong>. You can reach out to your web host to discuss the possibility of enabling an extension. This is provided purely for informational purposes.</p>
+<p>Below is a report of Nova 3's current requirements and how your server configuration stands against those requirements. If there's something that doesn't pass, <strong>don't panic</strong>. You can reach out to your web host to discuss the possibility of enabling an extension or updating the version of PHP your site is using. This is provided purely for informational purposes.</p>
 
 <table class="zebra">
 	<tbody>
