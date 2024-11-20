@@ -9,11 +9,6 @@
 		<span><?php echo $label['title_fresh'];?></span>
 		<em><?php echo $label['text_fresh'];?></em>
 	</a>
-
-	<a href="<?php echo site_url('upgrade/index');?>" class="install-options">
-		<span><?php echo $label['title_upg'];?></span>
-		<em><?php echo $label['text_upg'];?></em>
-	</a>
 <?php endif;?>
 
 <?php if ($installed === true): ?>

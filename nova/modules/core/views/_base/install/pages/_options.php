@@ -39,11 +39,6 @@
 				<?php echo lang('install_index_options_install');?>
 			</a>
 		</li>
-		<li>
-			<a href="<?php echo site_url('upgrade/index');?>">
-				<?php echo lang('install_index_options_upgrade');?>
-			</a>
-		</li>
 	<?php endif;?>
 
 	<?php if ($installed === true): ?>

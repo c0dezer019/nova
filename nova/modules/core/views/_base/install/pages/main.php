@@ -51,12 +51,6 @@
 					<?php echo $label['options_install'];?>
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('upgrade/index');?>">
-					<span class="icon ui-icon ui-icon-transferthick-e-w"></span>
-					<?php echo $label['options_upgrade'];?>
-				</a>
-			</li>
 		<?php endif;?>
 
 		<?php if ($installed === true): ?>
