@@ -11,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @copyright	2013 Anodyne Productions
  */
 
-require_once MODPATH.'core/libraries/Nova_controller_admin.php';
+require_once MODPATH . 'core/libraries/Nova_controller_admin.php';
 
 abstract class Nova_manage extends Nova_controller_admin
 {
@@ -144,45 +144,52 @@ abstract class Nova_manage extends Nova_controller_admin
         if ($action == 'add' or $action == 'edit') {
             $item = ($action == 'edit') ? $this->sys->get_item('awards', 'award_id', $award) : false;
 
-            $data['header'] = ucwords(lang('actions_'. $action) .' '. lang('global_award'));
-            $data['header'].= ($action == 'edit') ? ' - '. $item->award_name : '';
+            $data['header'] = ucwords(lang('actions_' . $action) . ' ' . lang('global_award'));
+            $data['header'] .= ($action == 'edit') ? ' - ' . $item->award_name : '';
 
             $data['inputs'] = array(
                 'name' => array(
                     'name' => 'award_name',
-                    'value' => (! $item) ? '' : $item->award_name),
+                    'value' => (!$item) ? '' : $item->award_name
+                ),
                 'order' => array(
                     'name' => 'award_order',
                     'class' => 'small',
-                    'value' => (! $item) ? 99 : $item->award_order),
+                    'value' => (!$item) ? 99 : $item->award_order
+                ),
                 'desc' => array(
                     'name' => 'award_desc',
                     'rows' => 10,
-                    'value' => (! $item) ? '' : $item->award_desc),
+                    'value' => (!$item) ? '' : $item->award_desc
+                ),
                 'images' => array(
                     'name' => 'award_image',
                     'id' => 'images',
-                    'value' => ($action == 'edit') ? $item->award_image : ''),
+                    'value' => ($action == 'edit') ? $item->award_image : ''
+                ),
                 'display_y' => array(
                     'name' => 'award_display',
                     'id' => 'display_y',
                     'value' => 'y',
-                    'checked' => ($item !== false and $item->award_display == 'y') ? true : false),
+                    'checked' => ($item !== false and $item->award_display == 'y') ? true : false
+                ),
                 'display_n' => array(
                     'name' => 'award_display',
                     'id' => 'display_n',
                     'value' => 'n',
-                    'checked' => ($item !== false and $item->award_display == 'n') ? true : false),
-                'cat' => (! $item) ? '' : $item->award_cat,
+                    'checked' => ($item !== false and $item->award_display == 'n') ? true : false
+                ),
+                'cat' => (!$item) ? '' : $item->award_cat,
                 'submit' => array(
                     'type' => 'submit',
                     'class' => 'button-main',
                     'name' => 'submit',
                     'value' => 'submit',
-                    'content' => ucwords(lang('actions_submit'))),
+                    'content' => ucwords(lang('actions_submit'))
+                ),
             );
 
-            if (! $item) {
+            if (!$item) {
                 $data['inputs']['display_y']['checked'] = true;
             }
 
@@ -207,14 +214,15 @@ abstract class Nova_manage extends Nova_controller_admin
                         'image' => array(
                             'src' => Location::asset('images/awards', $d->upload_filename),
                             'alt' => $d->upload_filename,
-                            'class' => 'image'),
+                            'class' => 'image'
+                        ),
                         'file' => $d->upload_filename,
                         'id' => $d->upload_id
                     );
                 }
             }
 
-            $data['form'] = ($action == 'edit') ? 'edit/'. $award : 'add';
+            $data['form'] = ($action == 'edit') ? 'edit/' . $award : 'add';
             $data['id'] = $award;
 
             $view_loc = 'manage_awards_action';
@@ -229,12 +237,14 @@ abstract class Nova_manage extends Nova_controller_admin
                         'img' => array(
                             'src' => Location::asset('images/awards', $a->award_image),
                             'alt' => $a->award_name,
-                            'class' => 'image'),
+                            'class' => 'image'
+                        ),
                         'name' => $a->award_name,
                         'delete' => array(
                             'name' => 'delete[]',
                             'value' => $a->award_id,
-                            'id' => $a->award_id .'_id'),
+                            'id' => $a->award_id . '_id'
+                        ),
                         'desc' => $a->award_desc,
                     );
                 }
@@ -249,21 +259,25 @@ abstract class Nova_manage extends Nova_controller_admin
             'add' => array(
                 'src' => Location::img('icon-add.png', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'inline_img_left'),
+                'class' => 'inline_img_left'
+            ),
             'delete' => array(
                 'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                 'alt' => lang('actions_delete'),
                 'class' => 'inline_img_left',
-                'title' => ucfirst(lang('actions_delete')),),
+                'title' => ucfirst(lang('actions_delete')),
+            ),
             'edit' => array(
                 'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                 'alt' => lang('actions_edit'),
                 'class' => 'inline_img_left',
-                'title' => ucfirst(lang('actions_add'))),
+                'title' => ucfirst(lang('actions_add'))
+            ),
             'upload' => array(
                 'src' => Location::img('image-upload.png', $this->skin, 'admin'),
                 'alt' => lang('actions_upload'),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
         );
 
         $data['image_instructions'] = sprintf(
@@ -272,7 +286,7 @@ abstract class Nova_manage extends Nova_controller_admin
         );
 
         $data['label'] = array(
-            'addaward' => ucwords(lang('actions_add') .' '. lang('global_award') .' '. RARROW),
+            'addaward' => ucwords(lang('actions_add') . ' ' . lang('global_award') . ' ' . RARROW),
             'name' => ucfirst(lang('labels_name')),
             'delete' => ucfirst(lang('actions_delete')),
             'order' => ucfirst(lang('labels_order')),
@@ -283,17 +297,17 @@ abstract class Nova_manage extends Nova_controller_admin
             'desc' => ucfirst(lang('labels_desc')),
             'info' => ucfirst(lang('labels_info')),
             'images' => ucfirst(lang('labels_images')),
-            'back' => LARROW .' '. ucfirst(lang('actions_back')) .' '. lang('labels_to') .' '. ucfirst(lang('global_awards')),
+            'back' => LARROW . ' ' . ucfirst(lang('actions_back')) . ' ' . lang('labels_to') . ' ' . ucfirst(lang('global_awards')),
             'cat' => ucfirst(lang('labels_category')),
             'on' => ucfirst(lang('labels_on')),
             'off' => ucfirst(lang('labels_off')),
-            'upload' => ucwords(lang('actions_upload') .' '. lang('labels_images') .' '. RARROW),
+            'upload' => ucwords(lang('actions_upload') . ' ' . lang('labels_images') . ' ' . RARROW),
             'noawards' => sprintf(lang('error_not_found'), lang('global_awards')),
         );
 
         $this->_regions['content'] = Location::view($view_loc, $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_awards_js', $this->skin, 'admin');
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -398,7 +412,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($approve > 0) {
                         $message = sprintf(
                             lang('flash_success'),
-                            $item .' '. lang('labels_comment'),
+                            $item . ' ' . lang('labels_comment'),
                             lang('actions_approved'),
                             ''
                         );
@@ -411,7 +425,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure'),
-                            $item .' '. lang('labels_comment'),
+                            $item . ' ' . lang('labels_comment'),
                             lang('actions_approved'),
                             ''
                         );
@@ -453,7 +467,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($delete > 0) {
                         $message = sprintf(
                             lang('flash_success'),
-                            $item .' '. lang('labels_comment'),
+                            $item . ' ' . lang('labels_comment'),
                             lang('actions_deleted'),
                             ''
                         );
@@ -463,7 +477,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure'),
-                            $item .' '. lang('labels_comment'),
+                            $item . ' ' . lang('labels_comment'),
                             lang('actions_deleted'),
                             ''
                         );
@@ -509,7 +523,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($update > 0) {
                         $message = sprintf(
                             lang('flash_success'),
-                            $item .' '. lang('labels_comment'),
+                            $item . ' ' . lang('labels_comment'),
                             lang('actions_updated'),
                             ''
                         );
@@ -519,7 +533,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure'),
-                            $item .' '. lang('labels_comment'),
+                            $item . ' ' . lang('labels_comment'),
                             lang('actions_updated'),
                             ''
                         );
@@ -563,23 +577,24 @@ abstract class Nova_manage extends Nova_controller_admin
             'pending' => $this->_comments_ajax($w_pending, 'wiki', 'pending'),
         );
 
-        $data['header'] = ucwords(lang('actions_manage') .' '. lang('labels_comments'));
+        $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('labels_comments'));
 
         $data['images'] = array(
             'loading' => array(
                 'src' => Location::img('loading-bar.gif', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'image'),
+                'class' => 'image'
+            ),
         );
 
         $data['label'] = array(
-            'loading' => ucfirst(lang('actions_loading')) .'...',
+            'loading' => ucfirst(lang('actions_loading')) . '...',
             'activated' => ucfirst(lang('status_activated')),
             'pending' => ucfirst(lang('status_pending')),
-            'posts' => ucwords(lang('global_post') .' '. lang('labels_comments')),
-            'logs' => ucwords(lang('global_log') .' '. lang('labels_comments')),
-            'news' => ucwords(lang('global_news') .' '. lang('labels_comments')),
-            'wiki' => ucwords(lang('global_wiki') .' '. lang('labels_comments')),
+            'posts' => ucwords(lang('global_post') . ' ' . lang('labels_comments')),
+            'logs' => ucwords(lang('global_log') . ' ' . lang('labels_comments')),
+            'news' => ucwords(lang('global_news') . ' ' . lang('labels_comments')),
+            'wiki' => ucwords(lang('global_wiki') . ' ' . lang('labels_comments')),
         );
 
         switch ($type) {
@@ -605,7 +620,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
         $this->_regions['content'] = Location::view('manage_comments', $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_comments_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -682,7 +697,7 @@ abstract class Nova_manage extends Nova_controller_admin
             }
         }
 
-        $data['header'] = ucwords(lang('global_deck') .' '. lang('labels_listings'));
+        $data['header'] = ucwords(lang('global_deck') . ' ' . lang('labels_listings'));
 
         $data['text'] = sprintf(
             lang('text_manage_decks'),
@@ -699,7 +714,7 @@ abstract class Nova_manage extends Nova_controller_admin
         // get the specification items
         $specs = $this->specs->get_spec_items(null);
 
-        $data['values']['specs'][0] = ucwords(lang('actions_choose').' '.lang('labels_a').' '.lang('global_specification').' '.lang('labels_item'));
+        $data['values']['specs'][0] = ucwords(lang('actions_choose') . ' ' . lang('labels_a') . ' ' . lang('global_specification') . ' ' . lang('labels_item'));
 
         if ($specs->num_rows() > 0) {
             foreach ($specs->result() as $s) {
@@ -714,14 +729,16 @@ abstract class Nova_manage extends Nova_controller_admin
                 'name' => 'submit',
                 'value' => 'submit',
                 'id' => 'update',
-                'content' => ucwords(lang('actions_update'))),
+                'content' => ucwords(lang('actions_update'))
+            ),
             'add' => array(
                 'type' => 'submit',
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'add',
                 'id' => 'add',
-                'content' => ucwords(lang('actions_add'))),
+                'content' => ucwords(lang('actions_add'))
+            ),
         );
 
         $data['loading'] = array(
@@ -731,14 +748,14 @@ abstract class Nova_manage extends Nova_controller_admin
         );
 
         $data['label'] = array(
-            'processing' => ucfirst(lang('actions_processing')) .'...',
-            'back' => LARROW.' '.ucfirst(lang('actions_back')).' '.lang('labels_to').' '.
-                ucwords(lang('labels_all').' '.lang('global_deck').' '.lang('labels_listings')),
+            'processing' => ucfirst(lang('actions_processing')) . '...',
+            'back' => LARROW . ' ' . ucfirst(lang('actions_back')) . ' ' . lang('labels_to') . ' ' .
+                ucwords(lang('labels_all') . ' ' . lang('global_deck') . ' ' . lang('labels_listings')),
         );
 
         $this->_regions['content'] = Location::view('manage_decks', $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_decks_js', $this->skin, 'admin');
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -800,7 +817,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 case 'edit':
                     // grab the ID
                     $id = $this->input->post('id', true);
-                    $id = (! is_numeric($id)) ? false : $id;
+                    $id = (!is_numeric($id)) ? false : $id;
 
                     // build the array to update the record with
                     $update_array = array(
@@ -1009,7 +1026,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 }
             }
 
-            $data['manifests'][0] = ucwords(lang('labels_unassigned').' '.lang('global_departments'));
+            $data['manifests'][0] = ucwords(lang('labels_unassigned') . ' ' . lang('global_departments'));
         }
 
         $data['parent'][0] = ucfirst(lang('labels_none'));
@@ -1031,42 +1048,46 @@ abstract class Nova_manage extends Nova_controller_admin
         );
 
         $data['label'] = array(
-            'add_dept' => ucwords(lang('actions_add') .' '.
-                lang('global_department') .' '. RARROW),
+            'add_dept' => ucwords(lang('actions_add') . ' ' .
+                lang('global_department') . ' ' . RARROW),
             'name' => ucfirst(lang('labels_name')),
             'delete' => ucfirst(lang('actions_delete')),
             'order' => ucfirst(lang('labels_order')),
             'display' => ucfirst(lang('labels_display')),
             'type' => ucfirst(lang('labels_type')),
             'desc' => ucfirst(lang('labels_desc')),
-            'parent' => ucwords(lang('labels_parent') .' '. lang('global_department')),
-            'assigned' => ucwords(lang('actions_assigned').' '.lang('global_departments')),
-            'unassigned' => ucwords(lang('labels_unassigned').' '.lang('global_departments')),
+            'parent' => ucwords(lang('labels_parent') . ' ' . lang('global_department')),
+            'assigned' => ucwords(lang('actions_assigned') . ' ' . lang('global_departments')),
+            'unassigned' => ucwords(lang('labels_unassigned') . ' ' . lang('global_departments')),
             'manifest' => ucfirst(lang('labels_manifest')),
-            'no_unassigned' => sprintf(lang('error_not_found'), lang('labels_unassigned').' '.lang('global_departments')),
-            'sub_of' => ucfirst(lang('global_subdepartment').' '.lang('labels_of').' '),
+            'no_unassigned' => sprintf(lang('error_not_found'), lang('labels_unassigned') . ' ' . lang('global_departments')),
+            'sub_of' => ucfirst(lang('global_subdepartment') . ' ' . lang('labels_of') . ' '),
         );
 
         $data['images'] = array(
             'add' => array(
                 'src' => Location::img('icon-add.png', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'inline_img_left'),
+                'class' => 'inline_img_left'
+            ),
             'delete' => array(
                 'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                 'alt' => lang('actions_delete'),
                 'title' => ucfirst(lang('actions_delete')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'edit' => array(
                 'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                 'alt' => lang('actions_edit'),
                 'title' => ucfirst(lang('actions_edit')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'duplicate' => array(
                 'src' => Location::img('icon-duplicate.png', $this->skin, 'admin'),
                 'alt' => lang('actions_duplicate'),
                 'title' => ucfirst(lang('actions_duplicate')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
         );
 
         $data['buttons'] = array(
@@ -1075,14 +1096,15 @@ abstract class Nova_manage extends Nova_controller_admin
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'update',
-                'content' => ucwords(lang('actions_update'))),
+                'content' => ucwords(lang('actions_update'))
+            ),
         );
 
         $js_data['tab'] = ($section == 'assigned') ? 0 : 1;
 
         $this->_regions['content'] = Location::view('manage_depts', $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_depts_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -1108,7 +1130,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($delete > 0) {
                         $message = sprintf(
                             lang('flash_success'),
-                            ucfirst(lang('actions_docked') .' '. lang('labels_item')),
+                            ucfirst(lang('actions_docked') . ' ' . lang('labels_item')),
                             lang('actions_deleted'),
                             ''
                         );
@@ -1120,7 +1142,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure'),
-                            ucfirst(lang('actions_docked') .' '. lang('labels_item')),
+                            ucfirst(lang('actions_docked') . ' ' . lang('labels_item')),
                             lang('actions_deleted'),
                             ''
                         );
@@ -1132,7 +1154,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
                 case 'edit':
                     foreach ($_POST as $key => $value) {
-                        if (! is_numeric($key)) {
+                        if (!is_numeric($key)) {
                             $update_array[$key] = $value;
                         }
                     }
@@ -1162,7 +1184,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($update > 0) {
                         $message = sprintf(
                             lang('flash_success'),
-                            ucfirst(lang('actions_docked') .' '. lang('labels_item')),
+                            ucfirst(lang('actions_docked') . ' ' . lang('labels_item')),
                             lang('actions_updated'),
                             ''
                         );
@@ -1172,7 +1194,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure'),
-                            ucfirst(lang('actions_docked') .' '. lang('labels_item')),
+                            ucfirst(lang('actions_docked') . ' ' . lang('labels_item')),
                             lang('actions_updated'),
                             ''
                         );
@@ -1200,7 +1222,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
                         // set the arguments for the message
                         $args = array(
-                            'gm_name' => (! empty($item->docking_gm_name)) ? $item->docking_gm_name : $item->docking_gm_email,
+                            'gm_name' => (!empty($item->docking_gm_name)) ? $item->docking_gm_name : $item->docking_gm_email,
                             'sim_name' => $item->docking_sim_name,
                             'sim' => $this->options['sim_name']
                         );
@@ -1211,7 +1233,7 @@ abstract class Nova_manage extends Nova_controller_admin
                         if ($update > 0) {
                             $message = sprintf(
                                 lang('flash_success'),
-                                ucfirst(lang('actions_docked') .' '. lang('labels_item')),
+                                ucfirst(lang('actions_docked') . ' ' . lang('labels_item')),
                                 lang('actions_approved'),
                                 ''
                             );
@@ -1222,19 +1244,19 @@ abstract class Nova_manage extends Nova_controller_admin
                             $currentUser = $this->user->get_user($this->session->userdata('userid'));
 
                             $emailData = array(
-                                'message'	=> $content,
-                                'email' 	=> $item->docking_gm_email,
-                                'name' 		=> $item->docking_gm_name,
-                                'sim' 		=> $item->docking_sim_name,
+                                'message' => $content,
+                                'email' => $item->docking_gm_email,
+                                'name' => $item->docking_gm_name,
+                                'sim' => $item->docking_sim_name,
                                 'fromEmail' => $currentUser->email,
-                                'fromName'	=> $this->char->get_character_name($currentUser->main_char, true, true),
+                                'fromName' => $this->char->get_character_name($currentUser->main_char, true, true),
                             );
 
                             $email = ($this->options['system_email'] == 'on') ? $this->_email('docking_accept', $emailData) : false;
                         } else {
                             $message = sprintf(
                                 lang('flash_failure'),
-                                ucfirst(lang('actions_docked') .' '. lang('labels_item')),
+                                ucfirst(lang('actions_docked') . ' ' . lang('labels_item')),
                                 lang('actions_approved'),
                                 ''
                             );
@@ -1251,7 +1273,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
                         // set the arguments for the message
                         $args = array(
-                            'gm_name' => (! empty($item->docking_gm_name)) ? $item->docking_gm_name : $item->docking_gm_email,
+                            'gm_name' => (!empty($item->docking_gm_name)) ? $item->docking_gm_name : $item->docking_gm_email,
                             'sim_name' => $item->docking_sim_name,
                             'sim' => $this->options['sim_name']
                         );
@@ -1261,12 +1283,12 @@ abstract class Nova_manage extends Nova_controller_admin
 
                         // delete the record and its data
                         $delete = $this->docking->delete_docked_item($id);
-                        $delete+= $this->docking->delete_docking_field_data($id, 'data_docking_item');
+                        $delete += $this->docking->delete_docking_field_data($id, 'data_docking_item');
 
                         if ($delete > 0) {
                             $message = sprintf(
                                 lang('flash_success'),
-                                ucfirst(lang('actions_docked') .' '. lang('labels_item')),
+                                ucfirst(lang('actions_docked') . ' ' . lang('labels_item')),
                                 lang('actions_rejected'),
                                 ''
                             );
@@ -1277,19 +1299,19 @@ abstract class Nova_manage extends Nova_controller_admin
                             $currentUser = $this->user->get_user($this->session->userdata('userid'));
 
                             $emailData = array(
-                                'message'	=> $content,
-                                'email' 	=> $item->docking_gm_email,
-                                'name' 		=> $item->docking_gm_name,
-                                'sim' 		=> $item->docking_sim_name,
+                                'message' => $content,
+                                'email' => $item->docking_gm_email,
+                                'name' => $item->docking_gm_name,
+                                'sim' => $item->docking_sim_name,
                                 'fromEmail' => $currentUser->email,
-                                'fromName'	=> $this->char->get_character_name($currentUser->main_char, true, true),
+                                'fromName' => $this->char->get_character_name($currentUser->main_char, true, true),
                             );
 
                             $email = ($this->options['system_email'] == 'on') ? $this->_email('docking_reject', $emailData) : false;
                         } else {
                             $message = sprintf(
                                 lang('flash_failure'),
-                                ucfirst(lang('actions_docked') .' '. lang('labels_item')),
+                                ucfirst(lang('actions_docked') . ' ' . lang('labels_item')),
                                 lang('actions_rejected'),
                                 ''
                             );
@@ -1317,19 +1339,23 @@ abstract class Nova_manage extends Nova_controller_admin
                 'sim_name' => array(
                     'name' => 'docking_sim_name',
                     'id' => 'sim_name',
-                    'value' => $row->docking_sim_name),
+                    'value' => $row->docking_sim_name
+                ),
                 'sim_url' => array(
                     'name' => 'docking_sim_url',
                     'id' => 'sim_url',
-                    'value' => $row->docking_sim_url),
+                    'value' => $row->docking_sim_url
+                ),
                 'gm_name' => array(
                     'name' => 'docking_gm_name',
                     'id' => 'gm_name',
-                    'value' => $row->docking_gm_name),
+                    'value' => $row->docking_gm_name
+                ),
                 'gm_email' => array(
                     'name' => 'docking_gm_email',
                     'id' => 'gm_email',
-                    'value' => $row->docking_gm_email),
+                    'value' => $row->docking_gm_email
+                ),
             );
 
             $data['values'] = array(
@@ -1408,7 +1434,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 }
             }
 
-            $data['header'] = ucwords(lang('actions_edit') .' '. lang('actions_docked') .' '. lang('labels_item'));
+            $data['header'] = ucwords(lang('actions_edit') . ' ' . lang('actions_docked') . ' ' . lang('labels_item'));
             $data['id'] = $id;
             $data['status'] = $row->docking_status;
 
@@ -1430,7 +1456,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 }
             }
 
-            $data['header'] = ucwords(lang('actions_docked') .' '. lang('labels_items'));
+            $data['header'] = ucwords(lang('actions_docked') . ' ' . lang('labels_items'));
 
             $data['count'] = (isset($data['docking']['pending'])) ? count($data['docking']['pending']) : 0;
 
@@ -1459,7 +1485,8 @@ abstract class Nova_manage extends Nova_controller_admin
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'update',
-                'content' => ucfirst(lang('actions_update'))),
+                'content' => ucfirst(lang('actions_update'))
+            ),
         );
 
         $data['images'] = array(
@@ -1467,47 +1494,52 @@ abstract class Nova_manage extends Nova_controller_admin
                 'src' => Location::img('icon-check.png', $this->skin, 'admin'),
                 'alt' => lang('actions_accept'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_accept'))),
+                'title' => ucfirst(lang('actions_accept'))
+            ),
             'delete' => array(
                 'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                 'alt' => lang('actions_delete'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_delete'))),
+                'title' => ucfirst(lang('actions_delete'))
+            ),
             'edit' => array(
                 'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                 'alt' => lang('actions_edit'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_edit'))),
+                'title' => ucfirst(lang('actions_edit'))
+            ),
             'reject' => array(
                 'src' => Location::img('icon-slash.png', $this->skin, 'admin'),
                 'alt' => lang('actions_reject'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_reject'))),
+                'title' => ucfirst(lang('actions_reject'))
+            ),
             'view' => array(
                 'src' => Location::img('icon-view.png', $this->skin, 'admin'),
                 'alt' => lang('actions_view'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_view'))),
+                'title' => ucfirst(lang('actions_view'))
+            ),
         );
 
         $data['label'] = array(
-            'back' => LARROW .' '. ucfirst(lang('actions_back')) .' '. lang('labels_to') .' '. ucwords(lang('actions_docked') .' '. lang('labels_items')),
+            'back' => LARROW . ' ' . ucfirst(lang('actions_back')) . ' ' . lang('labels_to') . ' ' . ucwords(lang('actions_docked') . ' ' . lang('labels_items')),
             'email' => ucwords(lang('labels_email_address')),
-            'gm_info' => ucwords(lang('global_game_master') .' '. lang('labels_information')),
-            'info' => ucwords(lang('global_sim') .' '. lang('labels_information')),
+            'gm_info' => ucwords(lang('global_game_master') . ' ' . lang('labels_information')),
+            'info' => ucwords(lang('global_sim') . ' ' . lang('labels_information')),
             'name' => ucfirst(lang('labels_name')),
-            'noitems' => sprintf(lang('error_not_found'), lang('actions_docked') .' '. lang('labels_items')),
-            'sim_name' => ucwords(lang('global_sim') .' '. lang('labels_name')),
-            'sim_url' => ucfirst(lang('global_sim') .' '. lang('abbr_url')),
+            'noitems' => sprintf(lang('error_not_found'), lang('actions_docked') . ' ' . lang('labels_items')),
+            'sim_name' => ucwords(lang('global_sim') . ' ' . lang('labels_name')),
+            'sim_url' => ucfirst(lang('global_sim') . ' ' . lang('abbr_url')),
             'status' => ucfirst(lang('labels_status')),
-            'status_active' => ucwords(lang('status_active') .' '. lang('labels_items')),
-            'status_inactive' => ucwords(lang('status_inactive') .' '. lang('labels_items')),
-            'status_pending' => ucwords(lang('status_pending') .' '. lang('labels_items')),
+            'status_active' => ucwords(lang('status_active') . ' ' . lang('labels_items')),
+            'status_inactive' => ucwords(lang('status_inactive') . ' ' . lang('labels_items')),
+            'status_pending' => ucwords(lang('status_pending') . ' ' . lang('labels_items')),
         );
 
         $this->_regions['content'] = Location::view($view_loc, $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_docked_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -1645,7 +1677,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 foreach ($all->result() as $a) {
                     if ($a->crew_type == 'active' or $a->crew_type == 'npc') {
                         if ($a->crew_type == 'active') {
-                            $label = ucwords(lang('status_playing') .' '. lang('global_characters'));
+                            $label = ucwords(lang('status_playing') . ' ' . lang('global_characters'));
                         } else {
                             $label = ucwords(lang('abbr_npcs'));
                         }
@@ -1661,17 +1693,20 @@ abstract class Nova_manage extends Nova_controller_admin
                 'title' => array(
                     'name' => 'log_title',
                     'class' => 'w-1/2',
-                    'value' => $row->log_title),
+                    'value' => $row->log_title
+                ),
                 'content' => array(
                     'name' => 'log_content',
                     'id' => 'content-textarea',
                     'class' => 'w-full',
                     'rows' => 20,
-                    'value' => $row->log_content),
+                    'value' => $row->log_content
+                ),
                 'tags' => array(
                     'name' => 'log_tags',
                     'class' => 'w-1/2',
-                    'value' => $row->log_tags),
+                    'value' => $row->log_tags
+                ),
                 'author' => $row->log_author_character,
                 'character' => $this->char->get_character_name($row->log_author_character, true),
                 'status' => $row->log_status,
@@ -1689,21 +1724,22 @@ abstract class Nova_manage extends Nova_controller_admin
                     'class' => 'button-main',
                     'name' => 'submit',
                     'value' => 'update',
-                    'content' => ucfirst(lang('actions_update'))),
+                    'content' => ucfirst(lang('actions_update'))
+                ),
             );
 
-            $data['header'] = ucwords(lang('actions_edit') .' '. lang('global_personallogs'));
+            $data['header'] = ucwords(lang('actions_edit') . ' ' . lang('global_personallogs'));
             $data['id'] = $id;
 
             $data['label'] = array(
-                'back' => LARROW .' '. ucfirst(lang('actions_back')) .' '. lang('labels_to')
-                    .' '. ucwords(lang('global_personallogs')),
+                'back' => LARROW . ' ' . ucfirst(lang('actions_back')) . ' ' . lang('labels_to')
+                    . ' ' . ucwords(lang('global_personallogs')),
                 'status' => ucfirst(lang('labels_status')),
                 'title' => ucfirst(lang('labels_title')),
                 'content' => ucfirst(lang('labels_content')),
                 'tags' => ucfirst(lang('labels_tags')),
                 'tags_inst' => ucfirst(lang('tags_separated')),
-                'addauthor' => ucwords(lang('actions_add') .' '. lang('labels_author')),
+                'addauthor' => ucwords(lang('actions_add') . ' ' . lang('labels_author')),
                 'author' => ucwords(lang('labels_author')),
                 'total_words' => ucwords(lang('global_wordcount')),
             );
@@ -1742,7 +1778,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 'saved' => ucfirst(lang('status_saved')),
             );
 
-            $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_personallogs'));
+            $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_personallogs'));
 
             // figure out where the view should be coming from
             $view_loc = 'manage_logs';
@@ -1750,7 +1786,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
         $this->_regions['content'] = Location::view($view_loc, $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_logs_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -1895,7 +1931,7 @@ abstract class Nova_manage extends Nova_controller_admin
             }
         }
 
-        $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_missiongroups'));
+        $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_missiongroups'));
         $data['text'] = sprintf(
             lang('text_mission_groups'),
             ucfirst(lang('global_mission')),
@@ -1911,50 +1947,56 @@ abstract class Nova_manage extends Nova_controller_admin
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'submit',
-                'content' => ucwords(lang('actions_update'))),
+                'content' => ucwords(lang('actions_update'))
+            ),
             'add' => array(
                 'type' => 'submit',
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'submit',
-                'content' => ucwords(lang('actions_add')))
+                'content' => ucwords(lang('actions_add'))
+            )
         );
 
         $data['images'] = array(
             'add' => array(
                 'src' => Location::img('icon-add.png', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'inline_img_left'),
+                'class' => 'inline_img_left'
+            ),
             'delete' => array(
                 'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                 'alt' => lang('actions_delete'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_delete'))),
+                'title' => ucfirst(lang('actions_delete'))
+            ),
             'edit' => array(
                 'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                 'alt' => lang('actions_edit'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_edit'))),
+                'title' => ucfirst(lang('actions_edit'))
+            ),
             'view' => array(
                 'src' => Location::img('icon-view.png', $this->skin, 'admin'),
                 'alt' => lang('actions_view'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_view'))),
+                'title' => ucfirst(lang('actions_view'))
+            ),
         );
 
         $data['label'] = array(
-            'addgroup' => ucwords(lang('actions_add') .' '. lang('global_missiongroup') .' '. RARROW),
+            'addgroup' => ucwords(lang('actions_add') . ' ' . lang('global_missiongroup') . ' ' . RARROW),
             'name' => ucfirst(lang('labels_name')),
             'delete' => ucfirst(lang('actions_delete')),
             'order' => ucfirst(lang('labels_order')),
             'desc' => ucfirst(lang('labels_desc')),
-            'parent' => ucwords(lang('labels_parent').' '.lang('global_missiongroup')),
+            'parent' => ucwords(lang('labels_parent') . ' ' . lang('global_missiongroup')),
             'nogroups' => sprintf(lang('error_not_found'), lang('global_missiongroups')),
         );
 
         $this->_regions['content'] = Location::view('manage_missiongroups', $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_missiongroups_js', $this->skin, 'admin');
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -1981,12 +2023,12 @@ abstract class Nova_manage extends Nova_controller_admin
             $today = getdate();
 
             // make sure things are formatted properly
-            $hours = ($today['hours'] < 10) ? '0'. $today['hours'] : $today['hours'];
-            $minutes = ($today['minutes'] < 10) ? '0'. $today['minutes'] : $today['minutes'];
-            $seconds = ($today['seconds'] < 10) ? '0'. $today['seconds'] : $today['seconds'];
+            $hours = ($today['hours'] < 10) ? '0' . $today['hours'] : $today['hours'];
+            $minutes = ($today['minutes'] < 10) ? '0' . $today['minutes'] : $today['minutes'];
+            $seconds = ($today['seconds'] < 10) ? '0' . $today['seconds'] : $today['seconds'];
 
             // set the current time
-            $time = ' '. $hours .':'. $minutes .':'. $seconds;
+            $time = ' ' . $hours . ':' . $minutes . ':' . $seconds;
 
             switch ($this->uri->segment(3)) {
                 case 'add':
@@ -2076,9 +2118,9 @@ abstract class Nova_manage extends Nova_controller_admin
                         if ($loc !== false) {
                             $loc_pos = substr($key, 0, $loc);
 
-                            $new_key = 'mission_'. substr($key, ($loc+1));
+                            $new_key = 'mission_' . substr($key, ($loc + 1));
 
-                            if (substr($key, ($loc+1)) == 'start' or substr($key, ($loc+1)) == 'end') {
+                            if (substr($key, ($loc + 1)) == 'start' or substr($key, ($loc + 1)) == 'end') {
                                 $mission[$new_key] = human_to_unix($value . $time);
                             } else {
                                 $mission[$new_key] = $value;
@@ -2156,60 +2198,67 @@ abstract class Nova_manage extends Nova_controller_admin
             // set the date
             $today = getdate();
             $year = $today['year'];
-            $month = (strlen($today['mon']) < 2) ? '0'. $today['mon'] : $today['mon'];
-            $day = (strlen($today['mday']) < 2) ? '0'. $today['mday'] : $today['mday'];
-            $date = $year .'-'. $month .'-'. $day .' 00:00:00';
+            $month = (strlen($today['mon']) < 2) ? '0' . $today['mon'] : $today['mon'];
+            $day = (strlen($today['mday']) < 2) ? '0' . $today['mday'] : $today['mday'];
+            $date = $year . '-' . $month . '-' . $day . ' 00:00:00';
 
             $item = $this->mis->get_mission($id);
 
             $start = ($item === false) ? $date : '';
             $start = (empty($item->mission_start)) ? '' : unix_to_human($item->mission_start);
-            $start = (! empty($start)) ? substr_replace($start, '', strpos($start, ' ')) : '';
+            $start = (!empty($start)) ? substr_replace($start, '', strpos($start, ' ')) : '';
 
             $end = ($item === false or empty($item->mission_end)) ? '' : unix_to_human($item->mission_end);
-            $end = (! empty($end)) ? substr_replace($end, '', strpos($end, ' ')) : '';
+            $end = (!empty($end)) ? substr_replace($end, '', strpos($end, ' ')) : '';
 
             $js_data['start'] = $start;
             $js_data['end'] = $end;
 
-            $data['header'] = ucwords(lang('actions_'. $action) .' '. lang('global_mission'));
-            $data['header'].= ($action == 'edit') ? ' - '. $item->mission_title : '';
+            $data['header'] = ucwords(lang('actions_' . $action) . ' ' . lang('global_mission'));
+            $data['header'] .= ($action == 'edit') ? ' - ' . $item->mission_title : '';
 
             $data['inputs'] = array(
                 'title' => array(
                     'name' => 'mission_title',
-                    'value' => ($item === false) ? '' : $item->mission_title),
+                    'value' => ($item === false) ? '' : $item->mission_title
+                ),
                 'order' => array(
                     'name' => 'mission_order',
                     'class' => 'small',
-                    'value' => ($item === false) ? 99 : $item->mission_order),
+                    'value' => ($item === false) ? 99 : $item->mission_order
+                ),
                 'start' => array(
                     'name' => 'mission_start',
-                    'class' => 'large datepick'),
+                    'class' => 'large datepick'
+                ),
                 'end' => array(
                     'name' => 'mission_end',
-                    'class' => 'large datepick'),
+                    'class' => 'large datepick'
+                ),
                 'desc' => array(
                     'name' => 'mission_desc',
                     'rows' => 6,
-                    'value' => ($item == false) ? '' : $item->mission_desc),
+                    'value' => ($item == false) ? '' : $item->mission_desc
+                ),
                 'status' => ($item === false) ? '' : $item->mission_status,
                 'summary' => array(
                     'name' => 'mission_summary',
                     'rows' => 12,
-                    'value' => ($item == false) ? '' : $item->mission_summary),
+                    'value' => ($item == false) ? '' : $item->mission_summary
+                ),
                 'notes' => array(
                     'name' => 'mission_notes',
                     'rows' => 12,
-                    'value' => ($item == false) ? '' : $item->mission_notes),
+                    'value' => ($item == false) ? '' : $item->mission_notes
+                ),
                 'group' => ($item === false) ? '' : $item->mission_group,
-                'images' => (! empty($item->mission_images)) ? explode(',', $item->mission_images) : '',
+                'images' => (!empty($item->mission_images)) ? explode(',', $item->mission_images) : '',
             );
 
             $groups = $this->mis->get_all_mission_groups();
 
             if ($groups->num_rows() > 0) {
-                $data['groups'][0] = ucwords(lang('labels_no') .' '. lang('global_missiongroup'));
+                $data['groups'][0] = ucwords(lang('labels_no') . ' ' . lang('global_missiongroup'));
 
                 foreach ($groups->result() as $g) {
                     $data['groups'][$g->misgroup_id] = $g->misgroup_name;
@@ -2218,7 +2267,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
                     if ($subgroup->num_rows() > 0) {
                         foreach ($subgroup->result() as $s) {
-                            $data['groups'][$s->misgroup_id] = $s->misgroup_name.' ('.$g->misgroup_name.')';
+                            $data['groups'][$s->misgroup_id] = $s->misgroup_name . ' (' . $g->misgroup_name . ')';
                         }
                     }
                 }
@@ -2234,23 +2283,24 @@ abstract class Nova_manage extends Nova_controller_admin
                         'image' => array(
                             'src' => Location::asset('images/missions', $d->upload_filename),
                             'alt' => $d->upload_filename,
-                            'class' => 'image image-height-100'),
+                            'class' => 'image image-height-100'
+                        ),
                         'file' => $d->upload_filename,
                         'id' => $d->upload_id
                     );
                 }
             }
 
-            $data['form'] = ($action == 'edit') ? 'edit/'. $id : 'add';
+            $data['form'] = ($action == 'edit') ? 'edit/' . $id : 'add';
             $data['id'] = $id;
 
             $view_loc = 'manage_missions_action';
         } else {
             $missions = $this->mis->get_all_missions();
 
-            $data['label']['s_current'] = ucwords(lang('status_current') .' '. lang('global_missions'));
-            $data['label']['s_completed'] = ucwords(lang('status_completed') .' '. lang('global_missions'));
-            $data['label']['s_upcoming'] = ucwords(lang('status_upcoming') .' '. lang('global_missions'));
+            $data['label']['s_current'] = ucwords(lang('status_current') . ' ' . lang('global_missions'));
+            $data['label']['s_completed'] = ucwords(lang('status_completed') . ' ' . lang('global_missions'));
+            $data['label']['s_upcoming'] = ucwords(lang('status_upcoming') . ' ' . lang('global_missions'));
 
             if ($missions->num_rows() > 0) {
                 $datestring = $this->options['date_format'];
@@ -2263,11 +2313,11 @@ abstract class Nova_manage extends Nova_controller_admin
                     $end = '';
                     $timespan = '';
 
-                    if (! empty($mission->mission_start)) {
+                    if (!empty($mission->mission_start)) {
                         $start = gmt_to_local($mission->mission_start, $this->timezone, $this->dst);
                     }
 
-                    if (! empty($mission->mission_end)) {
+                    if (!empty($mission->mission_end)) {
                         $end = gmt_to_local($mission->mission_end, $this->timezone, $this->dst);
                     }
 
@@ -2285,26 +2335,26 @@ abstract class Nova_manage extends Nova_controller_admin
                 if (isset($data['missions']['current'])) {
                     $mis_label_current = (count($data['missions']['current']) > 1) ? lang('global_missions') : lang('global_mission');
 
-                    $data['label']['s_current'] = ucwords(lang('status_current') .' '. $mis_label_current);
+                    $data['label']['s_current'] = ucwords(lang('status_current') . ' ' . $mis_label_current);
                 }
 
                 if (isset($data['missions']['completed'])) {
                     $mis_label_completed = (count($data['missions']['completed']) > 1) ? lang('global_missions') : lang('global_mission');
 
-                    $data['label']['s_completed'] = ucwords(lang('status_completed') .' '. $mis_label_completed);
+                    $data['label']['s_completed'] = ucwords(lang('status_completed') . ' ' . $mis_label_completed);
                 }
 
                 if (isset($data['missions']['upcoming'])) {
                     $mis_label_upcoming = (count($data['missions']['upcoming']) > 1) ? lang('global_missions') : lang('global_mission');
 
-                    $data['label']['s_upcoming'] = ucwords(lang('status_upcoming') .' '. $mis_label_upcoming);
+                    $data['label']['s_upcoming'] = ucwords(lang('status_upcoming') . ' ' . $mis_label_upcoming);
                 }
             }
 
             $js_data['start'] = false;
             $js_data['end'] = false;
 
-            $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_missions'));
+            $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_missions'));
 
             $view_loc = 'manage_missions';
         }
@@ -2312,40 +2362,40 @@ abstract class Nova_manage extends Nova_controller_admin
         $data['label'] += array(
             'title' => ucfirst(lang('labels_title')),
             'more' => ucfirst(lang('labels_more')),
-            'start' => ucwords(lang('status_start') .' '. lang('labels_date')),
-            'end' => ucwords(lang('status_end') .' '. lang('labels_date')),
-            'delete' => ucfirst(lang('actions_delete')) .'?',
+            'start' => ucwords(lang('status_start') . ' ' . lang('labels_date')),
+            'end' => ucwords(lang('status_end') . ' ' . lang('labels_date')),
+            'delete' => ucfirst(lang('actions_delete')) . '?',
             'order' => ucfirst(lang('labels_order')),
             'desc' => ucfirst(lang('labels_desc')),
             'status' => ucfirst(lang('labels_status')),
             'images' => ucfirst(lang('labels_images')),
             'notes' => ucfirst(lang('labels_notes')),
             'summary' => ucfirst(lang('labels_summary')),
-            'current' => ucwords(lang('status_current') .' '. lang('global_missions')),
-            'upcoming' => ucwords(lang('status_upcoming') .' '. lang('global_missions')),
-            'completed' => ucwords(lang('status_completed') .' '. lang('global_missions')),
+            'current' => ucwords(lang('status_current') . ' ' . lang('global_missions')),
+            'upcoming' => ucwords(lang('status_upcoming') . ' ' . lang('global_missions')),
+            'completed' => ucwords(lang('status_completed') . ' ' . lang('global_missions')),
             'error' => sprintf(lang('error_not_found'), lang('global_missions')),
-            'add' => ucwords(lang('actions_add') .' '. lang('global_mission')) .' '. RARROW,
-            'posts' => ucfirst(lang('global_posts')) .': ',
+            'add' => ucwords(lang('actions_add') . ' ' . lang('global_mission')) . ' ' . RARROW,
+            'posts' => ucfirst(lang('global_posts')) . ': ',
             'info' => ucfirst(lang('labels_info')),
             'images' => ucfirst(lang('labels_images')),
-            'back' => LARROW .' '. ucfirst(lang('actions_back')) .' '. lang('labels_to') .' '. ucfirst(lang('global_missions')),
+            'back' => LARROW . ' ' . ucfirst(lang('actions_back')) . ' ' . lang('labels_to') . ' ' . ucfirst(lang('global_missions')),
             'on' => ucfirst(lang('labels_on')),
             'off' => ucfirst(lang('labels_off')),
-            'upload' => ucwords(lang('actions_upload') .' '. lang('labels_images') .' '. RARROW),
+            'upload' => ucwords(lang('actions_upload') . ' ' . lang('labels_images') . ' ' . RARROW),
             'group' => ucwords(lang('global_missiongroup')),
             'nogroups' => sprintf(lang('error_not_found'), lang('global_missiongroups')),
-            'managegroups' => '[ '. ucwords(lang('actions_manage') .' '. lang('global_missiongroups')) .' ]',
+            'managegroups' => '[ ' . ucwords(lang('actions_manage') . ' ' . lang('global_missiongroups')) . ' ]',
             'images_later' => sprintf(lang('add_images_later'), lang('global_mission')),
-            'available_images' => ucwords(lang('labels_available').' '.lang('labels_images')),
-            'mission_images' => ucwords(lang('global_mission').' '.lang('labels_images')),
+            'available_images' => ucwords(lang('labels_available') . ' ' . lang('labels_images')),
+            'mission_images' => ucwords(lang('global_mission') . ' ' . lang('labels_images')),
         );
 
         $data['values'] = array(
             'status' => array(
-                'current' => ucwords(lang('status_current') .' '. lang('global_mission')),
-                'completed' => ucwords(lang('status_completed') .' '. lang('global_mission')),
-                'upcoming' => ucwords(lang('status_upcoming') .' '. lang('global_mission')),
+                'current' => ucwords(lang('status_current') . ' ' . lang('global_mission')),
+                'completed' => ucwords(lang('status_completed') . ' ' . lang('global_mission')),
+                'upcoming' => ucwords(lang('status_upcoming') . ' ' . lang('global_mission')),
             ),
         );
 
@@ -2353,30 +2403,36 @@ abstract class Nova_manage extends Nova_controller_admin
             'add' => array(
                 'src' => Location::img('icon-add.png', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'inline_img_left'),
+                'class' => 'inline_img_left'
+            ),
             'delete' => array(
                 'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                 'alt' => lang('actions_delete'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_delete'))),
+                'title' => ucfirst(lang('actions_delete'))
+            ),
             'edit' => array(
                 'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                 'alt' => lang('actions_edit'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_edit'))),
+                'title' => ucfirst(lang('actions_edit'))
+            ),
             'view' => array(
                 'src' => Location::img('icon-view.png', $this->skin, 'admin'),
                 'alt' => lang('actions_view'),
                 'class' => 'image',
-                'title' => ucfirst(lang('actions_view'))),
+                'title' => ucfirst(lang('actions_view'))
+            ),
             'upload' => array(
                 'src' => Location::img('image-upload.png', $this->skin, 'admin'),
                 'alt' => lang('actions_upload'),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'loading' => array(
                 'src' => Location::img('loading-circle.gif', $this->skin, 'admin'),
                 'alt' => lang('actions_loading'),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
         );
 
         $data['image_instructions'] = sprintf(
@@ -2400,13 +2456,15 @@ abstract class Nova_manage extends Nova_controller_admin
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'submit',
-                'content' => ucwords(lang('actions_submit'))),
+                'content' => ucwords(lang('actions_submit'))
+            ),
             'use' => array(
                 'type' => 'submit',
                 'class' => 'button-sec add',
                 'name' => 'use',
                 'value' => 'use',
-                'content' => ucwords(lang('actions_use') .' '. lang('labels_image'))),
+                'content' => ucwords(lang('actions_use') . ' ' . lang('labels_image'))
+            ),
             'update' => array(
                 'type' => 'submit',
                 'class' => 'button-main',
@@ -2414,14 +2472,15 @@ abstract class Nova_manage extends Nova_controller_admin
                 'value' => 'submit',
                 'id' => 'update',
                 'rel' => $id,
-                'content' => ucwords(lang('actions_update'))),
+                'content' => ucwords(lang('actions_update'))
+            ),
         );
 
         $js_data['id'] = $id;
 
         $this->_regions['content'] = Location::view($view_loc, $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_missions_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -2574,17 +2633,20 @@ abstract class Nova_manage extends Nova_controller_admin
                 'title' => array(
                     'name' => 'news_title',
                     'class' => 'w-1/2',
-                    'value' => $row->news_title),
+                    'value' => $row->news_title
+                ),
                 'content' => array(
                     'name' => 'news_content',
                     'id' => 'content-textarea',
                     'class' => 'w-full',
                     'rows' => 20,
-                    'value' => $row->news_content),
+                    'value' => $row->news_content
+                ),
                 'tags' => array(
                     'name' => 'news_tags',
                     'class' => 'w-1/2',
-                    'value' => $row->news_tags),
+                    'value' => $row->news_tags
+                ),
                 'author' => $row->news_author_character,
                 'character' => $this->char->get_character_name($row->news_author_character, true),
                 'status' => $row->news_status,
@@ -2611,15 +2673,16 @@ abstract class Nova_manage extends Nova_controller_admin
                     'class' => 'button-main',
                     'name' => 'submit',
                     'value' => 'update',
-                    'content' => ucfirst(lang('actions_update'))),
+                    'content' => ucfirst(lang('actions_update'))
+                ),
             );
 
-            $data['header'] = ucwords(lang('actions_edit') .' '. lang('global_newsitem'));
+            $data['header'] = ucwords(lang('actions_edit') . ' ' . lang('global_newsitem'));
             $data['id'] = $id;
 
             $data['label'] = array(
-                'back' => LARROW .' '. ucfirst(lang('actions_back')) .' '. lang('labels_to')
-                    .' '. ucwords(lang('global_newsitems')),
+                'back' => LARROW . ' ' . ucfirst(lang('actions_back')) . ' ' . lang('labels_to')
+                    . ' ' . ucwords(lang('global_newsitems')),
                 'status' => ucfirst(lang('labels_status')),
                 'title' => ucfirst(lang('labels_title')),
                 'content' => ucfirst(lang('labels_content')),
@@ -2664,7 +2727,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 'saved' => ucfirst(lang('status_saved')),
             );
 
-            $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_newsitems'));
+            $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_newsitems'));
 
             // figure out where the view should be coming from
             $view_loc = 'manage_news';
@@ -2672,7 +2735,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
         $this->_regions['content'] = Location::view($view_loc, $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_news_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -2699,7 +2762,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($insert > 0) {
                         $message = sprintf(
                             lang('flash_success'),
-                            ucfirst(lang('global_news') .' '. lang('labels_category')),
+                            ucfirst(lang('global_news') . ' ' . lang('labels_category')),
                             lang('actions_created'),
                             ''
                         );
@@ -2709,7 +2772,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure'),
-                            ucfirst(lang('global_news') .' '. lang('labels_category')),
+                            ucfirst(lang('global_news') . ' ' . lang('labels_category')),
                             lang('actions_created'),
                             ''
                         );
@@ -2730,8 +2793,8 @@ abstract class Nova_manage extends Nova_controller_admin
                         if ($loc !== false) {
                             $loc_pos = substr($key, 0, $loc);
 
-                            if (! in_array($loc_pos, $delete)) { // if the item is being deleted don't add it to the update array
-                                $new_key = 'newscat_'. substr($key, ($loc+1));
+                            if (!in_array($loc_pos, $delete)) { // if the item is being deleted don't add it to the update array
+                                $new_key = 'newscat_' . substr($key, ($loc + 1));
                                 $array[$loc_pos][$new_key] = $value;
                             }
                         }
@@ -2748,7 +2811,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($update > 0) {
                         $message = sprintf(
                             lang('flash_success_plural'),
-                            ucfirst(lang('global_news') .' '. lang('labels_categories')),
+                            ucfirst(lang('global_news') . ' ' . lang('labels_categories')),
                             lang('actions_updated'),
                             ''
                         );
@@ -2758,7 +2821,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure_plural'),
-                            ucfirst(lang('global_news') .' '. lang('labels_categories')),
+                            ucfirst(lang('global_news') . ' ' . lang('labels_categories')),
                             lang('actions_updated'),
                             ''
                         );
@@ -2782,13 +2845,15 @@ abstract class Nova_manage extends Nova_controller_admin
                 $data['categories'][$cid] = array(
                     'id' => $cid,
                     'name' => array(
-                        'name' => $cid .'_name',
-                        'value' => $c->newscat_name),
+                        'name' => $cid . '_name',
+                        'value' => $c->newscat_name
+                    ),
                     'display' => $c->newscat_display,
                     'delete' => array(
                         'name' => 'delete[]',
                         'value' => $cid,
-                        'id' => $cid .'_id'),
+                        'id' => $cid . '_id'
+                    ),
                 );
             }
         }
@@ -2800,8 +2865,8 @@ abstract class Nova_manage extends Nova_controller_admin
 
         $data['label'] = array(
             'name' => ucfirst(lang('labels_name')),
-            'add' => ucwords(lang('actions_add') .' '. lang('global_news') .' '.
-                lang('labels_category') .' '. RARROW),
+            'add' => ucwords(lang('actions_add') . ' ' . lang('global_news') . ' ' .
+                lang('labels_category') . ' ' . RARROW),
             'display' => ucfirst(lang('labels_display')),
             'delete' => ucfirst(lang('actions_delete'))
         );
@@ -2812,13 +2877,15 @@ abstract class Nova_manage extends Nova_controller_admin
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'update',
-                'content' => ucwords(lang('actions_update'))),
+                'content' => ucwords(lang('actions_update'))
+            ),
             'add' => array(
                 'type' => 'submit',
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'add',
-                'content' => ucwords(lang('actions_add')))
+                'content' => ucwords(lang('actions_add'))
+            )
         );
 
         $data['inputs']['name'] = array(
@@ -2829,10 +2896,11 @@ abstract class Nova_manage extends Nova_controller_admin
             'add' => array(
                 'src' => Location::img('icon-add.png', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'inline_img_left')
+                'class' => 'inline_img_left'
+            )
         );
 
-        $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_news') .' '. lang('labels_categories'));
+        $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_news') . ' ' . lang('labels_categories'));
         $data['text'] = sprintf(
             lang('text_manage_newscats'),
             ucfirst(lang('global_newsitems')),
@@ -2843,7 +2911,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
         $this->_regions['content'] = Location::view('manage_newscats', $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_newscats_js', $this->skin, 'admin');
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -2913,8 +2981,8 @@ abstract class Nova_manage extends Nova_controller_admin
                         if ($loc !== false) {
                             $loc_pos = substr($key, 0, $loc);
 
-                            if (! in_array($loc_pos, $delete)) { // if the item is being deleted don't add it to the update array
-                                $new_key = 'pos_'. substr($key, ($loc+1));
+                            if (!in_array($loc_pos, $delete)) { // if the item is being deleted don't add it to the update array
+                                $new_key = 'pos_' . substr($key, ($loc + 1));
                                 $array[$loc_pos][$new_key] = $value;
                             }
                         }
@@ -2966,7 +3034,7 @@ abstract class Nova_manage extends Nova_controller_admin
             foreach ($departments->result() as $d) {
                 $name = ($d->dept_manifest > 0 and $d->dept_manifest !== null)
                     ? $this->dept->get_manifest($d->dept_manifest, 'manifest_name')
-                    : ucwords(lang('labels_unassigned').' '.lang('global_departments'));
+                    : ucwords(lang('labels_unassigned') . ' ' . lang('global_departments'));
 
                 $data['depts'][$d->dept_manifest]['name'] = $name;
                 $data['depts'][$d->dept_manifest]['items'][$d->dept_id] = array(
@@ -2994,13 +3062,13 @@ abstract class Nova_manage extends Nova_controller_admin
             foreach ($positions->result() as $p) {
                 $data['inputs']['position'][$p->pos_id] = array(
                     'name' => array(
-                        'name' => $p->pos_id .'_name',
-                        'id' => $p->pos_id .'_name',
+                        'name' => $p->pos_id . '_name',
+                        'id' => $p->pos_id . '_name',
                         'value' => $p->pos_name
                     ),
                     'delete' => array(
                         'name' => 'delete[]',
-                        'id' => $p->pos_id .'_id',
+                        'id' => $p->pos_id . '_id',
                         'value' => $p->pos_id
                     ),
                 );
@@ -3010,7 +3078,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     'dept' => $p->pos_dept,
                     'desc' => array(
                         'name' => 'desc',
-                        'id' => $p->pos_id.'_desc',
+                        'id' => $p->pos_id . '_desc',
                         'value' => $p->pos_desc,
                         'rows' => 4
                     ),
@@ -3021,7 +3089,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     ),
                     'order' => array(
                         'name' => 'order',
-                        'id' => $p->pos_id.'_order',
+                        'id' => $p->pos_id . '_order',
                         'value' => $p->pos_order,
                         'class' => 'small'
                     ),
@@ -3067,7 +3135,7 @@ abstract class Nova_manage extends Nova_controller_admin
             }
         }
 
-        $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_positions'));
+        $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_positions'));
         $data['text'] = sprintf(
             lang('text_manage_positions'),
             ucfirst(lang('global_positions')),
@@ -3079,20 +3147,21 @@ abstract class Nova_manage extends Nova_controller_admin
         $data['g_dept'] = $g_dept;
 
         $data['label'] = array(
-            'add_position' => ucwords(lang('actions_add').' '.lang('global_position') .' '. RARROW),
+            'add_position' => ucwords(lang('actions_add') . ' ' . lang('global_position') . ' ' . RARROW),
             'name' => ucfirst(lang('labels_name')),
-            'open' => ucwords(lang('status_open') .' '. lang('labels_slots')),
+            'open' => ucwords(lang('status_open') . ' ' . lang('labels_slots')),
             'delete' => ucfirst(lang('actions_delete')),
             'depts' => ucfirst(lang('global_departments')),
             'more' => ucfirst(lang('labels_more')),
-            'top_open' => ucwords(lang('labels_top').' '.lang('status_open').' '.lang('global_position')),
+            'top_open' => ucwords(lang('labels_top') . ' ' . lang('status_open') . ' ' . lang('global_position')),
         );
 
         $data['images'] = array(
             'add' => array(
                 'src' => Location::img('icon-add.png', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'inline_img_left'),
+                'class' => 'inline_img_left'
+            ),
         );
 
         $data['buttons'] = array(
@@ -3101,7 +3170,8 @@ abstract class Nova_manage extends Nova_controller_admin
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'update',
-                'content' => ucwords(lang('actions_update')))
+                'content' => ucwords(lang('actions_update'))
+            )
         );
 
         $js_data['position_update_text'] = sprintf(
@@ -3113,7 +3183,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
         $this->_regions['content'] = Location::view('manage_positions', $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_positions_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -3243,7 +3313,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     }
 
                     foreach ($users as $k => $v) {
-                        if (! is_numeric($v) or $v < 1) {
+                        if (!is_numeric($v) or $v < 1) {
                             unset($users[$k]);
                         }
                     }
@@ -3298,14 +3368,14 @@ abstract class Nova_manage extends Nova_controller_admin
                     // make an array of the post authors
                     $authors = explode(',', $row->post_authors);
 
-                    if (! in_array($check, $authors)) {
+                    if (!in_array($check, $authors)) {
                         $valid[] = false;
                     } else {
                         $valid[] = true;
                     }
                 }
 
-                if (! in_array(true, $valid) or $row->post_status == 'pending') {
+                if (!in_array(true, $valid) or $row->post_status == 'pending') {
                     redirect('admin/error/6');
                 }
             }
@@ -3319,48 +3389,48 @@ abstract class Nova_manage extends Nova_controller_admin
             if ($all->num_rows() > 0) {
                 foreach ($all->result() as $a) {
                     if (in_array($a->charid, $this->session->userdata('characters'))) {
-                        $label = ucwords(lang('labels_my') .' '. lang('global_characters'));
+                        $label = ucwords(lang('labels_my') . ' ' . lang('global_characters'));
                     } else {
                         if ($a->crew_type == 'active' or $a->crew_type == 'npc') {
                             if ($a->crew_type == 'active' and !in_array($a->charid, $this->session->userdata('characters'))) {
-                                $label = ucwords(lang('status_playing') .' '. lang('global_characters'));
+                                $label = ucwords(lang('status_playing') . ' ' . lang('global_characters'));
                             } else {
                                 if ($a->user > 0) {
-                                    $label = ucwords(lang('labels_linked') .' '. lang('abbr_npcs'));
+                                    $label = ucwords(lang('labels_linked') . ' ' . lang('abbr_npcs'));
                                 } else {
-                                    $label = ucwords(lang('labels_unlinked') .' '. lang('abbr_npcs'));
+                                    $label = ucwords(lang('labels_unlinked') . ' ' . lang('abbr_npcs'));
                                 }
                             }
                         }
                     }
 
                     // if it's a linked NPC, show the main character that owns the NPC
-                    $add = ($label == ucwords(lang('labels_linked') .' '. lang('abbr_npcs')))
-                        ? " (".ucfirst(lang('labels_linked').' '.lang('labels_to').' ').$this->char->get_character_name($this->user->get_main_character($a->user), true).")"
+                    $add = ($label == ucwords(lang('labels_linked') . ' ' . lang('abbr_npcs')))
+                        ? " (" . ucfirst(lang('labels_linked') . ' ' . lang('labels_to') . ' ') . $this->char->get_character_name($this->user->get_main_character($a->user), true) . ")"
                         : false;
 
                     // toss them in the array
-                    $allchars[$label][$a->charid] = $this->char->get_character_name($a->charid, true).$add;
+                    $allchars[$label][$a->charid] = $this->char->get_character_name($a->charid, true) . $add;
                 }
 
                 $data['all_characters'] = array();
 
-                $key = ucwords(lang('labels_my') .' '. lang('global_characters'));
+                $key = ucwords(lang('labels_my') . ' ' . lang('global_characters'));
                 if (isset($allchars[$key])) {
                     $data['all_characters'][$key] = $allchars[$key];
                 }
 
-                $key = ucwords(lang('status_playing') .' '. lang('global_characters'));
+                $key = ucwords(lang('status_playing') . ' ' . lang('global_characters'));
                 if (isset($allchars[$key])) {
                     $data['all_characters'][$key] = $allchars[$key];
                 }
 
-                $key = ucwords(lang('labels_linked') .' '. lang('abbr_npcs'));
+                $key = ucwords(lang('labels_linked') . ' ' . lang('abbr_npcs'));
                 if (isset($allchars[$key])) {
                     $data['all_characters'][$key] = $allchars[$key];
                 }
 
-                $key = ucwords(lang('labels_unlinked') .' '. lang('abbr_npcs'));
+                $key = ucwords(lang('labels_unlinked') . ' ' . lang('abbr_npcs'));
                 if (isset($allchars[$key])) {
                     $data['all_characters'][$key] = $allchars[$key];
                 }
@@ -3383,25 +3453,30 @@ abstract class Nova_manage extends Nova_controller_admin
                 'title' => array(
                     'name' => 'post_title',
                     'class' => 'w-1/2',
-                    'value' => $row->post_title),
+                    'value' => $row->post_title
+                ),
                 'content' => array(
                     'name' => 'post_content',
                     'id' => 'content-textarea',
                     'class' => 'w-full',
                     'rows' => 20,
-                    'value' => $row->post_content),
+                    'value' => $row->post_content
+                ),
                 'tags' => array(
                     'name' => 'post_tags',
                     'class' => 'w-1/2',
-                    'value' => $row->post_tags),
+                    'value' => $row->post_tags
+                ),
                 'timeline' => array(
                     'name' => 'post_timeline',
                     'class' => 'w-1/2',
-                    'value' => $row->post_timeline),
+                    'value' => $row->post_timeline
+                ),
                 'location' => array(
                     'name' => 'post_location',
                     'class' => 'w-1/2',
-                    'value' => $row->post_location),
+                    'value' => $row->post_location
+                ),
                 'mission' => $row->post_mission,
                 'mission_name' => $this->mis->get_mission($row->post_mission, 'mission_title'),
                 'status' => $row->post_status,
@@ -3425,15 +3500,16 @@ abstract class Nova_manage extends Nova_controller_admin
                     'class' => 'button-main',
                     'name' => 'submit',
                     'value' => 'update',
-                    'content' => ucfirst(lang('actions_update'))),
+                    'content' => ucfirst(lang('actions_update'))
+                ),
             );
 
-            $data['header'] = ucwords(lang('actions_edit') .' '. lang('global_missionpost'));
+            $data['header'] = ucwords(lang('actions_edit') . ' ' . lang('global_missionpost'));
             $data['id'] = $id;
 
             $data['label'] = array(
-                'back' => LARROW .' '. ucfirst(lang('actions_back')) .' '. lang('labels_to')
-                    .' '. ucwords(lang('global_missionposts')),
+                'back' => LARROW . ' ' . ucfirst(lang('actions_back')) . ' ' . lang('labels_to')
+                    . ' ' . ucwords(lang('global_missionposts')),
                 'mission' => ucfirst(lang('global_mission')),
                 'status' => ucfirst(lang('labels_status')),
                 'title' => ucfirst(lang('labels_title')),
@@ -3442,11 +3518,11 @@ abstract class Nova_manage extends Nova_controller_admin
                 'content' => ucfirst(lang('labels_content')),
                 'tags' => ucfirst(lang('labels_tags')),
                 'tags_inst' => ucfirst(lang('tags_separated')),
-                'addauthor' => ucwords(lang('actions_add') .' '. lang('labels_author')),
+                'addauthor' => ucwords(lang('actions_add') . ' ' . lang('labels_author')),
                 'authors' => ucfirst(lang('labels_authors')),
                 'date' => ucfirst(lang('labels_date')),
                 'chosen_incompat' => lang('chosen_incompat'),
-                'select' => ucwords(lang('labels_please').' '.lang('actions_select')).' '.lang('labels_the').' '.ucfirst(lang('labels_authors')),
+                'select' => ucwords(lang('labels_please') . ' ' . lang('actions_select')) . ' ' . lang('labels_the') . ' ' . ucfirst(lang('labels_authors')),
                 'total_words' => ucwords(lang('global_wordcount')),
             );
 
@@ -3482,7 +3558,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 'saved' => ucfirst(lang('status_saved')),
             );
 
-            $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_missionposts'));
+            $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_missionposts'));
 
             $js_data['remove'] = false;
 
@@ -3492,7 +3568,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
         $this->_regions['content'] = Location::view($view_loc, $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_posts_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -3559,8 +3635,8 @@ abstract class Nova_manage extends Nova_controller_admin
                         if ($loc !== false) {
                             $loc_pos = substr($key, 0, $loc);
 
-                            if (! in_array($loc_pos, $delete)) { // if the item is being deleted don't add it to the update array
-                                $new_key = 'rank_'. substr($key, ($loc+1));
+                            if (!in_array($loc_pos, $delete)) { // if the item is being deleted don't add it to the update array
+                                $new_key = 'rank_' . substr($key, ($loc + 1));
                                 $array[$loc_pos][$new_key] = $value;
                             }
                         }
@@ -3606,7 +3682,7 @@ abstract class Nova_manage extends Nova_controller_admin
         $ranks = $this->ranks->get_ranks($class, '');
 
         // grab all the rank sets
-        $setstatus = (Auth::check_access('site/catalogueranks', false)) ? array('active','development') : 'active';
+        $setstatus = (Auth::check_access('site/catalogueranks', false)) ? array('active', 'development') : 'active';
         $allranks = $this->ranks->get_all_rank_sets($setstatus);
         $allclasses = $this->ranks->get_group_ranks(0, 'rank_order');
 
@@ -3644,31 +3720,38 @@ abstract class Nova_manage extends Nova_controller_admin
                     'id' => $rank->rank_id,
                     'img' => array(
                         'src' => Location::rank($info->rankcat_location, $rank->rank_image, $info->rankcat_extension),
-                        'alt' => $rank->rank_name),
+                        'alt' => $rank->rank_name
+                    ),
                     'name' => array(
-                        'name' => $rank->rank_id .'_name',
-                        'value' => $rank->rank_name),
+                        'name' => $rank->rank_id . '_name',
+                        'value' => $rank->rank_name
+                    ),
                     'shortname' => array(
-                        'name' => $rank->rank_id .'_short_name',
+                        'name' => $rank->rank_id . '_short_name',
                         'value' => $rank->rank_short_name,
-                        'class' => 'medium'),
+                        'class' => 'medium'
+                    ),
                     'delete' => array(
-                        'id' => $rank->rank_id .'_id',
+                        'id' => $rank->rank_id . '_id',
                         'name' => 'delete[]',
-                        'value' => $rank->rank_id),
+                        'value' => $rank->rank_id
+                    ),
                     'order' => array(
-                        'name' => $rank->rank_id .'_order',
+                        'name' => $rank->rank_id . '_order',
                         'value' => $rank->rank_order,
-                        'class' => 'small'),
+                        'class' => 'small'
+                    ),
                     'class' => array(
-                        'name' => $rank->rank_id .'_class',
+                        'name' => $rank->rank_id . '_class',
                         'value' => $rank->rank_class,
-                        'class' => 'small'),
+                        'class' => 'small'
+                    ),
                     'display' => $rank->rank_display,
                     'image' => array(
-                        'name' => $rank->rank_id .'_image',
+                        'name' => $rank->rank_id . '_image',
                         'value' => $rank->rank_image,
-                        'class' => 'medium'),
+                        'class' => 'medium'
+                    ),
                 );
             }
         }
@@ -3680,9 +3763,9 @@ abstract class Nova_manage extends Nova_controller_admin
 
         $data['set'] = $set;
         $data['class'] = $class;
-        $data['ext'] = $info->rankcat_extension;
+        $data['ext'] = $info->rankcat_extension ?? '';
 
-        $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_ranks'));
+        $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_ranks'));
         $data['text'] = sprintf(
             lang('text_manage_ranks'),
             lang('global_ranks'),
@@ -3691,9 +3774,9 @@ abstract class Nova_manage extends Nova_controller_admin
             lang('global_ranks'),
             lang('global_ranks'),
             lang('global_rank'),
-            lang('global_rank') .' '. lang('labels_sets'),
+            lang('global_rank') . ' ' . lang('labels_sets'),
             lang('labels_classes'),
-            lang('global_rank') .' '. lang('labels_set'),
+            lang('global_rank') . ' ' . lang('labels_set'),
             lang('labels_class')
         );
 
@@ -3703,34 +3786,36 @@ abstract class Nova_manage extends Nova_controller_admin
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'submit',
-                'content' => ucwords(lang('actions_update')))
+                'content' => ucwords(lang('actions_update'))
+            )
         );
 
         $data['images'] = array(
             'add' => array(
                 'src' => Location::img('icon-add.png', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'inline_img_left'),
+                'class' => 'inline_img_left'
+            ),
         );
 
         $data['label'] = array(
-            'addrank' => ucwords(lang('actions_add') .' '.
-                lang('global_rank') .' '. RARROW),
+            'addrank' => ucwords(lang('actions_add') . ' ' .
+                lang('global_rank') . ' ' . RARROW),
             'name' => ucfirst(lang('labels_name')),
             'shortname' => ucwords(lang('labels_shortname')),
             'delete' => ucfirst(lang('actions_delete')),
             'order' => ucfirst(lang('labels_order')),
             'class' => ucfirst(lang('labels_class')),
-            'classes' => ucwords(lang('global_rank') .' '. lang('labels_classes')),
+            'classes' => ucwords(lang('global_rank') . ' ' . lang('labels_classes')),
             'display' => ucfirst(lang('labels_display')),
             'more' => ucfirst(lang('labels_more')),
             'image' => ucfirst(lang('labels_image')),
-            'sets' => ucwords(lang('global_rank') .' '. lang('labels_sets'))
+            'sets' => ucwords(lang('global_rank') . ' ' . lang('labels_sets'))
         );
 
         $this->_regions['content'] = Location::view('manage_ranks', $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_ranks_js', $this->skin, 'admin');
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -3781,7 +3866,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($insert > 0) {
                         $message = sprintf(
                             lang('flash_success'),
-                            ucfirst(lang('global_specification') .' '. lang('labels_item')),
+                            ucfirst(lang('global_specification') . ' ' . lang('labels_item')),
                             lang('actions_created'),
                             ''
                         );
@@ -3791,7 +3876,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure'),
-                            ucfirst(lang('global_specification') .' '. lang('labels_item')),
+                            ucfirst(lang('global_specification') . ' ' . lang('labels_item')),
                             lang('actions_created'),
                             ''
                         );
@@ -3814,7 +3899,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($delete > 0) {
                         $message = sprintf(
                             lang('flash_success'),
-                            ucfirst(lang('global_specification') .' '. lang('labels_item')),
+                            ucfirst(lang('global_specification') . ' ' . lang('labels_item')),
                             lang('actions_deleted'),
                             ''
                         );
@@ -3826,7 +3911,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure'),
-                            ucfirst(lang('global_specification') .' '. lang('labels_item')),
+                            ucfirst(lang('global_specification') . ' ' . lang('labels_item')),
                             lang('actions_deleted'),
                             ''
                         );
@@ -3862,7 +3947,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     if ($update > 0) {
                         $message = sprintf(
                             lang('flash_success'),
-                            ucfirst(lang('global_specification') .' '. lang('labels_item')),
+                            ucfirst(lang('global_specification') . ' ' . lang('labels_item')),
                             lang('actions_updated'),
                             ''
                         );
@@ -3872,7 +3957,7 @@ abstract class Nova_manage extends Nova_controller_admin
                     } else {
                         $message = sprintf(
                             lang('flash_failure'),
-                            ucfirst(lang('global_specification') .' '. lang('labels_item')),
+                            ucfirst(lang('global_specification') . ' ' . lang('labels_item')),
                             lang('actions_updated'),
                             ''
                         );
@@ -3890,32 +3975,37 @@ abstract class Nova_manage extends Nova_controller_admin
         if ($action == 'add' or $action == 'edit') {
             $item = ($action == 'edit') ? $this->specs->get_spec_item($id) : false;
 
-            $data['header'] = ucwords(lang('actions_'. $action) .' '. lang('global_specification') .' '. lang('labels_item'));
-            $data['header'].= ($action == 'edit') ? ' - '. $item->specs_name : '';
+            $data['header'] = ucwords(lang('actions_' . $action) . ' ' . lang('global_specification') . ' ' . lang('labels_item'));
+            $data['header'] .= ($action == 'edit') ? ' - ' . $item->specs_name : '';
 
             $data['inputs'] = array(
                 'name' => array(
                     'name' => 'specs_name',
-                    'value' => ($item === false) ? '' : $item->specs_name),
+                    'value' => ($item === false) ? '' : $item->specs_name
+                ),
                 'order' => array(
                     'name' => 'specs_order',
                     'class' => 'small',
-                    'value' => ($item === false) ? '' : $item->specs_order),
+                    'value' => ($item === false) ? '' : $item->specs_order
+                ),
                 'display_y' => array(
                     'name' => 'specs_display',
                     'id' => 'display_y',
                     'value' => 'y',
-                    'checked' => ($item !== false and $item->specs_display == 'y') ? true : false),
+                    'checked' => ($item !== false and $item->specs_display == 'y') ? true : false
+                ),
                 'display_n' => array(
                     'name' => 'specs_display',
                     'id' => 'display_n',
                     'value' => 'n',
-                    'checked' => ($item !== false and $item->specs_display == 'n') ? true : false),
+                    'checked' => ($item !== false and $item->specs_display == 'n') ? true : false
+                ),
                 'summary' => array(
                     'name' => 'specs_summary',
                     'rows' => 6,
-                    'value' => ($item === false) ? '' : $item->specs_summary),
-                'images' => (! empty($item->specs_images)) ? explode(',', $item->specs_images) : '',
+                    'value' => ($item === false) ? '' : $item->specs_summary
+                ),
+                'images' => (!empty($item->specs_images)) ? explode(',', $item->specs_images) : '',
             );
 
             if ($item === false) {
@@ -4004,14 +4094,15 @@ abstract class Nova_manage extends Nova_controller_admin
                         'image' => array(
                             'src' => Location::asset('images/specs', $d->upload_filename),
                             'alt' => $d->upload_filename,
-                            'class' => 'image image-height-100'),
+                            'class' => 'image image-height-100'
+                        ),
                         'file' => $d->upload_filename,
                         'id' => $d->upload_id
                     );
                 }
             }
 
-            $data['form'] = ($action == 'edit') ? 'edit/'. $id : 'add';
+            $data['form'] = ($action == 'edit') ? 'edit/' . $id : 'add';
             $data['id'] = $id;
 
             $view_loc = 'manage_specs_action';
@@ -4030,7 +4121,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 }
             }
 
-            $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_specification') .' '. lang('labels_items'));
+            $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_specification') . ' ' . lang('labels_items'));
             $data['text'] = lang('text_manage_specs');
 
             $view_loc = 'manage_specs';
@@ -4040,56 +4131,62 @@ abstract class Nova_manage extends Nova_controller_admin
             'form' => array(
                 'src' => Location::img('forms-field.png', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'image inline_img_left'),
+                'class' => 'image inline_img_left'
+            ),
             'edit' => array(
                 'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                 'alt' => ucfirst(lang('actions_edit')),
                 'title' => ucfirst(lang('actions_edit')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'delete' => array(
                 'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                 'alt' => ucfirst(lang('actions_delete')),
                 'title' => ucfirst(lang('actions_delete')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'add' => array(
                 'src' => Location::img('icon-add.png', $this->skin, 'admin'),
                 'alt' => ucfirst(lang('actions_add')),
                 'title' => ucfirst(lang('actions_add')),
-                'class' => 'image inline_img_left'),
+                'class' => 'image inline_img_left'
+            ),
             'upload' => array(
                 'src' => Location::img('image-upload.png', $this->skin, 'admin'),
                 'alt' => lang('actions_upload'),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'loading' => array(
                 'src' => Location::img('loading-circle.gif', $this->skin, 'admin'),
                 'alt' => lang('actions_loading'),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
         );
 
         $data['image_instructions'] = sprintf(
             lang('text_image_select'),
-            lang('global_specification') .' '. lang('labels_items')
+            lang('global_specification') . ' ' . lang('labels_items')
         );
 
         $data['label'] = array(
-            'form' => ucwords(lang('actions_manage') .' '. lang('global_specs') .' '. lang('labels_form') .' '. RARROW),
+            'form' => ucwords(lang('actions_manage') . ' ' . lang('global_specs') . ' ' . lang('labels_form') . ' ' . RARROW),
             'images' => ucfirst(lang('labels_images')),
             'info' => ucfirst(lang('labels_info')),
-            'summary' => ucfirst(lang('labels_summary')) .':',
-            'add' => ucwords(lang('actions_add') .' '. lang('global_specification') .' '. lang('labels_item') .' '. RARROW),
-            'no_specs' => sprintf(lang('error_not_found'), lang('global_specification') .' '. lang('labels_items')),
-            'upload' => ucwords(lang('actions_upload') .' '. lang('labels_images') .' '. RARROW),
+            'summary' => ucfirst(lang('labels_summary')) . ':',
+            'add' => ucwords(lang('actions_add') . ' ' . lang('global_specification') . ' ' . lang('labels_item') . ' ' . RARROW),
+            'no_specs' => sprintf(lang('error_not_found'), lang('global_specification') . ' ' . lang('labels_items')),
+            'upload' => ucwords(lang('actions_upload') . ' ' . lang('labels_images') . ' ' . RARROW),
             'name' => ucfirst(lang('labels_name')),
             'order' => ucfirst(lang('labels_order')),
             'display' => ucfirst(lang('labels_display')),
             'on' => ucfirst(lang('labels_on')),
             'off' => ucfirst(lang('labels_off')),
-            'summary' => ucfirst(lang('labels_summary')) .': ',
-            'back' => LARROW .' '. ucfirst(lang('actions_back')) .' '. lang('labels_to') .' '. ucwords(lang('global_specification') .' '. lang('labels_items')),
-            'images_later' => sprintf(lang('add_images_later'), lang('global_specification') .' '. lang('labels_item')),
+            'summary' => ucfirst(lang('labels_summary')) . ': ',
+            'back' => LARROW . ' ' . ucfirst(lang('actions_back')) . ' ' . lang('labels_to') . ' ' . ucwords(lang('global_specification') . ' ' . lang('labels_items')),
+            'images_later' => sprintf(lang('add_images_later'), lang('global_specification') . ' ' . lang('labels_item')),
             'specitem_empty_fields' => lang('specitem_empty_fields'),
-            'available_images' => ucwords(lang('labels_available').' '.lang('labels_images')),
-            'spec_images' => ucwords(lang('global_specification').' '.lang('labels_item').' '.lang('labels_images')),
+            'available_images' => ucwords(lang('labels_available') . ' ' . lang('labels_images')),
+            'spec_images' => ucwords(lang('global_specification') . ' ' . lang('labels_item') . ' ' . lang('labels_images')),
         );
 
         $data['buttons'] = array(
@@ -4098,13 +4195,15 @@ abstract class Nova_manage extends Nova_controller_admin
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'submit',
-                'content' => ucwords(lang('actions_submit'))),
+                'content' => ucwords(lang('actions_submit'))
+            ),
             'use' => array(
                 'type' => 'submit',
                 'class' => 'button-sec add',
                 'name' => 'use',
                 'value' => 'use',
-                'content' => ucwords(lang('actions_use') .' '. lang('labels_image'))),
+                'content' => ucwords(lang('actions_use') . ' ' . lang('labels_image'))
+            ),
             'update' => array(
                 'type' => 'submit',
                 'class' => 'button-main',
@@ -4112,14 +4211,15 @@ abstract class Nova_manage extends Nova_controller_admin
                 'value' => 'submit',
                 'id' => 'update',
                 'rel' => $id,
-                'content' => ucwords(lang('actions_update'))),
+                'content' => ucwords(lang('actions_update'))
+            ),
         );
 
         $js_data['id'] = $id;
 
         $this->_regions['content'] = Location::view($view_loc, $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_specs_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -4275,32 +4375,37 @@ abstract class Nova_manage extends Nova_controller_admin
         if ($action == 'add' or $action == 'edit') {
             $item = ($action == 'edit') ? $this->sys->get_item('tour', 'tour_id', $id) : false;
 
-            $data['header'] = ucwords(lang('actions_'. $action) .' '. lang('global_touritem'));
-            $data['header'].= ($action == 'edit') ? ' - '. $item->tour_name : '';
+            $data['header'] = ucwords(lang('actions_' . $action) . ' ' . lang('global_touritem'));
+            $data['header'] .= ($action == 'edit') ? ' - ' . $item->tour_name : '';
 
             $data['inputs'] = array(
                 'name' => array(
                     'name' => 'tour_name',
-                    'value' => ($item === false) ? '' : $item->tour_name),
+                    'value' => ($item === false) ? '' : $item->tour_name
+                ),
                 'order' => array(
                     'name' => 'tour_order',
                     'class' => 'small',
-                    'value' => ($item === false) ? '' : $item->tour_order),
+                    'value' => ($item === false) ? '' : $item->tour_order
+                ),
                 'display_y' => array(
                     'name' => 'tour_display',
                     'id' => 'display_y',
                     'value' => 'y',
-                    'checked' => ($item !== false and $item->tour_display == 'y') ? true : false),
+                    'checked' => ($item !== false and $item->tour_display == 'y') ? true : false
+                ),
                 'display_n' => array(
                     'name' => 'tour_display',
                     'id' => 'display_n',
                     'value' => 'n',
-                    'checked' => ($item !== false and $item->tour_display == 'n') ? true : false),
+                    'checked' => ($item !== false and $item->tour_display == 'n') ? true : false
+                ),
                 'summary' => array(
                     'name' => 'tour_summary',
                     'rows' => 6,
-                    'value' => ($item === false) ? '' : $item->tour_summary),
-                'images' => (! empty($item->tour_images)) ? explode(',', $item->tour_images) : '',
+                    'value' => ($item === false) ? '' : $item->tour_summary
+                ),
+                'images' => (!empty($item->tour_images)) ? explode(',', $item->tour_images) : '',
                 'spec_item' => ($item === false) ? false : $item->tour_spec_item,
             );
 
@@ -4313,7 +4418,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
             // build the array for the dropdown
             if ($specs->num_rows() > 0) {
-                $data['specs'][0] = ucwords(lang('labels_please') .' '. lang('actions_choose')) .' '. lang('labels_an') .' '. ucfirst(lang('labels_item'));
+                $data['specs'][0] = ucwords(lang('labels_please') . ' ' . lang('actions_choose')) . ' ' . lang('labels_an') . ' ' . ucfirst(lang('labels_item'));
 
                 foreach ($specs->result() as $s) {
                     $data['specs'][$s->specs_id] = $s->specs_name;
@@ -4390,14 +4495,15 @@ abstract class Nova_manage extends Nova_controller_admin
                         'image' => array(
                             'src' => Location::asset('images/tour', $d->upload_filename),
                             'alt' => $d->upload_filename,
-                            'class' => 'image image-height-100'),
+                            'class' => 'image image-height-100'
+                        ),
                         'file' => $d->upload_filename,
                         'id' => $d->upload_id
                     );
                 }
             }
 
-            $data['form'] = ($action == 'edit') ? 'edit/'. $id : 'add';
+            $data['form'] = ($action == 'edit') ? 'edit/' . $id : 'add';
             $data['id'] = $id;
 
             $view_loc = 'manage_tour_action';
@@ -4407,7 +4513,7 @@ abstract class Nova_manage extends Nova_controller_admin
             $specs = $this->specs->get_spec_items();
 
             if ($tour->num_rows() > 0) {
-                $data['items'][0] = ucwords(lang('labels_general') .' '. lang('labels_items'));
+                $data['items'][0] = ucwords(lang('labels_general') . ' ' . lang('labels_items'));
             }
 
             if ($specs->num_rows() > 0) {
@@ -4422,7 +4528,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
                 foreach ($tour->result() as $item) {
                     // make sure we have the right tour spec item for the array
-                    $specitem = (! empty($item->tour_spec_item)) ? $item->tour_spec_item : 0;
+                    $specitem = (!empty($item->tour_spec_item)) ? $item->tour_spec_item : 0;
 
                     // set the order
                     $order = $item->tour_order;
@@ -4436,7 +4542,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 }
             }
 
-            $data['header'] = ucwords(lang('actions_manage') .' '. lang('global_touritems'));
+            $data['header'] = ucwords(lang('actions_manage') . ' ' . lang('global_touritems'));
             $data['text'] = lang('text_manage_specs');
 
             $view_loc = 'manage_tour';
@@ -4446,34 +4552,41 @@ abstract class Nova_manage extends Nova_controller_admin
             'form' => array(
                 'src' => Location::img('forms-field.png', $this->skin, 'admin'),
                 'alt' => '',
-                'class' => 'image inline_img_left'),
+                'class' => 'image inline_img_left'
+            ),
             'edit' => array(
                 'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                 'alt' => ucfirst(lang('actions_edit')),
                 'title' => ucfirst(lang('actions_edit')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'delete' => array(
                 'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                 'alt' => ucfirst(lang('actions_delete')),
                 'title' => ucfirst(lang('actions_delete')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'add' => array(
                 'src' => Location::img('icon-add.png', $this->skin, 'admin'),
                 'alt' => ucfirst(lang('actions_add')),
                 'title' => ucfirst(lang('actions_add')),
-                'class' => 'image inline_img_left'),
+                'class' => 'image inline_img_left'
+            ),
             'upload' => array(
                 'src' => Location::img('image-upload.png', $this->skin, 'admin'),
                 'alt' => lang('actions_upload'),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'loading' => array(
                 'src' => Location::img('loading-circle.gif', $this->skin, 'admin'),
                 'alt' => lang('actions_loading'),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'help' => array(
                 'src' => Location::img('help.png', $this->skin, 'admin'),
                 'alt' => '[?]',
-                'class' => 'image'),
+                'class' => 'image'
+            ),
         );
 
         $data['image_instructions'] = sprintf(
@@ -4482,25 +4595,25 @@ abstract class Nova_manage extends Nova_controller_admin
         );
 
         $data['label'] = array(
-            'form' => ucwords(lang('actions_manage') .' '. lang('global_tour') .' '. lang('labels_form') .' '. RARROW),
+            'form' => ucwords(lang('actions_manage') . ' ' . lang('global_tour') . ' ' . lang('labels_form') . ' ' . RARROW),
             'images' => ucfirst(lang('labels_images')),
             'info' => ucfirst(lang('labels_info')),
-            'summary' => ucfirst(lang('labels_summary')) .':',
-            'add' => ucwords(lang('actions_add') .' '. lang('global_touritem') .' '. RARROW),
+            'summary' => ucfirst(lang('labels_summary')) . ':',
+            'add' => ucwords(lang('actions_add') . ' ' . lang('global_touritem') . ' ' . RARROW),
             'no_tour' => sprintf(lang('error_not_found'), lang('global_touritems')),
-            'upload' => ucwords(lang('actions_upload') .' '. lang('labels_images') .' '. RARROW),
+            'upload' => ucwords(lang('actions_upload') . ' ' . lang('labels_images') . ' ' . RARROW),
             'name' => ucfirst(lang('labels_name')),
             'order' => ucfirst(lang('labels_order')),
             'display' => ucfirst(lang('labels_display')),
             'on' => ucfirst(lang('labels_on')),
             'off' => ucfirst(lang('labels_off')),
-            'spec_item' => ucwords(lang('global_specification') .' '. lang('labels_item')),
+            'spec_item' => ucwords(lang('global_specification') . ' ' . lang('labels_item')),
             'summary' => ucfirst(lang('labels_summary')),
-            'back' => LARROW .' '. ucfirst(lang('actions_back')) .' '. lang('labels_to') .' '. ucwords(lang('global_touritems')),
+            'back' => LARROW . ' ' . ucfirst(lang('actions_back')) . ' ' . lang('labels_to') . ' ' . ucwords(lang('global_touritems')),
             'images_later' => sprintf(lang('add_images_later'), lang('global_touritem')),
             'specitem_select' => lang('specitem_select'),
-            'available_images' => ucwords(lang('labels_available').' '.lang('labels_images')),
-            'tour_images' => ucwords(lang('global_touritem').' '.lang('labels_images')),
+            'available_images' => ucwords(lang('labels_available') . ' ' . lang('labels_images')),
+            'tour_images' => ucwords(lang('global_touritem') . ' ' . lang('labels_images')),
         );
 
         $data['buttons'] = array(
@@ -4509,13 +4622,15 @@ abstract class Nova_manage extends Nova_controller_admin
                 'class' => 'button-main',
                 'name' => 'submit',
                 'value' => 'submit',
-                'content' => ucwords(lang('actions_submit'))),
+                'content' => ucwords(lang('actions_submit'))
+            ),
             'use' => array(
                 'type' => 'submit',
                 'class' => 'button-sec add',
                 'name' => 'use',
                 'value' => 'use',
-                'content' => ucwords(lang('actions_use') .' '. lang('labels_image'))),
+                'content' => ucwords(lang('actions_use') . ' ' . lang('labels_image'))
+            ),
             'update' => array(
                 'type' => 'submit',
                 'class' => 'button-main',
@@ -4523,14 +4638,15 @@ abstract class Nova_manage extends Nova_controller_admin
                 'value' => 'submit',
                 'id' => 'update',
                 'rel' => $id,
-                'content' => ucwords(lang('actions_update'))),
+                'content' => ucwords(lang('actions_update'))
+            ),
         );
 
         $js_data['id'] = $id;
 
         $this->_regions['content'] = Location::view($view_loc, $this->skin, 'admin', $data);
         $this->_regions['javascript'] = Location::js('manage_tour_js', $this->skin, 'admin', $js_data);
-        $this->_regions['title'].= $data['header'];
+        $this->_regions['title'] .= $data['header'];
 
         Template::assign($this->_regions);
 
@@ -4547,7 +4663,7 @@ abstract class Nova_manage extends Nova_controller_admin
             case 'posts':
                 $this->load->model('posts_model', 'posts');
 
-                $config['base_url'] = site_url('manage/comments/posts/'. $status .'/');
+                $config['base_url'] = site_url('manage/comments/posts/' . $status . '/');
                 $config['uri_segment'] = ($offset > 0) ? 5 : false;
                 $config['per_page'] = 15;
                 $config['full_tag_open'] = '<p class="fontMedium bold">';
@@ -4569,7 +4685,7 @@ abstract class Nova_manage extends Nova_controller_admin
                             : word_limiter($p->pcomment_content, 25);
                         $data['entries'][$p->pcomment_id]['author'] = $this->char->get_authors($p->pcomment_author_character, true);
                         $data['entries'][$p->pcomment_id]['date'] = mdate($datestring, $date);
-                        $data['entries'][$p->pcomment_id]['source'] = anchor('sim/viewpost/'. $p->pcomment_post, $this->posts->get_post($p->pcomment_post, 'post_title'));
+                        $data['entries'][$p->pcomment_id]['source'] = anchor('sim/viewpost/' . $p->pcomment_post, $this->posts->get_post($p->pcomment_post, 'post_title'));
                         $data['entries'][$p->pcomment_id]['status'] = $p->pcomment_status;
                     }
                 }
@@ -4587,7 +4703,7 @@ abstract class Nova_manage extends Nova_controller_admin
             case 'logs':
                 $this->load->model('personallogs_model', 'logs');
 
-                $config['base_url'] = site_url('manage/comments/logs/'. $status .'/');
+                $config['base_url'] = site_url('manage/comments/logs/' . $status . '/');
                 $config['uri_segment'] = ($offset > 0) ? 5 : false;
                 $config['per_page'] = 15;
                 $config['full_tag_open'] = '<p class="fontMedium bold">';
@@ -4609,7 +4725,7 @@ abstract class Nova_manage extends Nova_controller_admin
                             : word_limiter($l->lcomment_content, 25);
                         $data['entries'][$l->lcomment_id]['author'] = $this->char->get_authors($l->lcomment_author_character, true);
                         $data['entries'][$l->lcomment_id]['date'] = mdate($datestring, $date);
-                        $data['entries'][$l->lcomment_id]['source'] = anchor('sim/viewlog/'. $l->lcomment_log, $this->logs->get_log($l->lcomment_log, 'log_title'));
+                        $data['entries'][$l->lcomment_id]['source'] = anchor('sim/viewlog/' . $l->lcomment_log, $this->logs->get_log($l->lcomment_log, 'log_title'));
                         $data['entries'][$l->lcomment_id]['status'] = $l->lcomment_status;
                     }
                 }
@@ -4627,7 +4743,7 @@ abstract class Nova_manage extends Nova_controller_admin
             case 'news':
                 $this->load->model('news_model', 'news');
 
-                $config['base_url'] = site_url('manage/comments/news/'. $status .'/');
+                $config['base_url'] = site_url('manage/comments/news/' . $status . '/');
                 $config['uri_segment'] = ($offset > 0) ? 5 : false;
                 $config['per_page'] = 15;
                 $config['full_tag_open'] = '<p class="fontMedium bold">';
@@ -4649,7 +4765,7 @@ abstract class Nova_manage extends Nova_controller_admin
                             : word_limiter($n->ncomment_content, 25);
                         $data['entries'][$n->ncomment_id]['author'] = $this->char->get_authors($n->ncomment_author_character, true);
                         $data['entries'][$n->ncomment_id]['date'] = mdate($datestring, $date);
-                        $data['entries'][$n->ncomment_id]['source'] = anchor('main/viewnews/'. $n->ncomment_news, $this->news->get_news_item($n->ncomment_news, 'news_title'));
+                        $data['entries'][$n->ncomment_id]['source'] = anchor('main/viewnews/' . $n->ncomment_news, $this->news->get_news_item($n->ncomment_news, 'news_title'));
                         $data['entries'][$n->ncomment_id]['status'] = $n->ncomment_status;
                     }
                 }
@@ -4667,7 +4783,7 @@ abstract class Nova_manage extends Nova_controller_admin
             case 'wiki':
                 $this->load->model('wiki_model', 'wiki');
 
-                $config['base_url'] = site_url('manage/comments/wiki/'. $status .'/');
+                $config['base_url'] = site_url('manage/comments/wiki/' . $status . '/');
                 $config['uri_segment'] = ($offset > 0) ? 5 : false;
                 $config['per_page'] = 15;
                 $config['full_tag_open'] = '<p class="fontMedium bold">';
@@ -4699,7 +4815,7 @@ abstract class Nova_manage extends Nova_controller_admin
                                 : word_limiter($w->wcomment_content, 25);
                             $data['entries'][$wid]['author'] = $this->char->get_authors($w->wcomment_author_character, true);
                             $data['entries'][$wid]['date'] = mdate($datestring, $date);
-                            $data['entries'][$wid]['source'] = anchor('wiki/view/page/'. $row->page_id, $row->draft_title);
+                            $data['entries'][$wid]['source'] = anchor('wiki/view/page/' . $row->page_id, $row->draft_title);
                             $data['entries'][$wid]['status'] = $w->wcomment_status;
                         }
                     }
@@ -4725,31 +4841,34 @@ abstract class Nova_manage extends Nova_controller_admin
                 'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                 'alt' => ucfirst(lang('actions_edit')),
                 'title' => ucfirst(lang('actions_edit')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'delete' => array(
                 'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                 'alt' => ucfirst(lang('actions_delete')),
                 'title' => ucfirst(lang('actions_delete')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
             'approve' => array(
                 'src' => Location::img('icon-check.png', $this->skin, 'admin'),
                 'alt' => ucfirst(lang('actions_approve')),
                 'title' => ucfirst(lang('actions_approve')),
-                'class' => 'image'),
+                'class' => 'image'
+            ),
         );
 
         $data['label'] = array(
             'mission' => ucfirst(lang('global_mission')),
             'on' => lang('labels_on'),
-            'header_posts' => ucwords($status .' '. lang('global_missionpost') .' '.
+            'header_posts' => ucwords($status . ' ' . lang('global_missionpost') . ' ' .
                 lang('labels_comments')),
-            'header_logs' => ucwords($status .' '. lang('global_personallog') .' '.
+            'header_logs' => ucwords($status . ' ' . lang('global_personallog') . ' ' .
                 lang('labels_comments')),
-            'header_news' => ucwords($status .' '. lang('global_news') .' '.
+            'header_news' => ucwords($status . ' ' . lang('global_news') . ' ' .
                 lang('labels_comments')),
-            'header_wiki' => ucwords($status .' '. lang('global_wiki') .' '.
+            'header_wiki' => ucwords($status . ' ' . lang('global_wiki') . ' ' .
                 lang('labels_comments')),
-            'error' => ucfirst(lang('labels_no') .' '. lang('labels_comments') .' '.
+            'error' => ucfirst(lang('labels_no') . ' ' . lang('labels_comments') . ' ' .
                 lang('actions_found')),
         );
 
@@ -4773,7 +4892,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set some variables
                 $from_name = $this->char->get_character_name($data['author'], true, true);
                 $from_email = $this->user->get_email_address('character', $data['author']);
-                $subject = $data['category'] .' - '. $data['title'];
+                $subject = $data['category'] . ' - ' . $data['title'];
 
                 // set the content
                 $content = sprintf(
@@ -4803,7 +4922,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set the parameters for sending the email
                 $this->mail->from(Util::email_sender(), $from_name);
                 $this->mail->to($to);
-                $this->mail->subject($this->options['email_subject'] .' '. $subject);
+                $this->mail->subject($this->options['email_subject'] . ' ' . $subject);
                 $this->mail->message($message);
                 break;
 
@@ -4811,7 +4930,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set some variables
                 $from_name = $this->char->get_character_name($data['author'], true, true);
                 $from_email = $this->user->get_email_address('character', $data['author']);
-                $subject = $from_name ."'s ". lang('email_subject_personal_log') ." - ". $data['title'];
+                $subject = $from_name . "'s " . lang('email_subject_personal_log') . " - " . $data['title'];
 
                 // set the content
                 $content = sprintf(
@@ -4841,13 +4960,13 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set the parameters for sending the email
                 $this->mail->from(Util::email_sender(), $from_name);
                 $this->mail->to($to);
-                $this->mail->subject($this->options['email_subject'] .' '. $subject);
+                $this->mail->subject($this->options['email_subject'] . ' ' . $subject);
                 $this->mail->message($message);
                 break;
 
             case 'post':
                 // set some variables
-                $subject = $data['mission'] ." - ". $data['title'];
+                $subject = $data['mission'] . " - " . $data['title'];
                 $mission = lang('email_content_post_mission') . $data['mission'];
                 $authors = lang('email_content_post_author') . $this->char->get_authors($data['authors'], true);
                 $timeline = lang('email_content_post_timeline') . $data['timeline'];
@@ -4897,7 +5016,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set the parameters for sending the email
                 $this->mail->from(Util::email_sender(), $from_name);
                 $this->mail->to($to);
-                $this->mail->subject($this->options['email_subject'] .' '. $subject);
+                $this->mail->subject($this->options['email_subject'] . ' ' . $subject);
                 $this->mail->message($message);
                 break;
 
@@ -4914,14 +5033,14 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set the content
                 $content = sprintf(
                     lang('email_content_log_comment_added'),
-                    "<strong>". $row->log_title ."</strong>",
+                    "<strong>" . $row->log_title . "</strong>",
                     $data['comment']
                 );
 
                 // create the array passing the data to the email
                 $email_data = array(
                     'email_subject' => lang('email_subject_log_comment_added'),
-                    'email_from' => ucfirst(lang('time_from')) .': '. $name .' - '. $from,
+                    'email_from' => ucfirst(lang('time_from')) . ': ' . $name . ' - ' . $from,
                     'email_content' => ($this->mail->mailtype == 'html') ? nl2br($content) : $content
                 );
 
@@ -4934,7 +5053,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set the parameters for sending the email
                 $this->mail->from(Util::email_sender(), $name);
                 $this->mail->to($to);
-                $this->mail->subject($this->options['email_subject'] .' '. $email_data['email_subject']);
+                $this->mail->subject($this->options['email_subject'] . ' ' . $email_data['email_subject']);
                 $this->mail->message($message);
                 break;
 
@@ -4951,14 +5070,14 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set the content
                 $content = sprintf(
                     lang('email_content_news_comment_added'),
-                    "<strong>". $row->news_title ."</strong>",
+                    "<strong>" . $row->news_title . "</strong>",
                     $data['comment']
                 );
 
                 // create the array passing the data to the email
                 $email_data = array(
                     'email_subject' => lang('email_subject_news_comment_added'),
-                    'email_from' => ucfirst(lang('time_from')) .': '. $name .' - '. $from,
+                    'email_from' => ucfirst(lang('time_from')) . ': ' . $name . ' - ' . $from,
                     'email_content' => ($this->mail->mailtype == 'html') ? nl2br($content) : $content
                 );
 
@@ -4971,7 +5090,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set the parameters for sending the email
                 $this->mail->from(Util::email_sender(), $name);
                 $this->mail->to($to);
-                $this->mail->subject($this->options['email_subject'] .' '. $email_data['email_subject']);
+                $this->mail->subject($this->options['email_subject'] . ' ' . $email_data['email_subject']);
                 $this->mail->message($message);
                 break;
 
@@ -4999,13 +5118,13 @@ abstract class Nova_manage extends Nova_controller_admin
 
                 $content = sprintf(
                     lang('email_content_post_comment_added'),
-                    "<strong>". $row->post_title ."</strong>",
+                    "<strong>" . $row->post_title . "</strong>",
                     $data['comment']
                 );
 
                 $email_data = array(
                     'email_subject' => lang('email_subject_post_comment_added'),
-                    'email_from' => ucfirst(lang('time_from')) .': '. $name .' - '. $from,
+                    'email_from' => ucfirst(lang('time_from')) . ': ' . $name . ' - ' . $from,
                     'email_content' => ($this->mail->mailtype == 'html') ? nl2br($content) : $content
                 );
 
@@ -5015,7 +5134,7 @@ abstract class Nova_manage extends Nova_controller_admin
 
                 $this->mail->from(Util::email_sender(), $name);
                 $this->mail->to($to);
-                $this->mail->subject($this->options['email_subject'] .' '. $email_data['email_subject']);
+                $this->mail->subject($this->options['email_subject'] . ' ' . $email_data['email_subject']);
                 $this->mail->message($message);
                 break;
 
@@ -5046,14 +5165,14 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set the content
                 $content = sprintf(
                     lang('email_content_wiki_comment_added'),
-                    "<strong>". $row->draft_title ."</strong>",
+                    "<strong>" . $row->draft_title . "</strong>",
                     $data['comment']
                 );
 
                 // create the array passing the data to the email
                 $email_data = array(
                     'email_subject' => lang('email_subject_wiki_comment_added'),
-                    'email_from' => ucfirst(lang('time_from')) .': '. $name .' - '. $from,
+                    'email_from' => ucfirst(lang('time_from')) . ': ' . $name . ' - ' . $from,
                     'email_content' => ($this->mail->mailtype == 'html') ? nl2br($content) : $content
                 );
 
@@ -5066,7 +5185,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 // set the parameters for sending the email
                 $this->mail->from(Util::email_sender(), $name);
                 $this->mail->to($to);
-                $this->mail->subject($this->options['email_subject'] .' '. $email_data['email_subject']);
+                $this->mail->subject($this->options['email_subject'] . ' ' . $email_data['email_subject']);
                 $this->mail->message($message);
                 break;
 
@@ -5074,8 +5193,8 @@ abstract class Nova_manage extends Nova_controller_admin
                 $cc = implode(',', $this->user->get_emails_with_access('manage/docked'));
 
                 $email_data = array(
-                    'email_subject' => lang('email_subject_docking_approved') .' - '. $data['sim'],
-                    'email_from' => ucfirst(lang('time_from')) .': '. $this->options['sim_name'] .' - '. $this->options['default_email_address'],
+                    'email_subject' => lang('email_subject_docking_approved') . ' - ' . $data['sim'],
+                    'email_from' => ucfirst(lang('time_from')) . ': ' . $this->options['sim_name'] . ' - ' . $this->options['default_email_address'],
                     'email_content' => ($this->mail->mailtype == 'html') ? nl2br($data['message']) : $data['message']
                 );
 
@@ -5086,7 +5205,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 $this->mail->from(Util::email_sender(), $this->options['sim_name']);
                 $this->mail->to($data['email']);
                 $this->mail->cc($cc);
-                $this->mail->subject($this->options['email_subject'] .' '. $email_data['email_subject']);
+                $this->mail->subject($this->options['email_subject'] . ' ' . $email_data['email_subject']);
                 $this->mail->message($message);
                 break;
 
@@ -5094,8 +5213,8 @@ abstract class Nova_manage extends Nova_controller_admin
                 $cc = implode(',', $this->user->get_emails_with_access('manage/docked'));
 
                 $email_data = array(
-                    'email_subject' => lang('email_subject_docking_rejected') .' - '. $data['sim'],
-                    'email_from' => ucfirst(lang('time_from')) .': '. $this->options['sim_name'] .' - '. $this->options['default_email_address'],
+                    'email_subject' => lang('email_subject_docking_rejected') . ' - ' . $data['sim'],
+                    'email_from' => ucfirst(lang('time_from')) . ': ' . $this->options['sim_name'] . ' - ' . $this->options['default_email_address'],
                     'email_content' => ($this->mail->mailtype == 'html') ? nl2br($data['message']) : $data['message']
                 );
 
@@ -5106,7 +5225,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 $this->mail->from(Util::email_sender(), $this->options['sim_name']);
                 $this->mail->to($data['email']);
                 $this->mail->cc($cc);
-                $this->mail->subject($this->options['email_subject'] .' '. $email_data['email_subject']);
+                $this->mail->subject($this->options['email_subject'] . ' ' . $email_data['email_subject']);
                 $this->mail->message($message);
                 break;
         }
@@ -5127,7 +5246,7 @@ abstract class Nova_manage extends Nova_controller_admin
                 $this->load->model('missions_model', 'mis');
                 $this->load->model('posts_model', 'posts');
 
-                $config['base_url'] = site_url('manage/posts/'. $status .'/');
+                $config['base_url'] = site_url('manage/posts/' . $status . '/');
                 $config['uri_segment'] = ($offset > 0) ? 4 : false;
                 $config['per_page'] = 15;
                 $config['full_tag_open'] = '<p class="fontMedium bold">';
@@ -5173,19 +5292,23 @@ abstract class Nova_manage extends Nova_controller_admin
                     'edit' => array(
                         'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_edit')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                     'delete' => array(
                         'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_delete')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                     'approve' => array(
                         'src' => Location::img('icon-check.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_approve')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                     'view' => array(
                         'src' => Location::img('icon-view.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_view')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                 );
 
                 // figure out where the view is coming from
@@ -5195,7 +5318,7 @@ abstract class Nova_manage extends Nova_controller_admin
             case 'logs':
                 $this->load->model('personallogs_model', 'logs');
 
-                $config['base_url'] = site_url('manage/logs/'. $status .'/');
+                $config['base_url'] = site_url('manage/logs/' . $status . '/');
                 $config['uri_segment'] = ($offset > 0) ? 4 : false;
                 $config['per_page'] = 15;
                 $config['full_tag_open'] = '<p class="fontMedium bold">';
@@ -5245,19 +5368,23 @@ abstract class Nova_manage extends Nova_controller_admin
                     'edit' => array(
                         'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_edit')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                     'delete' => array(
                         'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_delete')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                     'approve' => array(
                         'src' => Location::img('icon-check.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_approve')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                     'view' => array(
                         'src' => Location::img('icon-view.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_view')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                 );
 
                 // figure out where the view is coming from
@@ -5267,7 +5394,7 @@ abstract class Nova_manage extends Nova_controller_admin
             case 'news':
                 $this->load->model('news_model', 'news');
 
-                $config['base_url'] = site_url('manage/news/'. $status .'/');
+                $config['base_url'] = site_url('manage/news/' . $status . '/');
                 $config['uri_segment'] = ($offset > 0) ? 4 : false;
                 $config['per_page'] = 15;
                 $config['full_tag_open'] = '<p class="fontMedium bold">';
@@ -5321,19 +5448,23 @@ abstract class Nova_manage extends Nova_controller_admin
                     'edit' => array(
                         'src' => Location::img('icon-edit.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_edit')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                     'delete' => array(
                         'src' => Location::img('icon-delete.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_delete')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                     'approve' => array(
                         'src' => Location::img('icon-check.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_approve')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                     'view' => array(
                         'src' => Location::img('icon-view.png', $this->skin, 'admin'),
                         'alt' => ucfirst(lang('actions_view')),
-                        'class' => 'image'),
+                        'class' => 'image'
+                    ),
                 );
 
                 // figure out where the view is coming from
@@ -5344,16 +5475,16 @@ abstract class Nova_manage extends Nova_controller_admin
         $data['label'] = array(
             'mission' => ucfirst(lang('global_mission')),
             'by' => lang('labels_by'),
-            'category' => ucfirst(lang('labels_category')) .':',
+            'category' => ucfirst(lang('labels_category')) . ':',
             'date' => ucfirst(lang('labels_date')),
-            'header_posts' => ucwords($status .' '. lang('global_missionposts')),
-            'header_logs' => ucwords($status .' '. lang('global_personallogs')),
-            'header_news' => ucwords($status .' '. lang('global_newsitems')),
-            'error_posts' => ucfirst(lang('labels_no') .' '. lang('global_missionposts') .' '.
+            'header_posts' => ucwords($status . ' ' . lang('global_missionposts')),
+            'header_logs' => ucwords($status . ' ' . lang('global_personallogs')),
+            'header_news' => ucwords($status . ' ' . lang('global_newsitems')),
+            'error_posts' => ucfirst(lang('labels_no') . ' ' . lang('global_missionposts') . ' ' .
                 lang('actions_found')),
-            'error_logs' => ucfirst(lang('labels_no') .' '. lang('global_personallogs') .' '.
+            'error_logs' => ucfirst(lang('labels_no') . ' ' . lang('global_personallogs') . ' ' .
                 lang('actions_found')),
-            'error_news' => ucfirst(lang('labels_no') .' '. lang('global_newsitems') .' '.
+            'error_news' => ucfirst(lang('labels_no') . ' ' . lang('global_newsitems') . ' ' .
                 lang('actions_found')),
         );
 
